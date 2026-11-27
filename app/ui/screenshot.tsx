@@ -1,7 +1,7 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
-import { encodedPath, formats, screenshots, sourcePath, themes } from './screenshots.ts'
+import { encodedPath, formats, screenshots, sourcePath } from './screenshots.ts'
 import type { ScreenshotName } from './screenshots.ts'
 
 export interface ScreenshotProps {
@@ -9,6 +9,8 @@ export interface ScreenshotProps {
   alt: string
   priority?: boolean
 }
+
+const dark = '(prefers-color-scheme: dark)'
 
 export function Screenshot(handle: Handle<ScreenshotProps>) {
   return () => {
@@ -27,17 +29,22 @@ export function Screenshot(handle: Handle<ScreenshotProps>) {
             '0 18px 48px rgba(var(--sh), calc(.16 * var(--sh-k))), 0 2px 6px rgba(var(--sh), calc(.08 * var(--sh-k)))',
         })}
       >
-        {formats.flatMap((format) =>
-          themes.map((theme) => (
-            <source
-              key={`${format}-${theme}`}
-              type={`image/${format}`}
-              media={theme === 'dark' ? '(prefers-color-scheme: dark)' : undefined}
-              srcset={widths.map((w) => `${encodedPath(name, theme, w, format)} ${w}w`).join(', ')}
-              sizes={sizes}
-            />
-          )),
-        )}
+        {formats.flatMap((format) => [
+          <source
+            key={`${format}-dark`}
+            type={`image/${format}`}
+            media={dark}
+            srcset={widths.map((w) => `${encodedPath(name, 'dark', w, format)} ${w}w`).join(', ')}
+            sizes={sizes}
+          />,
+          <source
+            key={`${format}-light`}
+            type={`image/${format}`}
+            srcset={widths.map((w) => `${encodedPath(name, 'light', w, format)} ${w}w`).join(', ')}
+            sizes={sizes}
+          />,
+        ])}
+        <source media={dark} srcset={sourcePath(name, 'dark')} />
         <img
           src={sourcePath(name, 'light')}
           alt={alt}

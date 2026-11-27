@@ -5,6 +5,7 @@ import { describe, it } from 'remix/test'
 
 import { router } from '../router.tsx'
 import { routes } from '../routes.ts'
+import { screenshots } from './screenshots.ts'
 
 const publicDir = path.resolve(import.meta.dirname, '../../public')
 
@@ -24,8 +25,14 @@ describe('screenshots', () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let paths = imagePaths(await response.text())
 
-    for (let extension of ['.avif', '.webp', '.png']) {
-      assert.ok(paths.some((file) => file.endsWith(extension)), `no ${extension} image on the page`)
+    for (let name of Object.keys(screenshots)) {
+      let own = paths.filter((file) => file.startsWith(`/images/${name}-`))
+      for (let extension of ['.avif', '.webp', '.png']) {
+        assert.ok(own.some((file) => file.endsWith(extension)), `no ${extension} image for ${name}`)
+      }
+      for (let theme of ['dark', 'light']) {
+        assert.ok(own.includes(`/images/${name}-${theme}.png`), `no ${theme} PNG fallback for ${name}`)
+      }
     }
     for (let file of paths) {
       assert.ok(existsSync(path.join(publicDir, file)), `${file} is not in public/`)
