@@ -5,16 +5,24 @@ import { describe, it } from 'remix/test'
 import { router } from '../router.tsx'
 import { routes } from '../routes.ts'
 import { en } from '../content/en.tsx'
+import { screenshots, srcset } from '../ui/screenshots.ts'
 import { themeStorageKey, themes } from '../ui/themes.ts'
+import type { Mode } from '../ui/themes.ts'
 import { sections } from './home/sections.tsx'
 
-function runThemeScript(script: string, stored: string | null) {
+function runThemeScript(script: string, stored: string | null, systemDark = false) {
   let dataset: Record<string, string> = {}
+  let added: Record<string, string>[] = []
   runInNewContext(script, {
-    document: { documentElement: { dataset } },
+    document: {
+      documentElement: { dataset },
+      createElement: () => ({}),
+      head: { append: (element: Record<string, string>) => added.push(element) },
+    },
     localStorage: { getItem: (key: string) => (key === themeStorageKey ? stored : null) },
+    matchMedia: (query: string) => ({ matches: systemDark && query === '(prefers-color-scheme: dark)' }),
   })
-  return dataset
+  return { dataset, added }
 }
 
 describe('root controller', () => {
@@ -101,11 +109,33 @@ describe('root controller', () => {
     let script = head.slice(scriptAt + '<script>'.length, head.indexOf('</script>', scriptAt))
 
     for (let theme of themes) {
-      assert.deepEqual(runThemeScript(script, theme.id), { js: '', theme: theme.id, mode: theme.mode })
+      assert.deepEqual(runThemeScript(script, theme.id).dataset, { js: '', theme: theme.id, mode: theme.mode })
     }
     for (let stored of [null, '', 'sepia', '__proto__', 'constructor']) {
-      assert.deepEqual(runThemeScript(script, stored), { js: '' }, `stored "${stored}" changed the theme`)
+      assert.deepEqual(runThemeScript(script, stored).dataset, { js: '' }, `stored "${stored}" changed the theme`)
     }
+  })
+
+  it('GET / preloads the hero screenshot in the mode the theme script chose', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+    let script = html.slice(html.indexOf('<script>') + '<script>'.length, html.indexOf('</script>'))
+    let preload = (mode: Mode) => ({
+      rel: 'preload',
+      as: 'image',
+      type: 'image/avif',
+      fetchPriority: 'high',
+      imageSrcset: srcset('board', mode, 'avif'),
+      imageSizes: screenshots.board.sizes,
+    })
+
+    for (let theme of themes) {
+      for (let systemDark of [false, true]) {
+        assert.deepEqual(runThemeScript(script, theme.id, systemDark).added, [preload(theme.mode)])
+      }
+    }
+    assert.deepEqual(runThemeScript(script, null, false).added, [preload('light')])
+    assert.deepEqual(runThemeScript(script, null, true).added, [preload('dark')])
   })
 
   it('GET an unknown path shows the not found page', async () => {

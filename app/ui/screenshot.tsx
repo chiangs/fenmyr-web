@@ -1,7 +1,7 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
-import { encodedPath, formats, screenshots, sourcePath } from './screenshots.ts'
+import { formats, screenshots, sourcePath, srcset } from './screenshots.ts'
 import type { ScreenshotName } from './screenshots.ts'
 import { modes } from './themes.ts'
 
@@ -25,7 +25,7 @@ const variantStyle = css({
 export function Screenshot(handle: Handle<ScreenshotProps>) {
   return () => {
     let { name, alt, priority } = handle.props
-    let { width, height, widths, sizes } = screenshots[name]
+    let { width, height, sizes } = screenshots[name]
 
     return (
       <div
@@ -44,7 +44,7 @@ export function Screenshot(handle: Handle<ScreenshotProps>) {
               <source
                 key={format}
                 type={`image/${format}`}
-                srcset={widths.map((w) => `${encodedPath(name, mode, w, format)} ${w}w`).join(', ')}
+                srcset={srcset(name, mode, format)}
                 sizes={sizes}
               />
             ))}

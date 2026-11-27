@@ -30,3 +30,7 @@ export function sourcePath(name: string, mode: Mode) {
 export function encodedPath(name: string, mode: Mode, width: number, format: Format) {
   return `/images/${name}-${mode}-${width}.${format}`
 }
+
+export function srcset(name: ScreenshotName, mode: Mode, format: Format) {
+  return screenshots[name].widths.map((width) => `${encodedPath(name, mode, width, format)} ${width}w`).join(', ')
+}
