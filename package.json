@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test remix test",
     "typecheck": "tsc --noEmit",
     "budget": "node tools/budget.ts",
+    "images": "node tools/images.ts",
     "check": "npm run typecheck && npm run budget && npm test"
   },
   "engines": {
