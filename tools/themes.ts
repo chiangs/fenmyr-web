@@ -7,7 +7,8 @@ import type { Theme, ThemeId } from '../app/ui/themes.ts'
 const app = 'chiangs/fenmyr'
 const commit = '5d569afae54f8b91948b4af945fd3ee38d578e65'
 const root = path.resolve(import.meta.dirname, '..')
-const output = path.resolve(process.argv[2] ?? path.join(root, 'public/themes.css'))
+const check = process.argv.includes('--check')
+const output = path.resolve(process.argv.slice(2).find((arg) => arg !== '--check') ?? path.join(root, 'public/themes.css'))
 
 const tokens = [
   '--ink',
@@ -217,8 +218,11 @@ let css = [
 
 let text = `${css}\n`
 let before = await readFile(output, 'utf8').catch(() => '')
-if (before === text) console.log(`${path.relative(root, output)} unchanged`)
-else {
+if (before === text) console.log(`${path.relative(root, output)} matches ${app}@${commit.slice(0, 7)}`)
+else if (check) {
+  console.error(`${path.relative(root, output)} differs from ${app}@${commit.slice(0, 7)}; run npm run themes`)
+  process.exitCode = 1
+} else {
   await writeFile(output, text)
   console.log(`wrote ${path.relative(root, output)}: ${themes.length} themes, ${tokens.length} tokens each, from ${app}@${commit.slice(0, 7)}`)
 }
