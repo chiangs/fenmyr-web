@@ -2,6 +2,28 @@
 
 The marketing homepage for Fenmyr, a free open-source canvas app for Linux and macOS, built on Remix 3. The page is server-rendered from a section registry in `app/actions/home/sections.tsx`.
 
+## Purpose
+
+fenmyr.com markets and showcases Fenmyr for anyone curious about it. A visit should end with the visitor installing Fenmyr. Starring the repository and sponsoring come second.
+
+The one thing to remember is this. Fenmyr gets you from an idea to a rapid prototype you can experiment with and test, faster.
+
+The site shows that in three ways:
+
+- Short looping videos of real features, and small interactive demos.
+- Myra guides the visitor through the page in short bubbles, in her own voice.
+- A calm base of Fenmyr's Nordic paper look, with playful moments from Myra, the videos and the demos.
+
+The site is not documentation. Install details, shortcuts and troubleshooting stay in the [app repository](https://github.com/chiangs/fenmyr).
+
+Scope:
+
+- The first public version is the homepage only. What's new, a web demo and later ideas are [GitHub issues](https://github.com/chiangs/fenmyr-web/issues) in this repository.
+- The site is in English first, in British English. It is built so other languages can be added later.
+- There is no launch date yet.
+
+Success is measured with GitHub's own numbers: stars, release downloads and traffic. The site has no tracking.
+
 ## Starter Shape
 
 - `app/actions/controller.tsx` owns the top-level route actions.

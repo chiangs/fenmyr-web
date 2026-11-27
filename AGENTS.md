@@ -1,5 +1,7 @@
 # Fenmyr Agent Guide
 
+Read the Purpose section in `README.md` before changing the site. Every change serves it.
+
 This app was scaffolded with `remix new`. Use these conventions when continuing to build it out.
 
 ## Commands
