@@ -33,6 +33,26 @@ describe('root controller', () => {
     assert.doesNotMatch(html, /myra-(hello|love)\.png/)
   })
 
+  it('GET / has a popover menu with every header link and a labelled button', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+
+    let button = html.match(/<button[^>]*popovertarget="site-menu"[^>]*>/)?.[0] ?? ''
+    assert.ok(button.includes(`aria-label="${en.header.menu}"`), 'the menu button has no label')
+    let menuStart = html.search(/<div[^>]*id="site-menu"/)
+    assert.ok(menuStart >= 0, 'no site-menu element')
+    let menuTag = html.slice(menuStart, html.indexOf('>', menuStart) + 1)
+    assert.match(menuTag, /\spopover[\s=>]/)
+    let menu = html.slice(menuStart, html.indexOf('</nav>', menuStart))
+    let links = [
+      ...sections.flatMap((section) => (section.nav ? [{ label: section.nav, href: `/#${section.id}` }] : [])),
+      { label: en.header.github, href: 'https://github.com/chiangs/fenmyr' },
+    ]
+    for (let link of links) {
+      assert.ok(menu.includes(`<a href="${link.href}">${link.label}</a>`), `menu is missing "${link.label}"`)
+    }
+  })
+
   it('GET an unknown path shows the not found page', async () => {
     let response = await router.fetch(new URL('/does-not-exist', 'http://localhost'))
 

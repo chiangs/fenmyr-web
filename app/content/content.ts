@@ -35,7 +35,7 @@ export type SectionId = keyof HomeSectionsCopy
 
 export interface Content {
   document: { title: string; description: string }
-  header: { brand: string; navLabel: string; github: string; download: string }
+  header: { brand: string; navLabel: string; menu: string; github: string; download: string }
   hero: {
     tagline: string
     lead: string

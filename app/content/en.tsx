@@ -11,6 +11,7 @@ export const en: Content = {
   header: {
     brand: 'Fenmyr',
     navLabel: 'Main',
+    menu: 'Menu',
     github: 'GitHub',
     download: 'Download',
   },

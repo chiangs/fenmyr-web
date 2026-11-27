@@ -89,7 +89,7 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
 - `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/build.ts` writes the static site to `.vercel/output/`
 - `app/actions/public/` contains the browser runtime entry
-- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, and `screenshot.tsx` with its table of images in `screenshots.ts`
+- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, and `screenshot.tsx` with its table of images in `screenshots.ts`. Its islands are in `app/ui/public/`: `myra.tsx`, and `site-menu.tsx`, the header's menu button and popover on narrow screens
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
 - Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, colour tokens and base styles, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
 
