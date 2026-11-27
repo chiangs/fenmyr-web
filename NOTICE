@@ -1,0 +1,55 @@
+fenmyr.com
+Copyright (c) 2026 Stephen Chiang (Fenmyr)
+Licensed under the EUPL, version 1.2 (EUPL-1.2). The full text of the licence is
+in the file LICENSE.
+
+This file keeps the notices that go with the code: what the EUPL does not
+cover, and Mochiboard's notice for the code that Myra's drawing grew from.
+
+
+What the EUPL does not cover
+----------------------------
+
+The EUPL covers the site's code. It does not cover the following, which remain
+all rights reserved by Stephen Chiang, and the files named here are not
+licensed under the EUPL. See the app's TRADEMARKS.md at
+https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md.
+
+- The names "Fenmyr" and "Myra", Myra's art, the logo and the icons, as
+  README.md's Licence section says.
+- Myra the cloudberry character in any form, including the code that draws
+  her: app/ui/public/myra.tsx and the files in app/ui/public/myra/, ported
+  from the app's src/web/goo.ts, src/web/gooPixels.ts, src/web/gooPoses.ts and
+  src/web/gooShapes.ts, which the app's NOTICE reserves the same way.
+
+
+Mochiboard
+----------
+
+Myra's drawing code grew from web/goo.js in Mochiboard
+(https://github.com/jessawolfe-ux/mochiboard) by Jessa Wolfe, released under
+the MIT License. Her code keeps its copyright notice and licence, which follow
+in full. It is not claimed as EUPL. Mochiboard's name, its character Mochi,
+its stamps, art and music are hers and are not part of Fenmyr.
+
+MIT License
+
+Copyright (c) 2026 Jessa Wolfe
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

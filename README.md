@@ -57,4 +57,4 @@ npm run check
 
 ## Licence
 
-The code is open source under the [European Union Public Licence v. 1.2](LICENSE) (EUPL-1.2), the same licence as the app. The names Fenmyr and Myra, Myra's art, the logo and the icons are not part of the code licence. They are reserved, as the app's [TRADEMARKS.md](https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md) explains. The fonts in `public/fonts/` are under the SIL Open Font License, in `public/fonts/OFL.txt`.
+The code is open source under the [European Union Public Licence v. 1.2](LICENSE) (EUPL-1.2), the same licence as the app. The names Fenmyr and Myra, Myra's art, the logo and the icons are not part of the code licence. They are reserved, as the app's [TRADEMARKS.md](https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md) explains. The code that draws Myra, `app/ui/public/myra.tsx` and `app/ui/public/myra/`, is reserved in the same way, and it grew from [Mochiboard](https://github.com/jessawolfe-ux/mochiboard) by Jessa Wolfe, whose MIT notice it keeps. [NOTICE](NOTICE) has both. The fonts in `public/fonts/` are under the SIL Open Font License, in `public/fonts/OFL.txt`.
