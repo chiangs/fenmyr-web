@@ -33,6 +33,21 @@ describe('root controller', () => {
     assert.doesNotMatch(html, /myra-(hello|love)\.png/)
   })
 
+  it('GET / has a popover menu with every header link and a labelled button', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+
+    assert.match(html, new RegExp(`<button[^>]*popovertarget="site-menu"[^>]*aria-label="${en.header.menu}"`))
+    let menu = html.match(/<div id="site-menu" popover[^>]*>(.*?)<\/div>/s)?.[1] ?? ''
+    let links = [
+      ...sections.flatMap((section) => (section.nav ? [{ label: section.nav, href: `/#${section.id}` }] : [])),
+      { label: en.header.github, href: 'https://github.com/chiangs/fenmyr' },
+    ]
+    for (let link of links) {
+      assert.ok(menu.includes(`<a href="${link.href}">${link.label}</a>`), `menu is missing "${link.label}"`)
+    }
+  })
+
   it('GET an unknown path shows the not found page', async () => {
     let response = await router.fetch(new URL('/does-not-exist', 'http://localhost'))
 
