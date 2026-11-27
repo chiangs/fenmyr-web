@@ -54,8 +54,6 @@ export interface Content {
     sponsor: string
     codeMap: string
     licence: string
-    credit: RemixNode
-    trademarks: string
     madeBy: string
   }
   notFound: { title: string; heading: string; body: string; home: string }

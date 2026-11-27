@@ -40,4 +40,15 @@ describe('root controller', () => {
     assert.match(response.headers.get('Content-Type') ?? '', /text\/html/)
     assert.match(await response.text(), /Page not found/)
   })
+
+  it('GET /licences.txt serves the notices, including Mochiboard\'s MIT licence', async () => {
+    let response = await router.fetch(new URL(routes.licences.href(), 'http://localhost'))
+
+    assert.equal(response.status, 200)
+    assert.match(response.headers.get('Content-Type') ?? '', /text\/plain/)
+    let text = await response.text()
+    assert.match(text, /EUPL/)
+    assert.match(text, /MIT License/)
+    assert.match(text, /Jessa Wolfe/)
+  })
 })

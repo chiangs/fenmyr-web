@@ -1,6 +1,7 @@
 import { css } from 'remix/component'
 
 import { en } from '../content/en.tsx'
+import { routes } from '../routes.ts'
 
 export function SiteFooter() {
   return () => (
@@ -67,13 +68,11 @@ export function SiteFooter() {
                 <a href="https://code-map.fenmyr.com/">{en.footer.codeMap}</a>
               </li>
               <li>
-                <a href="https://github.com/chiangs/fenmyr/blob/main/LICENSE">{en.footer.licence}</a>
+                <a href={routes.licences.href()}>{en.footer.licence}</a>
               </li>
             </ul>
           </nav>
         </div>
-        <p>{en.footer.credit}</p>
-        <p>{en.footer.trademarks}</p>
         <p>{en.footer.madeBy}</p>
       </div>
     </footer>

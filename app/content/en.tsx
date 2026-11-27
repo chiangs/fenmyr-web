@@ -164,15 +164,7 @@ export const en: Content = {
     github: 'GitHub',
     sponsor: 'Sponsor',
     codeMap: 'Code map',
-    licence: 'EUPL-1.2 licence',
-    credit: (
-      <>
-        Fenmyr began as a fork of <a href="https://github.com/jessawolfe-ux/mochiboard">Mochiboard</a> by{' '}
-        <a href="https://jessa.art">Jessa Wolfe</a>.
-      </>
-    ),
-    trademarks:
-      'The names Fenmyr and Myra, Myra the cloudberry, her art, the logo and the app icon are not part of the code licence and are all rights reserved by Stephen Chiang.',
+    licence: 'Licences',
     madeBy: 'Made with care by Stephen Chiang.',
   },
   notFound: {

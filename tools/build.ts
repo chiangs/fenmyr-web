@@ -13,6 +13,7 @@ const assetUrl = /\/assets\/[^"'`\s<>()\\?#]+/g
 const importMap = /<script[^>]*type="importmap"[^>]*>(.*?)<\/script>/gs
 const pages = [
   { route: 'home', file: 'index.html', url: routes.home.href(), status: 200 },
+  { route: 'licences', file: 'licences.txt', url: routes.licences.href(), status: 200 },
   { route: null, file: '404.html', url: '/404', status: 404 },
 ]
 const unrendered = Object.keys(routes).filter((name) => name !== 'assets' && !pages.some((page) => page.route === name))
