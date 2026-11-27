@@ -22,7 +22,8 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="color-scheme" content="light dark" />
           <meta name="description" content={en.document.description} />
-          <link rel="icon" type="image/png" href="/images/icon.png" />
+          <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48.png" />
+          <link rel="apple-touch-icon" href="/images/icon.png" />
           <link rel="preload" href="/fonts/Figtree-400-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
           <link rel="preload" href="/fonts/Figtree-800-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
           <link rel="stylesheet" href="/styles.css" />
