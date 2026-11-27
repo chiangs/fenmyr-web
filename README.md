@@ -51,6 +51,7 @@ npm run hmr
 | `npm start` | Runs the site in production mode |
 | `npm run check` | Runs the typecheck, the budget and the tests |
 | `npm run budget` | Counts `any`, casts, raw colours and long files against `tools/budget.json` |
+| `npm run images` | Makes the AVIF and WebP screenshots from the PNGs in `public/images/`. Run it after adding or changing one |
 | `npm test` | Runs the tests |
 | `npm run typecheck` | Checks the types |
 
