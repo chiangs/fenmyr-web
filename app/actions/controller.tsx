@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises'
 import { createController } from 'remix/router'
 
 import { assets } from '../assets.ts'
@@ -11,6 +12,10 @@ export default createController(routes, {
     },
     home(context) {
       return context.render(<HomePage />)
+    },
+    async licences() {
+      let notice = await readFile(new URL('../../NOTICE', import.meta.url), 'utf8')
+      return new Response(notice, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
     },
   },
 })
