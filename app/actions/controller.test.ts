@@ -3,6 +3,7 @@ import { describe, it } from 'remix/test'
 
 import { router } from '../router.tsx'
 import { routes } from '../routes.ts'
+import { en } from '../content/en.tsx'
 import { sections } from './home/sections.tsx'
 
 describe('root controller', () => {
@@ -20,6 +21,16 @@ describe('root controller', () => {
     }
 
     assert.equal(html.split('Where ideas thrive.').length - 1, 1)
+  })
+
+  it('GET / shows both Myras as still pictures, not animated ones', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+
+    for (let label of [en.hero.myraAlt, en.sections.support.myraAlt]) {
+      assert.ok(html.includes(`alt="${label}"`), `missing Myra labelled "${label}"`)
+    }
+    assert.doesNotMatch(html, /myra-(hello|love)\.png/)
   })
 
   it('GET an unknown path shows the not found page', async () => {
