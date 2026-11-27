@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "budget": "node tools/budget.ts",
     "images": "node tools/images.ts",
+    "build": "NODE_ENV=production node --import remix/node-tsx tools/build.ts",
     "check": "npm run typecheck && npm run budget && npm test"
   },
   "engines": {
