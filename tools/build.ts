@@ -4,16 +4,19 @@ import * as path from 'node:path'
 
 import { assets } from '../app/assets.ts'
 import { router } from '../app/router.tsx'
+import { routes } from '../app/routes.ts'
 
 const root = path.resolve(import.meta.dirname, '..')
 const output = path.join(root, '.vercel/output')
 const staticDir = path.join(output, 'static')
-const assetUrl = /\/assets\/[^"'`\s<>()\\]+/g
+const assetUrl = /\/assets\/[^"'`\s<>()\\?#]+/g
 const importMap = /<script[^>]*type="importmap"[^>]*>(.*?)<\/script>/gs
 const pages = [
-  { file: 'index.html', url: '/', status: 200 },
-  { file: '404.html', url: '/404', status: 404 },
+  { route: 'home', file: 'index.html', url: routes.home.href(), status: 200 },
+  { route: null, file: '404.html', url: '/404', status: 404 },
 ]
+const unrendered = Object.keys(routes).filter((name) => name !== 'assets' && !pages.some((page) => page.route === name))
+if (unrendered.length > 0) throw new Error(`routes with no page in tools/build.ts: ${unrendered.join(', ')}`)
 
 function fetchPath(url: string) {
   return router.fetch(new Request(new URL(url, 'http://localhost')))
@@ -86,7 +89,7 @@ let config = {
   version: 3,
   overrides,
   routes: [
-    { src: '^/assets/(.*)$', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }, continue: true },
+    { src: '^/.*$', headers: { 'X-Content-Type-Options': 'nosniff' }, continue: true },
     { handle: 'filesystem' },
     { src: '^/(.*)$', dest: '/404.html', status: 404 },
   ],
