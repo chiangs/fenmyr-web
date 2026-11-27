@@ -115,8 +115,12 @@
   }
 
   @media (max-width: 52rem) {
+    :root {
+      --header-h: 4.3125rem;
+    }
+
     html {
-      scroll-padding-top: 8rem;
+      scroll-padding-top: calc(var(--header-h) + 1rem);
     }
   }
 

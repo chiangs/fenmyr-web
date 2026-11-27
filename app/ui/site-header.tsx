@@ -4,10 +4,15 @@ import { sections } from '../actions/home/sections.tsx'
 import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
 import { ButtonLink } from './button-link.tsx'
+import { SiteMenu } from './public/site-menu.tsx'
 
 export function SiteHeader() {
   return () => {
     let home = routes.home.href()
+    let links = [
+      ...sections.flatMap((section) => (section.nav ? [{ label: section.nav, href: `${home}#${section.id}` }] : [])),
+      { label: en.header.github, href: 'https://github.com/chiangs/fenmyr' },
+    ]
 
     return (
       <header
@@ -19,6 +24,7 @@ export function SiteHeader() {
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           borderBottom: '1px solid var(--dot)',
+          '@media (max-width: 52rem)': { height: 'var(--header-h)' },
         })}
       >
         <div
@@ -32,9 +38,11 @@ export function SiteHeader() {
             marginInline: 'auto',
             padding: '1.25rem clamp(1rem, 4vw, 2rem)',
             '@media (max-width: 52rem)': {
-              gridTemplateColumns: '1fr auto',
-              gridTemplateAreas: '"brand cta" "nav nav"',
-              paddingBlock: '0.75rem',
+              gridTemplateColumns: '1fr auto auto',
+              gridTemplateAreas: '"brand cta menu"',
+              gap: '0.75rem',
+              height: '100%',
+              paddingBlock: 0,
             },
           })}
         >
@@ -55,7 +63,10 @@ export function SiteHeader() {
             <img src="/images/mark.svg" alt="" width={256} height={256} mix={css({ width: '2rem', height: '2rem' })} />
             {en.header.brand}
           </a>
-          <nav aria-label={en.header.navLabel} mix={css({ gridArea: 'nav' })}>
+          <nav
+            aria-label={en.header.navLabel}
+            mix={css({ gridArea: 'nav', '@media (max-width: 52rem)': { display: 'none' } })}
+          >
             <ul
               mix={css({
                 display: 'flex',
@@ -72,20 +83,18 @@ export function SiteHeader() {
                 '& a:hover': { color: 'var(--ink)' },
               })}
             >
-              {sections
-                .filter((section) => section.nav)
-                .map((section) => (
-                  <li key={section.id}>
-                    <a href={`${home}#${section.id}`}>{section.nav}</a>
-                  </li>
-                ))}
-              <li>
-                <a href="https://github.com/chiangs/fenmyr">{en.header.github}</a>
-              </li>
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
             </ul>
           </nav>
           <div mix={css({ gridArea: 'cta' })}>
             <ButtonLink href={`${home}#install`}>{en.header.download}</ButtonLink>
+          </div>
+          <div mix={css({ gridArea: 'menu', '@media (width > 52rem)': { display: 'none' } })}>
+            <SiteMenu label={en.header.menu} navLabel={en.header.navLabel} links={links} />
           </div>
         </div>
       </header>
