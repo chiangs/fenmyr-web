@@ -80,14 +80,17 @@ export function HomePage() {
               >
                 {en.hero.bubble}
               </p>
-              <img
-                src="/images/myra-hello.png"
-                alt={en.hero.myraAlt}
-                width={136}
-                height={160}
-                loading="lazy"
-                mix={css({ flex: 'none', width: 'clamp(6.375rem, 11vw, 8.5rem)' })}
-              />
+              <picture mix={css({ flex: 'none' })}>
+                <source media="(prefers-reduced-motion: reduce)" srcset="/images/myra-hello-still.png" />
+                <img
+                  src="/images/myra-hello.png"
+                  alt={en.hero.myraAlt}
+                  width={136}
+                  height={160}
+                  loading="lazy"
+                  mix={css({ width: 'clamp(6.375rem, 11vw, 8.5rem)' })}
+                />
+              </picture>
             </div>
             <Screenshot
               light="/images/board-light.png"

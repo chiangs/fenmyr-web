@@ -230,14 +230,17 @@ export const sections: readonly HomeSection[] = [
           }),
         ]}
       >
-        <img
-          src="/images/myra-love.png"
-          alt={support.myraAlt}
-          width={136}
-          height={160}
-          loading="lazy"
-          mix={css({ flex: 'none', width: '6.375rem' })}
-        />
+        <picture mix={css({ flex: 'none' })}>
+          <source media="(prefers-reduced-motion: reduce)" srcset="/images/myra-love-still.png" />
+          <img
+            src="/images/myra-love.png"
+            alt={support.myraAlt}
+            width={136}
+            height={160}
+            loading="lazy"
+            mix={css({ width: '6.375rem' })}
+          />
+        </picture>
         <div mix={css({ flex: '1 1 20rem', display: 'grid', gap: '1rem', color: 'var(--ink-soft)' })}>
           <p mix={css({ fontSize: '1.1875rem', color: 'var(--ink)' })}>{support.pitch}</p>
           <ul mix={css({ margin: 0, paddingLeft: '1.25rem' })}>
