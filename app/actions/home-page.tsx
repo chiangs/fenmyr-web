@@ -15,7 +15,8 @@ export function HomePage() {
         })}
       >
         <h1>Fenmyr</h1>
-        <p>A new home for Fenmyr is on its way.</p>
+        <p>Where ideas thrive.</p>
+        <p>A canvas for growing ideas, from the first note to a working prototype, with Myra the cloudberry to help.</p>
       </main>
     </Document>
   )
