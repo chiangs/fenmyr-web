@@ -26,6 +26,7 @@ export function Document(handle: Handle<DocumentProps>) {
           <link rel="apple-touch-icon" href="/images/icon.png" />
           <link rel="preload" href="/fonts/Figtree-400-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
           <link rel="preload" href="/fonts/Figtree-800-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link rel="stylesheet" href="/themes.css" />
           <link rel="stylesheet" href="/styles.css" />
           <title>{title}</title>
           {head}
