@@ -67,13 +67,11 @@ export function SiteFooter() {
                 <a href="https://code-map.fenmyr.com/">{en.footer.codeMap}</a>
               </li>
               <li>
-                <a href="https://github.com/chiangs/fenmyr/blob/main/LICENSE">{en.footer.licence}</a>
+                <a href="https://github.com/chiangs/fenmyr-web/blob/main/NOTICE">{en.footer.licence}</a>
               </li>
             </ul>
           </nav>
         </div>
-        <p>{en.footer.credit}</p>
-        <p>{en.footer.trademarks}</p>
         <p>{en.footer.madeBy}</p>
       </div>
     </footer>
