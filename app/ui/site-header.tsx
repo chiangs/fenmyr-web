@@ -40,7 +40,7 @@ export function SiteHeader() {
             textDecoration: 'none',
           })}
         >
-          <img src="/images/mark.svg" alt="" width={256} height={256} loading="lazy" mix={css({ width: '2rem', height: '2rem' })} />
+          <img src="/images/mark.svg" alt="" width={256} height={256} mix={css({ width: '2rem', height: '2rem' })} />
           {en.header.brand}
         </a>
         <nav aria-label={en.header.navLabel} mix={css({ gridArea: 'nav' })}>

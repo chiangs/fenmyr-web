@@ -87,7 +87,6 @@ export function HomePage() {
                   alt={en.hero.myraAlt}
                   width={136}
                   height={160}
-                  loading="lazy"
                   mix={css({ width: 'clamp(6.375rem, 11vw, 8.5rem)' })}
                 />
               </picture>
