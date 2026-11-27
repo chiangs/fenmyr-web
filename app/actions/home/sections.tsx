@@ -50,7 +50,18 @@ function Lead(handle: Handle<{ icon: string; tone: string; children?: RemixNode 
             cornerShape: 'squircle',
           })}
         >
-          <img src={`/images/${icon}.svg`} alt="" width={256} height={256} loading="lazy" mix={css({ width: '1.75rem', height: '1.75rem' })} />
+          <span
+            aria-hidden="true"
+            style={{ maskImage: `url(/images/${icon}.svg)` }}
+            mix={css({
+              width: '1.75rem',
+              height: '1.75rem',
+              background: 'var(--card-butter-ink)',
+              maskPosition: 'center',
+              maskRepeat: 'no-repeat',
+              maskSize: 'contain',
+            })}
+          />
         </span>
         <p mix={css({ alignSelf: 'center', fontSize: 'clamp(1.0625rem, 2vw, 1.1875rem)', color: 'var(--ink)' })}>{children}</p>
       </div>
