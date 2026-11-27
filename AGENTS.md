@@ -22,11 +22,14 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 ## Starter Layout
 
 - `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs
-- `app/router.ts` wires routes to controllers and installs the standard Remix component renderer used by actions
-- Put top-level route actions in `app/actions/controller.tsx`; add `app/actions/<route-key>/controller.tsx` for nested route maps. `app/actions/controller.test.ts` is the root controller's router smoke test
-- `app/actions/home-page.tsx` and `app/actions/document.tsx` render the route-owned starter UI
-- `app/actions/public/` contains the browser runtime entry and interactive prompt button
+- `app/router.tsx` wires routes to controllers, installs the standard Remix component renderer used by actions, and renders the 404 page for unmatched URLs
+- Put top-level route actions in `app/actions/controller.tsx`; add `app/actions/<route-key>/controller.tsx` for nested route maps. `app/actions/controller.test.ts` is the root controller's router test
+- `app/actions/document.tsx` is the document shell: global stylesheet, font preloads, favicon and meta description
+- `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
+- `app/actions/not-found-page.tsx` renders the 404 page
+- `app/actions/public/` contains the browser runtime entry
+- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx` and `screenshot.tsx`
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
-- Root `public/` contains static files served unchanged from the app root
+- Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, colour tokens and base styles, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
 
-This starter intentionally begins small; add directories like `app/data/`, `app/middleware/`, `app/ui/`, and `test/` only when you need them.
+This starter intentionally begins small; add directories like `app/data/`, `app/middleware/`, and `test/` only when you need them.

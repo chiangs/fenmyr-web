@@ -1,23 +1,23 @@
 # Fenmyr
 
-A minimal Remix application starter with a home page.
+The marketing homepage for Fenmyr, a free open-source canvas app for Linux and macOS, built on Remix 3. The page is server-rendered from a section registry in `app/actions/home/sections.tsx`.
 
 ## Starter Shape
 
 - `app/actions/controller.tsx` owns the top-level route actions.
-- `app/actions/home-page.tsx` and `app/actions/document.tsx` render the route-owned starter UI.
+- `app/actions/home/` renders the home page from its section registry, `app/actions/not-found-page.tsx` the 404 page, and `app/actions/document.tsx` the document shell.
+- `app/ui/` holds the shared section, header, footer, button link and screenshot pieces.
 - `app/actions/public/` contains the browser runtime entry.
 - `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs.
-- `app/router.ts` wires routes to handlers and installs the standard Remix component renderer used by actions.
+- `app/router.tsx` wires routes to handlers, renders the 404 page and installs the standard Remix component renderer used by actions.
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware.
-- Root `public/` contains static files served unchanged from the app root.
+- Root `public/` contains static files served unchanged from the app root, including `styles.css`, the fonts and the images.
 
 ## Growing The App
 
 - Put top-level route actions in `app/actions/controller.tsx`.
 - Add `app/actions/<route-key>/controller.tsx` when a nested route map needs its own actions or middleware.
 - Add directories like `app/data/` or `test/` when the app actually needs them.
-- Move shared UI into `app/ui/` once more than one route needs it.
 
 ## Commands
 
