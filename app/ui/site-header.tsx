@@ -5,6 +5,8 @@ import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
 import { ButtonLink } from './button-link.tsx'
 import { SiteMenu } from './public/site-menu.tsx'
+import { ThemePicker } from './public/theme-picker.tsx'
+import { modes, themeStorageKey, themes } from './themes.ts'
 
 export function SiteHeader() {
   return () => {
@@ -13,6 +15,12 @@ export function SiteHeader() {
       ...sections.flatMap((section) => (section.nav ? [{ label: section.nav, href: `${home}#${section.id}` }] : [])),
       { label: en.header.github, href: 'https://github.com/chiangs/fenmyr' },
     ]
+    let { theme } = en.header
+    let groups = modes.map((mode) => ({
+      mode,
+      label: theme.modes[mode],
+      choices: themes.filter((item) => item.mode === mode).map((item) => ({ id: item.id, name: theme.names[item.id] })),
+    }))
 
     return (
       <header
@@ -90,8 +98,9 @@ export function SiteHeader() {
               ))}
             </ul>
           </nav>
-          <div mix={css({ gridArea: 'cta' })}>
+          <div mix={css({ gridArea: 'cta', display: 'flex', alignItems: 'center', gap: '0.75rem' })}>
             <ButtonLink href={`${home}#install`}>{en.header.download}</ButtonLink>
+            <ThemePicker label={theme.label} system={theme.system} groups={groups} storageKey={themeStorageKey} />
           </div>
           <div mix={css({ gridArea: 'menu', '@media (width > 52rem)': { display: 'none' } })}>
             <SiteMenu label={en.header.menu} navLabel={en.header.navLabel} links={links} />

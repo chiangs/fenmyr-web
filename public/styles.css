@@ -138,3 +138,9 @@
     outline-offset: 3px;
   }
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 350ms;
+  animation-timing-function: ease;
+}

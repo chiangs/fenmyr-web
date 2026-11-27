@@ -64,6 +64,31 @@ describe('root controller', () => {
     }
   })
 
+  it('GET / has a theme picker with "Match my system" and the six themes, labelled', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+    let { theme } = en.header
+
+    let button = html.match(/<button[^>]*popovertarget="theme-picker"[^>]*>/)?.[0] ?? ''
+    assert.ok(button.includes(`aria-label="${theme.label}"`), 'the theme button has no label')
+    let start = html.search(/<div[^>]*id="theme-picker"/)
+    assert.ok(start >= 0, 'no theme-picker element')
+    assert.match(html.slice(start, html.indexOf('>', start) + 1), /\spopover[\s=>]/)
+    let picker = html.slice(start, html.indexOf('</div>', start))
+
+    let values = [...picker.matchAll(/<input[^>]*type="radio"[^>]*>/g)].map(([input]) => {
+      assert.match(input, /name="theme"/)
+      return input.match(/value="([^"]*)"/)?.[1]
+    })
+    assert.deepEqual(values, ['', ...themes.map((item) => item.id)])
+    for (let legend of [theme.label, theme.modes.light, theme.modes.dark]) {
+      assert.ok(picker.includes(`<legend>${legend}</legend>`), `no legend "${legend}"`)
+    }
+    for (let name of [theme.system, ...themes.map((item) => theme.names[item.id])]) {
+      assert.ok(picker.includes(`<span>${name}</span>`), `no choice named "${name}"`)
+    }
+  })
+
   it('GET / sets the saved theme in a script before the first stylesheet', async () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()
