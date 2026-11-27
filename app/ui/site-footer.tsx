@@ -1,5 +1,7 @@
 import { css } from 'remix/component'
 
+import { en } from '../content/en.tsx'
+
 export function SiteFooter() {
   return () => (
     <footer
@@ -41,9 +43,9 @@ export function SiteFooter() {
             })}
           >
             <img src="/images/mark.svg" alt="" width={256} height={256} loading="lazy" mix={css({ width: '1.75rem', height: '1.75rem' })} />
-            Fenmyr
+            {en.footer.brand}
           </span>
-          <nav aria-label="Footer">
+          <nav aria-label={en.footer.navLabel}>
             <ul
               mix={css({
                 display: 'flex',
@@ -56,29 +58,23 @@ export function SiteFooter() {
               })}
             >
               <li>
-                <a href="https://github.com/chiangs/fenmyr">GitHub</a>
+                <a href="https://github.com/chiangs/fenmyr">{en.footer.github}</a>
               </li>
               <li>
-                <a href="https://github.com/sponsors/chiangs">Sponsor</a>
+                <a href="https://github.com/sponsors/chiangs">{en.footer.sponsor}</a>
               </li>
               <li>
-                <a href="https://code-map.fenmyr.com/">Code map</a>
+                <a href="https://code-map.fenmyr.com/">{en.footer.codeMap}</a>
               </li>
               <li>
-                <a href="https://github.com/chiangs/fenmyr/blob/main/LICENSE">EUPL-1.2 licence</a>
+                <a href="https://github.com/chiangs/fenmyr/blob/main/LICENSE">{en.footer.licence}</a>
               </li>
             </ul>
           </nav>
         </div>
-        <p>
-          Fenmyr began as a fork of <a href="https://github.com/jessawolfe-ux/mochiboard">Mochiboard</a> by{' '}
-          <a href="https://jessa.art">Jessa Wolfe</a>.
-        </p>
-        <p>
-          The names Fenmyr and Myra, Myra the cloudberry, her art, the logo and the app icon are not part of the code
-          licence and are all rights reserved by Stephen Chiang.
-        </p>
-        <p>Made with care by Stephen Chiang.</p>
+        <p>{en.footer.credit}</p>
+        <p>{en.footer.trademarks}</p>
+        <p>{en.footer.madeBy}</p>
       </div>
     </footer>
   )

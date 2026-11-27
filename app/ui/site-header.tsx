@@ -1,6 +1,7 @@
 import { css } from 'remix/component'
 
 import { sections } from '../actions/home/sections.tsx'
+import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
 import { ButtonLink } from './button-link.tsx'
 
@@ -40,9 +41,9 @@ export function SiteHeader() {
           })}
         >
           <img src="/images/mark.svg" alt="" width={256} height={256} loading="lazy" mix={css({ width: '2rem', height: '2rem' })} />
-          Fenmyr
+          {en.header.brand}
         </a>
-        <nav aria-label="Main" mix={css({ gridArea: 'nav' })}>
+        <nav aria-label={en.header.navLabel} mix={css({ gridArea: 'nav' })}>
           <ul
             mix={css({
               display: 'flex',
@@ -67,12 +68,12 @@ export function SiteHeader() {
                 </li>
               ))}
             <li>
-              <a href="https://github.com/chiangs/fenmyr">GitHub</a>
+              <a href="https://github.com/chiangs/fenmyr">{en.header.github}</a>
             </li>
           </ul>
         </nav>
         <div mix={css({ gridArea: 'cta' })}>
-          <ButtonLink href={`${home}#install`}>Download</ButtonLink>
+          <ButtonLink href={`${home}#install`}>{en.header.download}</ButtonLink>
         </div>
       </header>
     )

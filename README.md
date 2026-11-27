@@ -29,6 +29,7 @@ Success is measured with GitHub's own numbers: stars, release downloads and traf
 - `app/actions/controller.tsx` owns the top-level route actions.
 - `app/actions/home/` renders the home page from its section registry, `app/actions/not-found-page.tsx` the 404 page, and `app/actions/document.tsx` the document shell.
 - `app/ui/` holds the shared section, header, footer, button link and screenshot pieces.
+- `app/content/en.tsx` holds every user-facing string, typed by `Content` in `app/content/content.ts`.
 - `app/actions/public/` contains the browser runtime entry.
 - `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs.
 - `app/router.tsx` wires routes to handlers, renders the 404 page and installs the standard Remix component renderer used by actions.

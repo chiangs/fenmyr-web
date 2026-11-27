@@ -1,5 +1,6 @@
 import { css } from 'remix/component'
 
+import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
 import { ButtonLink } from '../ui/button-link.tsx'
 import { SiteFooter } from '../ui/site-footer.tsx'
@@ -8,7 +9,7 @@ import { Document } from './document.tsx'
 
 export function NotFoundPage() {
   return () => (
-    <Document title="Page not found · Fenmyr">
+    <Document title={en.notFound.title}>
       <SiteHeader />
       <main
         mix={css({
@@ -21,9 +22,9 @@ export function NotFoundPage() {
           textAlign: 'center',
         })}
       >
-        <h1 mix={css({ fontSize: 'clamp(2.25rem, 7vw, 3.5rem)' })}>Page not found</h1>
-        <p mix={css({ color: 'var(--ink-soft)' })}>Nothing lives at this address. The link may be old or mistyped.</p>
-        <ButtonLink href={routes.home.href()}>Go to the home page</ButtonLink>
+        <h1 mix={css({ fontSize: 'clamp(2.25rem, 7vw, 3.5rem)' })}>{en.notFound.heading}</h1>
+        <p mix={css({ color: 'var(--ink-soft)' })}>{en.notFound.body}</p>
+        <ButtonLink href={routes.home.href()}>{en.notFound.home}</ButtonLink>
       </main>
       <SiteFooter />
     </Document>

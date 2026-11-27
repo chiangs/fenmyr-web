@@ -34,7 +34,7 @@ Nothing checks these practices automatically. Review does.
 ## Patterns
 
 - **Styles.** `public/styles.css` holds only tokens, `@font-face` and base element rules. A component's look is a `css()` mixin beside its markup.
-- **Words.** Every user-facing string lives in `app/content/en.ts`, typed by its `Content` interface. Components read from it and hold no copy. A new language is another file of the same type, [#3](https://github.com/chiangs/fenmyr-web/issues/3).
+- **Words.** Every user-facing string lives in `app/content/en.tsx`, typed by `Content` in `app/content/content.ts`. Components read from it and hold no copy. A new language is another file of the same type, [#3](https://github.com/chiangs/fenmyr-web/issues/3).
 - **Sections.** The home page renders the registry in `app/actions/home/sections.tsx`. Page order, anchors, header links and tests come from it. Add a section by adding an entry.
 - **Islands.** An interactive piece is a `clientEntry()` component. Its file lives in a `public/` folder beside its narrowest owner, as the Remix guide's project tour says. An island used by one section goes in `app/actions/home/public/`. One used across the site goes in `app/ui/public/`. Everything else renders on the server and ships no JavaScript.
 - **Motion.** Use the platform first: CSS transitions and keyframes, the Web Animations API, view transitions and canvas, wrapped in small mixins. Consider Motion or GSAP when the result isn't good enough or a library removes real complexity, and say which in the pull request. Every animation stops with reduced motion.
@@ -72,6 +72,7 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/actions/document.tsx` is the document shell: global stylesheet, font preloads, favicon and meta description
 - `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
 - `app/actions/not-found-page.tsx` renders the 404 page
+- `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
 - `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`
 - `app/actions/public/` contains the browser runtime entry
 - `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx` and `screenshot.tsx`

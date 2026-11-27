@@ -2,6 +2,7 @@ import { css } from 'remix/component'
 
 import { ButtonLink } from '../../ui/button-link.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
+import { en } from '../../content/en.tsx'
 import { Section } from '../../ui/section.tsx'
 import { SiteFooter } from '../../ui/site-footer.tsx'
 import { SiteHeader } from '../../ui/site-header.tsx'
@@ -34,20 +35,18 @@ export function HomePage() {
             })}
           >
             <h1 id="hero-title" mix={css({ fontSize: 'clamp(2.75rem, 9vw, 5.25rem)', letterSpacing: '-0.045em' })}>
-              Where ideas thrive.
+              {en.hero.tagline}
             </h1>
             <p mix={css({ fontSize: 'clamp(1.1875rem, 2.4vw, 1.4375rem)', lineHeight: 1.45 })}>
-              A canvas for growing ideas, from the first note to a working prototype, with Myra the cloudberry to help.
+              {en.hero.lead}
             </p>
             <p mix={css({ maxWidth: '40rem', color: 'var(--ink-soft)' })}>
-              Fenmyr is a free, open-source canvas for Linux and macOS. Spread notes, pictures, links, checklists, docs
-              and wireframes across an endless board, then ask Myra to sort, plan and build. Your boards are plain files
-              on your computer, and the AI runs only when you ask.
+              {en.hero.body}
             </p>
             <div mix={css({ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.75rem', marginTop: '0.5rem' })}>
-              <ButtonLink href="#install">Download</ButtonLink>
+              <ButtonLink href="#install">{en.hero.download}</ButtonLink>
               <ButtonLink href="https://github.com/chiangs/fenmyr" quiet>
-                View on GitHub
+                {en.hero.github}
               </ButtonLink>
             </div>
           </div>
@@ -79,11 +78,11 @@ export function HomePage() {
                   boxShadow: '0 8px 24px rgba(var(--sh), calc(.2 * var(--sh-k)))',
                 })}
               >
-                Hello, I'm Myra. Bring me your messiest board ✦
+                {en.hero.bubble}
               </p>
               <img
                 src="/images/myra-hello.png"
-                alt="Myra, a pixel cloudberry, hops and beams"
+                alt={en.hero.myraAlt}
                 width={136}
                 height={160}
                 loading="lazy"
@@ -93,7 +92,7 @@ export function HomePage() {
             <Screenshot
               light="/images/board-light.png"
               dark="/images/board-dark.png"
-              alt="A Fenmyr board: Myra's how-to note, Raw ideas and Ripe collections, a This week kanban, Unsorted ideas on the right, the tools at the top right and the boards on the left"
+              alt={en.hero.screenshotAlt}
               width={1760}
               height={1100}
               priority
