@@ -204,6 +204,7 @@ export const ThemePicker = clientEntry(import.meta.url, function ThemePicker(han
                 type="radio"
                 name="theme"
                 value=""
+                autocomplete="off"
                 checked={selected === ''}
                 mix={on('change', () => choose('', null))}
               />
@@ -222,6 +223,7 @@ export const ThemePicker = clientEntry(import.meta.url, function ThemePicker(han
                       type="radio"
                       name="theme"
                       value={choice.id}
+                      autocomplete="off"
                       checked={selected === choice.id}
                       mix={on('change', () => choose(choice.id, group.mode))}
                     />
