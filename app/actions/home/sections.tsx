@@ -4,6 +4,7 @@ import { css } from 'remix/component'
 import type { SectionId } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
+import { Myra } from '../../ui/public/myra.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 
 const { prototype, myra, local, linux, access, built, install, support } = en.sections
@@ -230,17 +231,7 @@ export const sections: readonly HomeSection[] = [
           }),
         ]}
       >
-        <picture mix={css({ flex: 'none' })}>
-          <source media="(prefers-reduced-motion: reduce)" srcset="/images/myra-love-still.png" />
-          <img
-            src="/images/myra-love.png"
-            alt={support.myraAlt}
-            width={136}
-            height={160}
-            loading="lazy"
-            mix={css({ width: '6.375rem' })}
-          />
-        </picture>
+        <Myra pose="love" label={support.myraAlt} size="6.375rem" lazy />
         <div mix={css({ flex: '1 1 20rem', display: 'grid', gap: '1rem', color: 'var(--ink-soft)' })}>
           <p mix={css({ fontSize: '1.1875rem', color: 'var(--ink)' })}>{support.pitch}</p>
           <ul mix={css({ margin: 0, paddingLeft: '1.25rem' })}>

@@ -6,6 +6,7 @@ import { en } from '../../content/en.tsx'
 import { Section } from '../../ui/section.tsx'
 import { SiteFooter } from '../../ui/site-footer.tsx'
 import { SiteHeader } from '../../ui/site-header.tsx'
+import { Myra } from '../../ui/public/myra.tsx'
 import { Document } from '../document.tsx'
 import { sections } from './sections.tsx'
 
@@ -80,16 +81,7 @@ export function HomePage() {
               >
                 {en.hero.bubble}
               </p>
-              <picture mix={css({ flex: 'none' })}>
-                <source media="(prefers-reduced-motion: reduce)" srcset="/images/myra-hello-still.png" />
-                <img
-                  src="/images/myra-hello.png"
-                  alt={en.hero.myraAlt}
-                  width={136}
-                  height={160}
-                  mix={css({ width: 'clamp(6.375rem, 11vw, 8.5rem)' })}
-                />
-              </picture>
+              <Myra pose="hello" label={en.hero.myraAlt} size="clamp(6.375rem, 11vw, 8.5rem)" />
             </div>
             <Screenshot
               light="/images/board-light.png"
