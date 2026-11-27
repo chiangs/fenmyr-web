@@ -39,7 +39,7 @@ Nothing checks these practices automatically. Review does.
 - **Islands.** An interactive piece is a `clientEntry()` component. Its file lives in a `public/` folder beside its narrowest owner, as the Remix guide's project tour says. An island used by one section goes in `app/actions/home/public/`. One used across the site goes in `app/ui/public/`. Everything else renders on the server, and every page loads the small Remix client runtime, which handles in-place navigation and starts islands.
 - **Motion.** Use the platform first: CSS transitions and keyframes, the Web Animations API, view transitions and canvas, wrapped in small mixins. Consider Motion or GSAP when the result isn't good enough or a library removes real complexity, and say which in the pull request. Every animation stops with reduced motion.
 - **Myra.** Myra is one canvas island, `app/ui/public/myra.tsx`, ported from the app's `src/web/goo.ts`, [#7](https://github.com/chiangs/fenmyr-web/issues/7).
-- **Images.** `<picture>` serves AVIF, then WebP, then PNG, with a dark source for each light and dark pair. Set the real width and height. Use `fetchpriority="high"` on the first screen and `loading="lazy"` below it. Images are PNG only until a script at commit time makes the AVIF and WebP files, [#8](https://github.com/chiangs/fenmyr-web/issues/8).
+- **Images.** `<picture>` serves AVIF, then WebP, then PNG, with a dark source for each light and dark pair. Set the real width and height. Use `fetchpriority="high"` on the first screen and `loading="lazy"` below it. A screenshot is a light and a dark PNG in `public/images/` plus an entry in `app/ui/screenshots.ts`, which lists its size, the widths to serve and its `sizes`. After adding or changing a source PNG or that table, run `npm run images` and commit the AVIF and WebP files it writes beside the PNG. Check: `app/ui/screenshot.test.ts` fails when the page points at an image that is not in `public/`, or when a screenshot lacks its AVIF, WebP or light and dark PNG. Nothing checks that the AVIF and WebP files match a changed PNG; review does.
 - **Video.** Use muted loops of 5 to 10 seconds, self-hosted, as AV1 WebM with an H.264 MP4 fallback and a poster. Playback starts when the video scrolls into view, and never with reduced motion.
 - **Outside data.** Data from the network or from files stays `unknown` until it is parsed where it enters, as rule 2 says.
 
@@ -55,6 +55,7 @@ npm run start
 npm test
 npm run typecheck
 npm run budget
+npm run images
 npm run check
 ```
 
@@ -73,9 +74,9 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
 - `app/actions/not-found-page.tsx` renders the 404 page
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
-- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`
+- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs
 - `app/actions/public/` contains the browser runtime entry
-- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx` and `screenshot.tsx`
+- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, and `screenshot.tsx` with its table of images in `screenshots.ts`
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
 - Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, colour tokens and base styles, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
 

@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test remix test",
     "typecheck": "tsc --noEmit",
     "budget": "node tools/budget.ts",
+    "images": "node tools/images.ts",
     "check": "npm run typecheck && npm run budget && npm test"
   },
   "engines": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "26.6.11",
+    "sharp": "0.35.5",
     "typescript": "7.0.2"
   }
 }

@@ -84,11 +84,8 @@ export function HomePage() {
               <Myra pose="hello" label={en.hero.myraAlt} size="clamp(6.375rem, 11vw, 8.5rem)" />
             </div>
             <Screenshot
-              light="/images/board-light.png"
-              dark="/images/board-dark.png"
+              name="board"
               alt={en.hero.screenshotAlt}
-              width={1760}
-              height={1100}
               priority
             />
           </div>

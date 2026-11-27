@@ -89,11 +89,8 @@ export const sections: readonly HomeSection[] = [
           {prototype.lead}
         </Lead>
         <Screenshot
-          light="/images/proto-built-light.png"
-          dark="/images/proto-built-dark.png"
+          name="proto-built"
           alt={prototype.screenshotAlt}
-          width={1760}
-          height={1100}
         />
         <Points items={prototype.points} />
       </>
