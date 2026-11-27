@@ -70,6 +70,16 @@
     --card-sky: #d6e8fb;
     --card-lilac: #ece0ec;
     --card-peach: #f1ebe2;
+    --myra-body: #f6a63c;
+    --myra-shine: #ffe0a0;
+    --myra-soft-shine: #fac069;
+    --myra-seam: #de8526;
+    --myra-shade: #ad681e;
+    --myra-leaf: #7cc95e;
+    --myra-leaf-dark: #3f8f3c;
+    --myra-ink: #2a1708;
+    --myra-blush: #ff8fa8;
+    --myra-heart: #e5586d;
   }
 
   @media (prefers-color-scheme: dark) {
