@@ -4,7 +4,7 @@ export const en: Content = {
   document: {
     title: 'Fenmyr',
     description:
-      'A canvas for growing ideas, from the first note to a working prototype, with Myra the cloudberry to help.',
+      'A canvas for growing ideas, from the first note to a rapid prototype you can try and test, with Myra the cloudberry to help.',
   },
   header: {
     brand: 'Fenmyr',
@@ -14,8 +14,8 @@ export const en: Content = {
   },
   hero: {
     tagline: 'Where ideas thrive.',
-    lead: 'A canvas for growing ideas, from the first note to a working prototype, with Myra the cloudberry to help.',
-    body: 'Fenmyr is a free, open-source canvas for Linux and macOS. Spread notes, pictures, links, checklists, docs and wireframes across an endless board, then ask Myra to sort, plan and build. Your boards are plain files on your computer, and the AI runs only when you ask.',
+    lead: 'A canvas for growing ideas, from the first note to a rapid prototype you can try and test, with Myra the cloudberry to help.',
+    body: 'Fenmyr is a free, open-source canvas for Linux and macOS. Spread notes, pictures, links, checklists, docs and wireframes across an endless board, then ask Myra to sort, plan and prototype. Your boards are plain files on your computer, and the AI runs only when you ask.',
     bubble: "Hello, I'm Myra. Bring me your messiest board ✦",
     download: 'Download',
     github: 'View on GitHub',
@@ -27,12 +27,12 @@ export const en: Content = {
     prototype: {
       title: 'From idea to prototype',
       nav: 'Why Fenmyr',
-      lead: 'Make a board into a prototype board, and Myra builds a working React and Tailwind app from its cards through Claude Code. Each prototype board keeps its own rules and design cards, and every build reads them.',
+      lead: 'Make a board into a prototype board, and Myra builds a React and Tailwind prototype from its cards through Claude Code. Experiment with it and test it. Each prototype board keeps its own rules and design cards, and every build reads them.',
       screenshotAlt:
-        "A prototype board: the board's cards, the preview at phone width, the code pane, and Myra's chat with a finished build, its files and Undo this build",
+        "A prototype board: the board's cards, the preview at phone width, the code pane, and Myra's chat after a build, with its files and Undo this build",
       points: [
         <>
-          <strong>See it run.</strong> The preview sits beside the board at any device width.
+          <strong>Try it out.</strong> The preview sits beside the board at any device width.
         </>,
         <>
           <strong>Read the code.</strong> The code pane lists every file and marks what the last build changed.
@@ -41,8 +41,8 @@ export const en: Content = {
           <strong>Keep what works.</strong> Every build can be undone.
         </>,
         <>
-          <strong>Git, explained.</strong> The code lives in your project's own repo, and Myra explains each git step
-          in plain words.
+          <strong>Git, explained.</strong> The code stays in your own git repository. Myra explains each git step in
+          plain words.
         </>,
       ],
     },
