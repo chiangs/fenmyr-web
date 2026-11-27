@@ -37,8 +37,13 @@ describe('root controller', () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()
 
-    assert.match(html, new RegExp(`<button[^>]*popovertarget="site-menu"[^>]*aria-label="${en.header.menu}"`))
-    let menu = html.match(/<div id="site-menu" popover[^>]*>(.*?)<\/div>/s)?.[1] ?? ''
+    let button = html.match(/<button[^>]*popovertarget="site-menu"[^>]*>/)?.[0] ?? ''
+    assert.ok(button.includes(`aria-label="${en.header.menu}"`), 'the menu button has no label')
+    let menuStart = html.search(/<div[^>]*id="site-menu"/)
+    assert.ok(menuStart >= 0, 'no site-menu element')
+    let menuTag = html.slice(menuStart, html.indexOf('>', menuStart) + 1)
+    assert.match(menuTag, /\spopover[\s=>]/)
+    let menu = html.slice(menuStart, html.indexOf('</nav>', menuStart))
     let links = [
       ...sections.flatMap((section) => (section.nav ? [{ label: section.nav, href: `/#${section.id}` }] : [])),
       { label: en.header.github, href: 'https://github.com/chiangs/fenmyr' },

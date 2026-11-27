@@ -1,4 +1,4 @@
-import { clientEntry, css, on } from 'remix/component'
+import { clientEntry, css, on, ref } from 'remix/component'
 import type { Handle } from 'remix/component'
 
 export interface SiteMenuLink {
@@ -29,15 +29,18 @@ const buttonStyle = css({
   '& [data-icon="close"]': { display: 'none' },
   '&:has(+ :popover-open) [data-icon="menu"]': { display: 'none' },
   '&:has(+ :popover-open) [data-icon="close"]': { display: 'inline' },
+  '@supports not selector(:popover-open)': { display: 'none' },
 })
 
 const menuStyle = css({
+  display: 'none',
+  '&:popover-open': { display: 'block' },
   position: 'fixed',
-  inset: 'var(--header-h) 0 auto',
+  inset: 'var(--header-h, 0) 0 auto',
   width: 'auto',
   maxWidth: 'none',
   height: 'auto',
-  maxHeight: 'calc(100dvh - var(--header-h))',
+  maxHeight: 'calc(100dvh - var(--header-h, 0px))',
   overflow: 'auto',
   margin: 0,
   padding: '0.25rem clamp(1rem, 4vw, 2rem) 0.75rem',
@@ -66,6 +69,10 @@ const menuStyle = css({
   },
 })
 
+function close(menu: HTMLElement) {
+  if (typeof menu.hidePopover === 'function' && menu.matches(':popover-open')) menu.hidePopover()
+}
+
 export const SiteMenu = clientEntry(import.meta.url, function SiteMenu(handle: Handle<SiteMenuProps>) {
   return () => {
     let { label, navLabel, links } = handle.props
@@ -93,7 +100,12 @@ export const SiteMenu = clientEntry(import.meta.url, function SiteMenu(handle: H
           mix={[
             menuStyle,
             on('click', (event) => {
-              if (event.target instanceof Element && event.target.closest('a')) event.currentTarget.hidePopover()
+              if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+              if (event.target instanceof Element && event.target.closest('a')) close(event.currentTarget)
+            }),
+            ref((menu, signal) => {
+              let wide = matchMedia('(width > 52rem)')
+              wide.addEventListener('change', () => wide.matches && close(menu), { signal })
             }),
           ]}
         >
