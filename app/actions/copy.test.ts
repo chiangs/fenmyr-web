@@ -64,6 +64,18 @@ function visibleText(html: string) {
     .trim()
 }
 
+function attributeText(html: string) {
+  let values: string[] = []
+  for (let [tag] of html.matchAll(/<[a-z][^>]*>/gi)) {
+    let isDescription = /^<meta\b/i.test(tag) && /\sname=(["'])description\1/i.test(tag)
+    for (let [, name = '', , value = ''] of tag.matchAll(/\s(alt|aria-label|title|content)=(["'])(.*?)\2/gi)) {
+      if (name.toLowerCase() === 'content' && !isDescription) continue
+      values.push(decode(value))
+    }
+  }
+  return values
+}
+
 function around(text: string, index: number) {
   return text.slice(Math.max(0, index - 40), index + 40)
 }
@@ -91,7 +103,8 @@ async function render(path: string, status: number) {
 describe('copy', () => {
   for (let page of pages) {
     it(`the ${page.name} page follows the DESIGN.md Words rules`, async () => {
-      let text = visibleText(await render(page.path, page.status))
+      let html = await render(page.path, page.status)
+      let text = [visibleText(html), ...attributeText(html)].join(' ')
 
       let dash = text.search(/[—–]/)
       assert.equal(dash, -1, `long dash in "${around(text, dash)}"`)
