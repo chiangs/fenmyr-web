@@ -56,10 +56,23 @@ npm test
 npm run typecheck
 npm run budget
 npm run images
+npm run build
 npm run check
 ```
 
-Use `npm run hmr` for live server and browser updates; `npm run dev` only watches and restarts the server. `npm run start` runs in production mode without a separate build step.
+Use `npm run hmr` for live server and browser updates; `npm run dev` only watches and restarts the server. `npm run start` runs in production mode without a separate build step. `npm run build` writes the static site that Vercel deploys, and `npm run check` runs it last.
+
+## Deploy
+
+The site deploys on Vercel as static files. The Vercel project uses the preset "Other", the repository root as Root Directory, `npm ci` as Install Command, `npm run build` as Build Command and Node 26, with the Output Directory override off.
+
+`npm run build` runs `tools/build.ts`. It renders each page in its `pages` list through `router.fetch`, follows every `/assets/` URL the pages and their modules reference, copies `public/`, and writes Vercel's Build Output API folder `.vercel/output/`. Its `config.json` serves the `.ts` and `.tsx` modules as JavaScript, caches `/assets/` for a year, and answers unknown paths with `404.html` at status 404. A new page is a new entry in `pages`.
+
+The build checks itself. It fails when a page answers with the wrong status, when an asset answers anything but 200, or when a `public/` file would overwrite a rendered one. Two builds of the same commit are byte-identical.
+
+Every page is rendered once, at build time, so nothing may depend on the request. A route that must run per request, such as a form handler, needs a Vercel Function: have the build write one under `.vercel/output/functions/` that serves `router.fetch`, and route its path to it in `config.json`.
+
+`tools/build.ts` is the code React Router's `prerender` option would have provided, in 99 lines.
 
 ## Building Features
 
@@ -74,7 +87,7 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
 - `app/actions/not-found-page.tsx` renders the 404 page
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
-- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs
+- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/build.ts` writes the static site to `.vercel/output/`
 - `app/actions/public/` contains the browser runtime entry
 - `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, and `screenshot.tsx` with its table of images in `screenshots.ts`
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
