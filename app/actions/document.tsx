@@ -10,7 +10,7 @@ export interface DocumentProps {
   title?: string
 }
 
-const DEFAULT_TITLE = readAppDisplayName('Fenmyr')
+const DEFAULT_TITLE = 'Fenmyr'
 
 export function Document(handle: Handle<DocumentProps>) {
   return () => {
@@ -36,8 +36,4 @@ export function Document(handle: Handle<DocumentProps>) {
       </html>
     )
   }
-}
-
-function readAppDisplayName(value: string): string {
-  return value.startsWith('%%') ? 'Remix App' : decodeURIComponent(value)
 }
