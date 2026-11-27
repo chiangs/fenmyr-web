@@ -53,9 +53,13 @@ function readBudget(): Record<Kind, number> {
   return { any: value('any'), casts: value('casts'), rawColours: value('rawColours'), longFiles: value('longFiles') }
 }
 
+let rootFiles = readdirSync(root)
+  .filter((name) => /\.tsx?$/.test(name))
+  .map((name) => path.join(root, name))
+  .sort()
 let appFiles = filesUnder('app')
 let toolFiles = filesUnder('tools')
-let scripts = [...appFiles, ...toolFiles].filter((file) => /\.tsx?$/.test(file))
+let scripts = [...rootFiles, ...appFiles, ...toolFiles].filter((file) => /\.tsx?$/.test(file))
 
 let api = new API({ cwd: root })
 let project = api.updateSnapshot({ openProjects: [path.join(root, 'tsconfig.json')] }).getProjects()[0]
@@ -111,7 +115,7 @@ readFileSync(stylesFile, 'utf8')
     header += ' '
   })
 
-for (let file of [...appFiles, ...toolFiles, stylesFile]) {
+for (let file of [...rootFiles, ...appFiles, ...toolFiles, stylesFile]) {
   let lines = readFileSync(file, 'utf8').replace(/\n$/, '').split('\n').length
   if (lines > maxLines) found.longFiles.push(`${path.relative(root, file)} has ${lines} lines`)
 }
