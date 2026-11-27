@@ -3,7 +3,8 @@ import * as path from 'node:path'
 import sharp from 'sharp'
 import type { Sharp } from 'sharp'
 
-import { encodedPath, formats, screenshots, sourcePath, themes } from '../app/ui/screenshots.ts'
+import { encodedPath, formats, screenshots, sourcePath } from '../app/ui/screenshots.ts'
+import { modes } from '../app/ui/themes.ts'
 import type { Format } from '../app/ui/screenshots.ts'
 
 const root = path.resolve(import.meta.dirname, '..')
@@ -29,8 +30,8 @@ let written = 0
 let unchanged = 0
 
 for (let [name, shot] of Object.entries(screenshots)) {
-  for (let theme of themes) {
-    let source = path.join(publicDir, sourcePath(name, theme))
+  for (let mode of modes) {
+    let source = path.join(publicDir, sourcePath(name, mode))
     let { width, height } = await sharp(source).metadata()
     let { isOpaque } = await sharp(source).stats()
     if (width !== shot.width || height !== shot.height) {
@@ -40,7 +41,7 @@ for (let [name, shot] of Object.entries(screenshots)) {
     if (tooWide) throw new Error(`${name} lists width ${tooWide}, wider than its ${shot.width} px source`)
     let jobs = shot.widths.flatMap((w) =>
       formats.map(async (format) => {
-        let file = path.join(publicDir, encodedPath(name, theme, w, format))
+        let file = path.join(publicDir, encodedPath(name, mode, w, format))
         expected.add(file)
         let bytes = await encoders[format](isOpaque ? sharp(source).removeAlpha().resize(w) : sharp(source).resize(w)).toBuffer()
         let before = await existing(file)
