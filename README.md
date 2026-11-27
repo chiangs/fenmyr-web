@@ -50,4 +50,6 @@ npm run hmr
 npm run start
 npm test
 npm run typecheck
+npm run budget
+npm run check
 ```

@@ -8,7 +8,8 @@
     "start": "NODE_ENV=production node --import remix/node-tsx server.ts",
     "test": "NODE_ENV=test remix test",
     "typecheck": "tsc --noEmit",
-    "budget": "node tools/budget.ts"
+    "budget": "node tools/budget.ts",
+    "check": "npm run typecheck && npm run budget && npm test"
   },
   "engines": {
     "node": ">=24.3.0"
