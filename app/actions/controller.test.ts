@@ -1,7 +1,7 @@
 import * as assert from 'remix/assert'
 import { describe, it } from 'remix/test'
 
-import { router } from '../router.ts'
+import { router } from '../router.tsx'
 import { routes } from '../routes.ts'
 import { sections } from './home/sections.tsx'
 
@@ -20,5 +20,13 @@ describe('root controller', () => {
     }
 
     assert.equal(html.split('Where ideas thrive.').length - 1, 1)
+  })
+
+  it('GET an unknown path shows the not found page', async () => {
+    let response = await router.fetch(new URL('/does-not-exist', 'http://localhost'))
+
+    assert.equal(response.status, 404)
+    assert.match(response.headers.get('Content-Type') ?? '', /text\/html/)
+    assert.match(await response.text(), /Page not found/)
   })
 })
