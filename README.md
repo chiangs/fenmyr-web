@@ -1,6 +1,11 @@
-# Fenmyr
+<p align="center">
+  <img src="public/images/icon.png" width="96" alt="Fenmyr's icon">
+</p>
 
-The marketing homepage for Fenmyr, a free open-source canvas app for Linux and macOS, built on Remix 3. The page is server-rendered from a section registry in `app/actions/home/sections.tsx`.
+<h1 align="center">fenmyr.com</h1>
+
+<p align="center">The code for fenmyr.com, the homepage for <a href="https://github.com/chiangs/fenmyr">Fenmyr</a>.<br>
+Fenmyr is a free, open-source canvas for Linux and macOS, with Myra the cloudberry to help.</p>
 
 ## Purpose
 
@@ -24,36 +29,37 @@ Scope:
 
 Success is measured with GitHub's own numbers: stars, release downloads and traffic. The site has no tracking.
 
-## Starter Shape
+## How the site is built
 
-- `app/actions/controller.tsx` owns the top-level route actions.
-- `app/actions/home/` renders the home page from its section registry, `app/actions/not-found-page.tsx` the 404 page, and `app/actions/document.tsx` the document shell.
-- `app/ui/` holds the shared section, header, footer, button link and screenshot pieces.
-- `app/content/en.tsx` holds every user-facing string, typed by `Content` in `app/content/content.ts`.
-- `app/actions/public/` contains the browser runtime entry.
-- `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs.
-- `app/router.tsx` wires routes to handlers, renders the 404 page and installs the standard Remix component renderer used by actions.
-- `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware.
-- Root `public/` contains static files served unchanged from the app root, including `styles.css`, the fonts and the images.
+The site runs on [Remix 3](https://remix.run) and renders on the server. The home page comes from a list of sections in `app/actions/home/sections.tsx`, and every word on it lives in `app/content/en.tsx`. Interactive pieces are built as small islands. Every page also loads the small Remix client runtime, which handles in-place navigation.
 
-## Growing The App
+[AGENTS.md](AGENTS.md) holds the rules and the check that enforces each one, how changes reach `main`, the code patterns and where each file lives. Read it before you change the site.
 
-- Put top-level route actions in `app/actions/controller.tsx`.
-- Add `app/actions/<route-key>/controller.tsx` when a nested route map needs its own actions or middleware.
-- Add directories like `app/data/` or `test/` when the app actually needs them.
+## Run it
 
-## Commands
+You need Node.js 24.3 or newer.
 
 ```sh
-npm i
-npm run dev
+npm install
 npm run hmr
-npm run start
-npm test
-npm run typecheck
-npm run budget
-npm run check
 ```
+
+| Command | What it does |
+|---|---|
+| `npm run hmr` | Runs the site with live updates in the browser |
+| `npm run dev` | Runs the site and restarts the server when a file changes |
+| `npm start` | Runs the site in production mode |
+| `npm run check` | Runs the typecheck, the budget and the tests |
+| `npm run budget` | Counts `any`, casts, raw colours and long files against `tools/budget.json` |
+| `npm test` | Runs the tests |
+| `npm run typecheck` | Checks the types |
+
+## Support Fenmyr
+
+Fenmyr is free and made in spare hours. If it helps you think, you can help it grow:
+
+- **[Sponsor on GitHub](https://github.com/sponsors/chiangs)**
+- Star the [app repository](https://github.com/chiangs/fenmyr), so others find it.
 
 ## Licence
 
