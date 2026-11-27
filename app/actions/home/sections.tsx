@@ -20,7 +20,9 @@ const cardStyle = css({
   borderRadius: '24px',
   cornerShape: 'squircle',
   background: 'var(--card-white)',
-  boxShadow: '0 10px 30px rgba(var(--sh), calc(.10 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
+  color: 'var(--card-white-ink)',
+  boxShadow:
+    'var(--card-edge, 0 0 0 0 transparent), 0 10px 30px rgba(var(--sh), calc(.10 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
 })
 
 const proseStyle = css({
@@ -48,7 +50,18 @@ function Lead(handle: Handle<{ icon: string; tone: string; children?: RemixNode 
             cornerShape: 'squircle',
           })}
         >
-          <img src={`/images/${icon}.svg`} alt="" width={256} height={256} loading="lazy" mix={css({ width: '1.75rem', height: '1.75rem' })} />
+          <span
+            aria-hidden="true"
+            style={{ maskImage: `url(/images/${icon}.svg)` }}
+            mix={css({
+              width: '1.75rem',
+              height: '1.75rem',
+              background: 'var(--card-butter-ink)',
+              maskPosition: 'center',
+              maskRepeat: 'no-repeat',
+              maskSize: 'contain',
+            })}
+          />
         </span>
         <p mix={css({ alignSelf: 'center', fontSize: 'clamp(1.0625rem, 2vw, 1.1875rem)', color: 'var(--ink)' })}>{children}</p>
       </div>
@@ -66,11 +79,11 @@ function Points(handle: Handle<{ items: RemixNode[] }>) {
         margin: 0,
         padding: 0,
         listStyle: 'none',
-        '& strong': { color: 'var(--ink)', fontWeight: 800 },
+        '& strong': { color: 'var(--card-white-ink)', fontWeight: 800 },
       })}
     >
       {handle.props.items.map((item, index) => (
-        <li key={index} mix={[cardStyle, css({ padding: '1.25rem 1.375rem', color: 'var(--ink-soft)' })]}>
+        <li key={index} mix={[cardStyle, css({ padding: '1.25rem 1.375rem', color: 'var(--card-white-soft)' })]}>
           {item}
         </li>
       ))}
@@ -181,7 +194,7 @@ export const sections: readonly HomeSection[] = [
         >
           <div mix={[cardStyle, css({ display: 'grid', alignContent: 'start', gap: '1rem', padding: '1.5rem' })]}>
             <h3 mix={css({ fontSize: '1.375rem' })}>{install.fromCode.title}</h3>
-            <p mix={css({ color: 'var(--ink-soft)' })}>{install.fromCode.note}</p>
+            <p mix={css({ color: 'var(--card-white-soft)' })}>{install.fromCode.note}</p>
             <pre
               mix={css({
                 margin: 0,
@@ -189,8 +202,8 @@ export const sections: readonly HomeSection[] = [
                 overflowX: 'auto',
                 borderRadius: 'var(--pill-r)',
                 cornerShape: 'squircle',
-                background: 'color-mix(in oklab, var(--ink) 7%, var(--card-white))',
-                color: 'var(--ink)',
+                background: 'color-mix(in oklab, var(--card-white-ink) 7%, var(--card-white))',
+                color: 'var(--card-white-ink)',
                 lineHeight: 1.7,
               })}
             >
@@ -198,11 +211,11 @@ export const sections: readonly HomeSection[] = [
                 {'git clone https://github.com/chiangs/fenmyr.git\ncd fenmyr\n./install.sh'}
               </code>
             </pre>
-            <p mix={css({ color: 'var(--ink-soft)' })}>{install.fromCode.result}</p>
+            <p mix={css({ color: 'var(--card-white-soft)' })}>{install.fromCode.result}</p>
           </div>
           <div mix={[cardStyle, css({ display: 'grid', alignContent: 'start', gap: '1rem', padding: '1.5rem' })]}>
             <h3 mix={css({ fontSize: '1.375rem' })}>{install.appImage.title}</h3>
-            <p mix={css({ color: 'var(--ink-soft)' })}>{install.appImage.note}</p>
+            <p mix={css({ color: 'var(--card-white-soft)' })}>{install.appImage.note}</p>
             <div>
               <ButtonLink href="https://github.com/chiangs/fenmyr/releases">{install.appImage.button}</ButtonLink>
             </div>
@@ -229,9 +242,9 @@ export const sections: readonly HomeSection[] = [
         ]}
       >
         <Myra pose="love" label={support.myraAlt} size="6.375rem" lazy />
-        <div mix={css({ flex: '1 1 20rem', display: 'grid', gap: '1rem', color: 'var(--ink-soft)' })}>
-          <p mix={css({ fontSize: '1.1875rem', color: 'var(--ink)' })}>{support.pitch}</p>
-          <ul mix={css({ margin: 0, paddingLeft: '1.25rem' })}>
+        <div mix={css({ flex: '1 1 20rem', display: 'grid', gap: '1rem', color: 'var(--card-white-soft)' })}>
+          <p mix={css({ fontSize: '1.1875rem', color: 'var(--card-white-ink)' })}>{support.pitch}</p>
+          <ul mix={css({ margin: 0, paddingLeft: '1.25rem', '& a': { color: 'var(--card-white-link)' } })}>
             <li>{support.ways.star}</li>
             <li>{support.ways.beta}</li>
           </ul>

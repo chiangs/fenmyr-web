@@ -1,6 +1,8 @@
 import { clientEntry, css, on, ref } from 'remix/component'
 import type { Handle } from 'remix/component'
 
+import { iconButtonStyle } from './icon-button.ts'
+
 export interface SiteMenuLink {
   label: string
   href: string
@@ -13,23 +15,9 @@ export interface SiteMenuProps {
 }
 
 const buttonStyle = css({
-  display: 'grid',
-  placeItems: 'center',
-  width: '2.75rem',
-  height: '2.75rem',
-  padding: 0,
-  border: 0,
-  borderRadius: 'var(--pill-r)',
-  cornerShape: 'squircle',
-  background: 'var(--card-white)',
-  color: 'var(--ink)',
-  boxShadow: 'inset 0 0 0 1.5px color-mix(in oklab, var(--ink-soft) 35%, transparent)',
-  cursor: 'pointer',
-  '&:hover': { background: 'color-mix(in oklab, var(--card-white) 92%, var(--ink))' },
   '& [data-icon="close"]': { display: 'none' },
   '&:has(+ :popover-open) [data-icon="menu"]': { display: 'none' },
   '&:has(+ :popover-open) [data-icon="close"]': { display: 'inline' },
-  '@supports not selector(:popover-open)': { display: 'none' },
 })
 
 const menuStyle = css({
@@ -79,7 +67,7 @@ export const SiteMenu = clientEntry(import.meta.url, function SiteMenu(handle: H
 
     return (
       <>
-        <button type="button" popovertarget="site-menu" aria-label={label} mix={buttonStyle}>
+        <button type="button" popovertarget="site-menu" aria-label={label} mix={[iconButtonStyle, buttonStyle]}>
           <svg
             viewBox="0 0 24 24"
             width={24}

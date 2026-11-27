@@ -1,10 +1,29 @@
+import { runInNewContext } from 'node:vm'
 import * as assert from 'remix/assert'
 import { describe, it } from 'remix/test'
 
 import { router } from '../router.tsx'
 import { routes } from '../routes.ts'
 import { en } from '../content/en.tsx'
+import { screenshots, srcset } from '../ui/screenshots.ts'
+import { themeStorageKey, themes } from '../ui/themes.ts'
+import type { Mode } from '../ui/themes.ts'
 import { sections } from './home/sections.tsx'
+
+function runThemeScript(script: string, stored: string | null, systemDark = false) {
+  let dataset: Record<string, string> = {}
+  let added: Record<string, string>[] = []
+  runInNewContext(script, {
+    document: {
+      documentElement: { dataset },
+      createElement: () => ({}),
+      head: { append: (element: Record<string, string>) => added.push(element) },
+    },
+    localStorage: { getItem: (key: string) => (key === themeStorageKey ? stored : null) },
+    matchMedia: (query: string) => ({ matches: systemDark && query === '(prefers-color-scheme: dark)' }),
+  })
+  return { dataset, added }
+}
 
 describe('root controller', () => {
   it('GET / shows every home section and the tagline once', async () => {
@@ -51,6 +70,72 @@ describe('root controller', () => {
     for (let link of links) {
       assert.ok(menu.includes(`<a href="${link.href}">${link.label}</a>`), `menu is missing "${link.label}"`)
     }
+  })
+
+  it('GET / has a theme picker with "Match my system" and the six themes, labelled', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+    let { theme } = en.header
+
+    let button = html.match(/<button[^>]*popovertarget="theme-picker"[^>]*>/)?.[0] ?? ''
+    assert.ok(button.includes(`aria-label="${theme.label}"`), 'the theme button has no label')
+    let start = html.search(/<div[^>]*id="theme-picker"/)
+    assert.ok(start >= 0, 'no theme-picker element')
+    assert.match(html.slice(start, html.indexOf('>', start) + 1), /\spopover[\s=>]/)
+    let picker = html.slice(start, html.indexOf('</div>', start))
+
+    let values = [...picker.matchAll(/<input[^>]*type="radio"[^>]*>/g)].map(([input]) => {
+      assert.match(input, /name="theme"/)
+      return input.match(/value="([^"]*)"/)?.[1]
+    })
+    assert.deepEqual(values, ['', ...themes.map((item) => item.id)])
+    for (let legend of [theme.label, theme.modes.light, theme.modes.dark]) {
+      assert.ok(picker.includes(`<legend>${legend}</legend>`), `no legend "${legend}"`)
+    }
+    for (let name of [theme.system, ...themes.map((item) => theme.names[item.id])]) {
+      assert.ok(picker.includes(`<span>${name}</span>`), `no choice named "${name}"`)
+    }
+  })
+
+  it('GET / sets the saved theme in a script before the first stylesheet', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+
+    let head = html.slice(0, html.indexOf('</head>'))
+    let scriptAt = head.search(/<script>/)
+    let stylesheetAt = head.search(/<link[^>]*rel="stylesheet"/)
+    assert.ok(scriptAt >= 0, 'no inline script in <head>')
+    assert.ok(stylesheetAt > scriptAt, 'the theme script comes after a stylesheet')
+    let script = head.slice(scriptAt + '<script>'.length, head.indexOf('</script>', scriptAt))
+
+    for (let theme of themes) {
+      assert.deepEqual(runThemeScript(script, theme.id).dataset, { js: '', theme: theme.id, mode: theme.mode })
+    }
+    for (let stored of [null, '', 'sepia', '__proto__', 'constructor']) {
+      assert.deepEqual(runThemeScript(script, stored).dataset, { js: '' }, `stored "${stored}" changed the theme`)
+    }
+  })
+
+  it('GET / preloads the hero screenshot in the mode the theme script chose', async () => {
+    let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
+    let html = await response.text()
+    let script = html.slice(html.indexOf('<script>') + '<script>'.length, html.indexOf('</script>'))
+    let preload = (mode: Mode) => ({
+      rel: 'preload',
+      as: 'image',
+      type: 'image/avif',
+      fetchPriority: 'high',
+      imageSrcset: srcset('board', mode, 'avif'),
+      imageSizes: screenshots.board.sizes,
+    })
+
+    for (let theme of themes) {
+      for (let systemDark of [false, true]) {
+        assert.deepEqual(runThemeScript(script, theme.id, systemDark).added, [preload(theme.mode)])
+      }
+    }
+    assert.deepEqual(runThemeScript(script, null, false).added, [preload('light')])
+    assert.deepEqual(runThemeScript(script, null, true).added, [preload('dark')])
   })
 
   it('GET an unknown path shows the not found page', async () => {

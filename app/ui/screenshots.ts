@@ -1,7 +1,7 @@
-export const themes = ['dark', 'light'] as const
+import type { Mode } from './themes.ts'
+
 export const formats = ['avif', 'webp'] as const
 
-export type Theme = (typeof themes)[number]
 export type Format = (typeof formats)[number]
 
 export interface ScreenshotImage {
@@ -23,10 +23,14 @@ export const screenshots = {
 
 export type ScreenshotName = keyof typeof screenshots
 
-export function sourcePath(name: string, theme: Theme) {
-  return `/images/${name}-${theme}.png`
+export function sourcePath(name: string, mode: Mode) {
+  return `/images/${name}-${mode}.png`
 }
 
-export function encodedPath(name: string, theme: Theme, width: number, format: Format) {
-  return `/images/${name}-${theme}-${width}.${format}`
+export function encodedPath(name: string, mode: Mode, width: number, format: Format) {
+  return `/images/${name}-${mode}-${width}.${format}`
+}
+
+export function srcset(name: ScreenshotName, mode: Mode, format: Format) {
+  return screenshots[name].widths.map((width) => `${encodedPath(name, mode, width, format)} ${width}w`).join(', ')
 }

@@ -14,6 +14,19 @@ export const en: Content = {
     menu: 'Menu',
     github: 'GitHub',
     download: 'Download',
+    theme: {
+      label: 'Theme',
+      system: 'Match my system',
+      modes: { light: 'Light', dark: 'Dark' },
+      names: {
+        'default-light': 'Default',
+        midsummer: 'Midsummer',
+        clear: 'Clear',
+        'default-dark': 'Default',
+        'polar-night': 'Polar Night',
+        lantern: 'Lantern',
+      },
+    },
   },
   hero: {
     tagline: 'Where ideas thrive.',

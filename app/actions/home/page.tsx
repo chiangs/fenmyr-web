@@ -10,9 +10,11 @@ import { Myra } from '../../ui/public/myra.tsx'
 import { Document } from '../document.tsx'
 import { sections } from './sections.tsx'
 
+const hero = 'board'
+
 export function HomePage() {
   return () => (
-    <Document>
+    <Document hero={hero}>
       <SiteHeader />
       <main
         mix={css({
@@ -84,7 +86,7 @@ export function HomePage() {
               <Myra pose="hello" label={en.hero.myraAlt} size="clamp(6.375rem, 11vw, 8.5rem)" />
             </div>
             <Screenshot
-              name="board"
+              name={hero}
               alt={en.hero.screenshotAlt}
               priority
             />

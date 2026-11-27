@@ -32,15 +32,15 @@ export function ButtonLink(handle: Handle<ButtonLinkProps>) {
           boxShadow: '0 8px 26px rgba(var(--sh), calc(.14 * var(--sh-k)))',
           '&[data-quiet]': {
             background: 'var(--card-white)',
-            color: 'var(--ink)',
+            color: 'var(--card-white-ink)',
             boxShadow:
-              'inset 0 0 0 1.5px color-mix(in oklab, var(--ink-soft) 35%, transparent), 0 8px 26px rgba(var(--sh), calc(.08 * var(--sh-k)))',
+              'inset 0 0 0 1.5px color-mix(in oklab, var(--card-white-soft) 35%, transparent), 0 8px 26px rgba(var(--sh), calc(.08 * var(--sh-k)))',
           },
           '&:hover': {
             background: 'color-mix(in oklab, var(--pink-deep) 88%, var(--ink))',
           },
           '&[data-quiet]:hover': {
-            background: 'color-mix(in oklab, var(--card-white) 92%, var(--ink))',
+            background: 'color-mix(in oklab, var(--card-white) 92%, var(--card-white-ink))',
           },
         })}
       >

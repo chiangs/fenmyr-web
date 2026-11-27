@@ -9,11 +9,11 @@ type Kind = (typeof kinds)[number]
 
 const root = path.resolve(import.meta.dirname, '..')
 const budgetFile = path.join(root, 'tools/budget.json')
-const stylesFile = path.join(root, 'public/styles.css')
+const styleFiles = ['public/styles.css', 'public/themes.css'].map((file) => path.join(root, file))
 const maxLines = 400
 const rawColour = /#(?:[0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{3,4})\b|\b(?:rgba?|hsla?)\(/gi
 const shadowColour = /^rgba?\(\s*var\(--sh\)/i
-const tokenBlock = /^:root\b/
+const tokenBlock = /^(?::root|:root:not\(\[data-theme\]\)|\[data-theme="[a-z-]+"\])(?:,\s*(?::root|\[data-theme="[a-z-]+"\]))*$/
 const customProperty = /^\s*--[\w-]+\s*:/
 const stringKinds = new Set([
   SyntaxKind.StringLiteral,
@@ -90,32 +90,34 @@ for (let file of scripts) {
 }
 api.close()
 
-let blocks: string[] = []
-let header = ''
-readFileSync(stylesFile, 'utf8')
-  .split('\n')
-  .forEach((line, number) => {
-    let inTokenBlock = tokenBlock.test(blocks.at(-1) ?? '')
-    if (!(inTokenBlock && customProperty.test(line))) {
-      rawColoursIn(line, (index) => where(stylesFile, number, index))
-    }
-    for (let char of line) {
-      if (char === '{') {
-        blocks.push(header.trim())
-        header = ''
-      } else if (char === '}') {
-        blocks.pop()
-        header = ''
-      } else if (char === ';') {
-        header = ''
-      } else {
-        header += char
+for (let file of styleFiles) {
+  let blocks: string[] = []
+  let header = ''
+  readFileSync(file, 'utf8')
+    .split('\n')
+    .forEach((line, number) => {
+      let inTokenBlock = tokenBlock.test(blocks.at(-1) ?? '')
+      if (!(inTokenBlock && customProperty.test(line))) {
+        rawColoursIn(line, (index) => where(file, number, index))
       }
-    }
-    header += ' '
-  })
+      for (let char of line) {
+        if (char === '{') {
+          blocks.push(header.trim().replace(/\s+/g, ' '))
+          header = ''
+        } else if (char === '}') {
+          blocks.pop()
+          header = ''
+        } else if (char === ';') {
+          header = ''
+        } else {
+          header += char
+        }
+      }
+      header += ' '
+    })
+}
 
-for (let file of [...rootFiles, ...appFiles, ...toolFiles, stylesFile]) {
+for (let file of [...rootFiles, ...appFiles, ...toolFiles, ...styleFiles]) {
   let lines = readFileSync(file, 'utf8').replace(/\n$/, '').split('\n').length
   if (lines > maxLines) found.longFiles.push(`${path.relative(root, file)} has ${lines} lines`)
 }

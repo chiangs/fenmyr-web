@@ -1,0 +1,195 @@
+:root,
+[data-theme="default-light"] {
+  color-scheme: light;
+  --ink: #3b342d;
+  --ink-soft: #796f63;
+  --board: #faf7f2;
+  --dot: #e4dccf;
+  --border: #e4dccf;
+  --pink-deep: #e88a24;
+  --accent-text: #b15800;
+  --on-accent: #3b342d;
+  --select: #0090f5;
+  --sh: 150, 95, 35;
+  --sh-k: 1;
+  --card-white: #ffffff;
+  --card-white-ink: #3b342d;
+  --card-white-soft: #625d57;
+  --card-white-link: #a24900;
+  --card-butter: #ffe3bd;
+  --card-butter-ink: #3b342d;
+  --card-pink: #ffd7d3;
+  --card-mint: #e2eed0;
+  --card-sky: #d6e8fb;
+  --card-lilac: #ece0ec;
+  --card-peach: #f1ebe2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --ink: #f6f2ec;
+    --ink-soft: #c6bcae;
+    --board: #12100d;
+    --dot: #332d25;
+    --border: #332d25;
+    --pink-deep: #e88a24;
+    --accent-text: #e88a24;
+    --on-accent: #1d1a16;
+    --select: #0090f5;
+    --sh: 0, 0, 0;
+    --sh-k: 2.2;
+    --card-white: #38332d;
+    --card-white-ink: #f6f2ec;
+    --card-white-soft: #c6bcae;
+    --card-white-link: #f9c795;
+    --card-butter: #e0bd8c;
+    --card-butter-ink: #3f3a34;
+    --card-pink: #e2b0ac;
+    --card-mint: #bccba5;
+    --card-sky: #aec5dc;
+    --card-lilac: #cabbca;
+    --card-peach: #cdc6bb;
+  }
+}
+
+[data-theme="midsummer"] {
+  color-scheme: light;
+  --ink: #24302a;
+  --ink-soft: #55645b;
+  --board: #f1f4ee;
+  --dot: #cfd8c8;
+  --border: #d6ddd0;
+  --pink-deep: #c4502a;
+  --accent-text: #bd4a23;
+  --on-accent: #ffffff;
+  --select: #2f6fd6;
+  --sh: 150, 95, 35;
+  --sh-k: 1;
+  --card-white: #ffffff;
+  --card-white-ink: #24302a;
+  --card-white-soft: #505955;
+  --card-white-link: #c4502a;
+  --card-butter: #f6d39d;
+  --card-butter-ink: #24302a;
+  --card-pink: #f9b5c7;
+  --card-mint: #a6d6a8;
+  --card-sky: #c1e3fd;
+  --card-lilac: #d0c7ef;
+  --card-peach: #ecdfc8;
+}
+
+[data-theme="clear"] {
+  color-scheme: light;
+  --ink: #14110e;
+  --ink-soft: #3f3831;
+  --board: #f3f0e9;
+  --dot: #cbc2b4;
+  --border: #6e655a;
+  --pink-deep: #8a3d00;
+  --accent-text: #873a00;
+  --on-accent: #ffffff;
+  --select: #0047b3;
+  --sh: 150, 95, 35;
+  --sh-k: 1;
+  --card-white: #ffffff;
+  --card-white-ink: #14110e;
+  --card-white-soft: #43413e;
+  --card-white-link: #8a3d00;
+  --card-butter: #fdc563;
+  --card-butter-ink: #14110e;
+  --card-pink: #c59099;
+  --card-mint: #87b24b;
+  --card-sky: #9cd9f5;
+  --card-lilac: #c3a7d7;
+  --card-peach: #f3dec0;
+}
+
+[data-theme="default-dark"] {
+  color-scheme: dark;
+  --ink: #f6f2ec;
+  --ink-soft: #c6bcae;
+  --board: #12100d;
+  --dot: #332d25;
+  --border: #332d25;
+  --pink-deep: #e88a24;
+  --accent-text: #e88a24;
+  --on-accent: #1d1a16;
+  --select: #0090f5;
+  --sh: 0, 0, 0;
+  --sh-k: 2.2;
+  --card-white: #38332d;
+  --card-white-ink: #f6f2ec;
+  --card-white-soft: #c6bcae;
+  --card-white-link: #f9c795;
+  --card-butter: #e0bd8c;
+  --card-butter-ink: #3f3a34;
+  --card-pink: #e2b0ac;
+  --card-mint: #bccba5;
+  --card-sky: #aec5dc;
+  --card-lilac: #cabbca;
+  --card-peach: #cdc6bb;
+}
+
+[data-theme="polar-night"] {
+  color-scheme: dark;
+  --ink: #e6edf3;
+  --ink-soft: #a9b6c3;
+  --board: #0e1621;
+  --dot: #23303e;
+  --border: #2c3a4a;
+  --pink-deep: #6fe0c0;
+  --accent-text: #6fe0c0;
+  --on-accent: #0e1621;
+  --select: #8ab4ff;
+  --sh: 0, 0, 0;
+  --sh-k: 2.2;
+  --card-white: #2b3644;
+  --card-white-ink: #eef2f6;
+  --card-white-soft: #c7ccd2;
+  --card-white-link: #6fe0c0;
+  --card-butter: #6b4b16;
+  --card-butter-ink: #eef2f6;
+  --card-pink: #743f4a;
+  --card-mint: #235448;
+  --card-sky: #13568a;
+  --card-lilac: #5b3f74;
+  --card-peach: #4a4034;
+}
+
+[data-theme="lantern"] {
+  color-scheme: dark;
+  --ink: #f4f2ee;
+  --ink-soft: #cfcac2;
+  --board: #141619;
+  --dot: #3a3f46;
+  --border: #8d939b;
+  --pink-deep: #ffb547;
+  --accent-text: #ffb547;
+  --on-accent: #141619;
+  --select: #7cc0ff;
+  --sh: 0, 0, 0;
+  --sh-k: 2.2;
+  --card-white: #d9dde2;
+  --card-white-ink: #101214;
+  --card-white-soft: #383b3d;
+  --card-white-link: #733200;
+  --card-butter: #f2ce9b;
+  --card-butter-ink: #101214;
+  --card-pink: #ed8fb3;
+  --card-mint: #74b76a;
+  --card-sky: #7ec7f9;
+  --card-lilac: #af9ae6;
+  --card-peach: #d2bca4;
+}
+
+[data-theme="clear"],
+[data-theme="lantern"] {
+  --card-edge: inset 0 0 0 1.5px var(--border);
+}
+
+[data-theme="clear"] :focus-visible,
+[data-theme="lantern"] :focus-visible {
+  outline: 3px solid var(--select);
+  outline-offset: 2px;
+}

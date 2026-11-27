@@ -52,24 +52,6 @@
     --hand: 'Myra Mark', 'Shantell Sans', 'Comic Sans MS', cursive;
     --pill-r: 12px;
 
-    --ink: #3b342d;
-    --ink-soft: #796f63;
-    --board: #faf7f2;
-    --dot: #e4dccf;
-    --pink-deep: #e88a24;
-    --accent-text: #b15800;
-    --on-accent: #3b342d;
-    --select: #0090f5;
-    --sh: 150, 95, 35;
-    --sh-k: 1;
-    --card-white: #ffffff;
-    --card-butter: #ffe3bd;
-    --card-butter-ink: #3b342d;
-    --card-pink: #ffd7d3;
-    --card-mint: #e2eed0;
-    --card-sky: #d6e8fb;
-    --card-lilac: #ece0ec;
-    --card-peach: #f1ebe2;
     --myra-body: #f6a63c;
     --myra-shine: #ffe0a0;
     --myra-soft-shine: #fac069;
@@ -80,28 +62,6 @@
     --myra-ink: #2a1708;
     --myra-blush: #ff8fa8;
     --myra-heart: #e5586d;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ink: #f6f2ec;
-      --ink-soft: #c6bcae;
-      --board: #12100d;
-      --dot: #332d25;
-      --pink-deep: #e88a24;
-      --accent-text: #e88a24;
-      --on-accent: #1d1a16;
-      --sh: 0, 0, 0;
-      --sh-k: 2.2;
-      --card-white: #38332d;
-      --card-butter: #e0bd8c;
-      --card-butter-ink: #3f3a34;
-      --card-pink: #e2b0ac;
-      --card-mint: #bccba5;
-      --card-sky: #aec5dc;
-      --card-lilac: #cabbca;
-      --card-peach: #cdc6bb;
-    }
   }
 
   *,
@@ -177,4 +137,10 @@
     outline: 2px solid var(--select);
     outline-offset: 3px;
   }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 350ms;
+  animation-timing-function: ease;
 }

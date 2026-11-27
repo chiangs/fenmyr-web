@@ -53,6 +53,7 @@ npm run hmr
 | `npm run check` | Runs the typecheck, the budget, the tests and the build |
 | `npm run budget` | Counts `any`, casts, raw colours and long files against `tools/budget.json` |
 | `npm run images` | Makes the AVIF and WebP screenshots from the PNGs in `public/images/`. Run it after adding or changing one |
+| `npm run themes` | Writes `public/themes.css` from the app's six themes at the commit pinned in `tools/themes.ts`. Add `-- --check` to compare without writing |
 | `npm test` | Runs the tests |
 | `npm run typecheck` | Checks the types |
 

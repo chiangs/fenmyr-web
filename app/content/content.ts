@@ -1,5 +1,7 @@
 import type { RemixNode } from 'remix/component'
 
+import type { Mode, ThemeId } from '../ui/themes.ts'
+
 export interface SectionCopy {
   title: string
   nav?: string
@@ -35,7 +37,14 @@ export type SectionId = keyof HomeSectionsCopy
 
 export interface Content {
   document: { title: string; description: string }
-  header: { brand: string; navLabel: string; menu: string; github: string; download: string }
+  header: {
+    brand: string
+    navLabel: string
+    menu: string
+    github: string
+    download: string
+    theme: { label: string; system: string; modes: Record<Mode, string>; names: Record<ThemeId, string> }
+  }
   hero: {
     tagline: string
     lead: string

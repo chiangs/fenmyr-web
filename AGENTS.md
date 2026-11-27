@@ -8,7 +8,7 @@ Each rule names the check that enforces it. `npm run check` runs every check tha
 
 1. **A rule comes with its check.** When a decision becomes a rule, the same change adds what keeps it true. If nothing can check it, the rule says so.
 2. **Strict TypeScript.** No `any`. No `as`, except right after parsing outside data. Outside data stays `unknown` until it is checked where it enters. Check: `tsc` and the budget's `any` and `casts` counts.
-3. **Colours come from tokens.** Use `var(--token)`. Make a shade with `color-mix()` of tokens. A new colour becomes a token in `public/styles.css` first. Shadows use `rgba(var(--sh), …)`. Check: the budget's `rawColours` count.
+3. **Colours come from tokens.** Use `var(--token)`. Make a shade with `color-mix()` of tokens. A new colour becomes a token first: in `public/styles.css` when every theme shares it, or in the `tokens` list of `tools/themes.ts` when a theme changes it. Shadows use `rgba(var(--sh), …)`. Check: the budget's `rawColours` count.
 4. **No dead code.** Check: `noUnusedLocals` and `noUnusedParameters` in `tsconfig.json`. Unused files, exports and dependencies with knip: not checked yet, [#6](https://github.com/chiangs/fenmyr-web/issues/6).
 5. **Small modules.** One area per file, at most 400 lines. Check: the budget's `longFiles` count.
 6. **Copy follows the Words rules in the app's [DESIGN.md](https://github.com/chiangs/fenmyr/blob/main/DESIGN.md).** British English. ✦ at most once, and only in Myra's voice. The tagline at most once per page. No long dashes, and no brackets inside sentences. Check: `app/actions/copy.test.ts`. Myra's voice versus the neutral voice: nothing checks it; review does.
@@ -18,7 +18,7 @@ Each rule names the check that enforces it. `npm run check` runs every check tha
 10. **WCAG 2.2 AA.** Not checked yet: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 11. **A visual change shows before-and-after screenshots.** Light and dark, at 390 px and 1440 px. Nothing checks it; review does. The screenshot script: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 
-`tools/budget.json` holds the budget's counts, all zero today. `npm run budget` fails when a count rises above its line and says when one can be lowered. Raw colours are hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` in `public/styles.css` and in string literals under `app/`. Two forms are allowed: a custom property defined in a `:root` block, and `rgb(var(--sh) …)` or `rgba(var(--sh), …)`.
+`tools/budget.json` holds the budget's counts, all zero today. `npm run budget` fails when a count rises above its line and says when one can be lowered. Raw colours are hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` in `public/styles.css`, `public/themes.css` and string literals under `app/`. Two forms are allowed: a custom property defined in a `:root` or `[data-theme="…"]` block, and `rgb(var(--sh) …)` or `rgba(var(--sh), …)`.
 
 ## Practices
 
@@ -33,13 +33,14 @@ Nothing checks these practices automatically. Review does.
 
 ## Patterns
 
-- **Styles.** `public/styles.css` holds only tokens, `@font-face` and base element rules. A component's look is a `css()` mixin beside its markup.
+- **Styles.** `public/styles.css` holds only the tokens every theme shares, `@font-face` and base element rules. A component's look is a `css()` mixin beside its markup.
+- **Themes.** The app's six themes are listed once in `app/ui/themes.ts`, which the picker, the generator and the tests read. `npm run themes` writes `public/themes.css` from the app's own theme files at the commit pinned in `tools/themes.ts`; never edit it by hand. It fails when a page-level rule it doesn't read, such as a comma list or `html.dark`, sets a token it tracks. The head script and the picker set `data-theme` and `data-mode` on `<html>`, and with neither the page follows the system. Choosing a theme cross-fades the page in a view transition, after the other mode's screenshots near the viewport have decoded; with reduced motion, or without view transitions, it changes at once. Screenshots, and later videos, render a light and a dark version and show the one that matches `data-mode`. Check: `app/ui/themes.test.ts`, offline. `npm run themes -- --check` fails when `public/themes.css` differs from the pinned app commit. It needs the network, so it isn't part of `npm run check`.
 - **Words.** Every user-facing string lives in `app/content/en.tsx`, typed by `Content` in `app/content/content.ts`. Components read from it and hold no copy. Shell commands and URLs are not copy and stay in components. A new language is another file of the same type, [#3](https://github.com/chiangs/fenmyr-web/issues/3).
 - **Sections.** The home page renders the registry in `app/actions/home/sections.tsx`. Page order, anchors, header links and tests come from it. Add a section by adding an entry.
 - **Islands.** An interactive piece is a `clientEntry()` component. Its file lives in a `public/` folder beside its narrowest owner, as the Remix guide's project tour says. An island used by one section goes in `app/actions/home/public/`. One used across the site goes in `app/ui/public/`. Everything else renders on the server, and every page loads the small Remix client runtime, which handles in-place navigation and starts islands.
 - **Motion.** Use the platform first: CSS transitions and keyframes, the Web Animations API, view transitions and canvas, wrapped in small mixins. Consider Motion or GSAP when the result isn't good enough or a library removes real complexity, and say which in the pull request. Every animation stops with reduced motion.
 - **Myra.** Myra is one canvas island, `app/ui/public/myra.tsx`, ported from the app's `src/web/goo.ts`, [#7](https://github.com/chiangs/fenmyr-web/issues/7).
-- **Images.** `<picture>` serves AVIF, then WebP, then PNG, with a dark source for each light and dark pair. Set the real width and height. Use `fetchpriority="high"` on the first screen and `loading="lazy"` below it. A screenshot is a light and a dark PNG in `public/images/` plus an entry in `app/ui/screenshots.ts`, which lists its size, the widths to serve and its `sizes`. After adding or changing a source PNG or that table, run `npm run images` and commit the AVIF and WebP files it writes beside the PNG. Check: `app/ui/screenshot.test.ts` fails when the page points at an image that is not in `public/`, or when a screenshot lacks its AVIF, WebP or light and dark PNG. Nothing checks that the AVIF and WebP files match a changed PNG; review does.
+- **Images.** A screenshot renders a `<picture>` per mode, each serving AVIF, then WebP, then PNG, and CSS shows the one that matches `data-mode`. Both are lazy, so the hidden one is never fetched. A page names its first-screen screenshot as `Document`'s `hero` and gives it `priority`; the head script then preloads that screenshot's AVIF in the mode it resolved, so its fetch doesn't wait for layout. Set the real width and height. A screenshot is a light and a dark PNG in `public/images/` plus an entry in `app/ui/screenshots.ts`, which lists its size, the widths to serve and its `sizes`. After adding or changing a source PNG or that table, run `npm run images` and commit the AVIF and WebP files it writes beside the PNG. Check: `app/ui/screenshot.test.ts` fails when the page points at an image that is not in `public/`, or when a screenshot lacks its AVIF, WebP or light and dark PNG. Nothing checks that the AVIF and WebP files match a changed PNG; review does.
 - **Video.** Use muted, self-hosted clips of up to 20 seconds, as AV1 WebM with an H.264 MP4 fallback and a poster. App footage is always a real recording, never generated. Each clip has a light and a dark version, and the page shows the one that matches the active theme's mode. Playback starts when the video scrolls into view, and never with reduced motion.
 - **Outside data.** Data from the network or from files stays `unknown` until it is parsed where it enters, as rule 2 says.
 
@@ -56,6 +57,7 @@ npm test
 npm run typecheck
 npm run budget
 npm run images
+npm run themes
 npm run build
 npm run check
 ```
@@ -83,14 +85,14 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/routes.ts` defines the shared route contract used by server and browser modules for type-safe hrefs
 - `app/router.tsx` wires routes to controllers, installs the standard Remix component renderer used by actions, and renders the 404 page for unmatched URLs
 - Put top-level route actions in `app/actions/controller.tsx`; add `app/actions/<route-key>/controller.tsx` for nested route maps. `app/actions/controller.test.ts` is the root controller's router test
-- `app/actions/document.tsx` is the document shell: global stylesheet, font preloads, favicon and meta description
+- `app/actions/document.tsx` is the document shell: the theme script, which also preloads the hero screenshot, the stylesheets, font preloads, favicon and meta description
 - `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
 - `app/actions/not-found-page.tsx` renders the 404 page
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
-- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/build.ts` writes the static site to `.vercel/output/`
+- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/themes.ts` writes `public/themes.css` from the app's themes; `tools/build.ts` writes the static site to `.vercel/output/`
 - `app/actions/public/` contains the browser runtime entry
-- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, and `screenshot.tsx` with its table of images in `screenshots.ts`. Its islands are in `app/ui/public/`: `myra.tsx`, and `site-menu.tsx`, the header's menu button and popover on narrow screens
+- `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, `screenshot.tsx` with its table of images in `screenshots.ts`, and `themes.ts`, the theme registry. Its islands are in `app/ui/public/`: `myra.tsx`; `site-menu.tsx`, the header's menu button and popover on narrow screens; and `theme-picker.tsx`, the header's theme button and popover, which share `icon-button.ts`
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
-- Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, colour tokens and base styles, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
+- Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, shared tokens and base styles, `themes.css` the generated theme tokens, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
 
 This starter intentionally begins small; add directories like `app/data/`, `app/middleware/`, and `test/` only when you need them.
