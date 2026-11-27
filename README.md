@@ -53,3 +53,7 @@ npm run typecheck
 npm run budget
 npm run check
 ```
+
+## Licence
+
+The code is open source under the [European Union Public Licence v. 1.2](LICENSE) (EUPL-1.2), the same licence as the app. The names Fenmyr and Myra, Myra's art, the logo and the icons are not part of the code licence. They are reserved, as the app's [TRADEMARKS.md](https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md) explains. The fonts in `public/fonts/` are under the SIL Open Font License, in `public/fonts/OFL.txt`.

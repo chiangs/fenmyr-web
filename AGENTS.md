@@ -20,6 +20,17 @@ Each rule names the check that enforces it. `npm run check` runs every check tha
 
 `tools/budget.json` holds the budget's counts, all zero today. `npm run budget` fails when a count rises above its line and says when one can be lowered. Raw colours are hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` in `public/styles.css` and in string literals under `app/`. Two forms are allowed: a custom property defined in a `:root` block, and `rgb(var(--sh) …)` or `rgba(var(--sh), …)`.
 
+## Practices
+
+- **Commits.** Start the subject with a conventional prefix such as `feat:`, `fix:`, `docs:` or `chore:`, then a plain sentence. Sign off every commit with `git commit -s` to agree to the [Developer Certificate of Origin](https://developercertificate.org). This includes commits Claude makes for you.
+- **Branches.** Make each new branch in its own worktree: `git worktree add .claude/worktrees/<name> -b <branch> origin/main`. Link `node_modules` from the main checkout, or run `npm ci` in the worktree. Remove the worktree with `git worktree remove .claude/worktrees/<name>` once the branch is merged.
+- **Pull requests.** Every change reaches `main` through a pull request, squash-merged. Run `/code-review` on the pull request and fix the real findings before a person reviews it.
+- **Issues.** Ideas and later work go in [GitHub issues](https://github.com/chiangs/fenmyr-web/issues), not in code. Give every issue the labels that fit. The labels mirror the app's.
+- **Dependencies.** A new dependency needs one sentence in the pull request on why the platform or `remix` can't do the job.
+- **Licence and assets.** The code is under the EUPL-1.2, in `LICENSE`. Fenmyr's name, Myra and her art, the logo and the icons are reserved, as the app's [TRADEMARKS.md](https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md) explains. Assets come only from the app repository, never from Mochiboard.
+
+Nothing checks these practices automatically. Review does.
+
 This app was scaffolded with `remix new`. Use these conventions when continuing to build it out.
 
 ## Commands
