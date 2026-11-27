@@ -49,7 +49,8 @@ npm run hmr
 | `npm run hmr` | Runs the site with live updates in the browser |
 | `npm run dev` | Runs the site and restarts the server when a file changes |
 | `npm start` | Runs the site in production mode |
-| `npm run check` | Runs the typecheck, the budget and the tests |
+| `npm run build` | Writes the static site for Vercel to `.vercel/output/` |
+| `npm run check` | Runs the typecheck, the budget, the tests and the build |
 | `npm run budget` | Counts `any`, casts, raw colours and long files against `tools/budget.json` |
 | `npm run images` | Makes the AVIF and WebP screenshots from the PNGs in `public/images/`. Run it after adding or changing one |
 | `npm test` | Runs the tests |
