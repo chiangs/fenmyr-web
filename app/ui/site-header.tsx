@@ -17,6 +17,7 @@ export function SiteHeader() {
           zIndex: 10,
           background: 'color-mix(in oklab, var(--board) 88%, transparent)',
           backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           borderBottom: '1px solid var(--dot)',
         })}
       >
@@ -33,6 +34,7 @@ export function SiteHeader() {
             '@media (max-width: 52rem)': {
               gridTemplateColumns: '1fr auto',
               gridTemplateAreas: '"brand cta" "nav nav"',
+              paddingBlock: '0.75rem',
             },
           })}
         >

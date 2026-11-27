@@ -111,7 +111,13 @@
   }
 
   html {
-    scroll-padding-top: 7rem;
+    scroll-padding-top: 6.5rem;
+  }
+
+  @media (max-width: 52rem) {
+    html {
+      scroll-padding-top: 8rem;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
