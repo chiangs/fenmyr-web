@@ -7,7 +7,9 @@
     "hmr": "NODE_ENV=development node hmr.ts",
     "start": "NODE_ENV=production node --import remix/node-tsx server.ts",
     "test": "NODE_ENV=test remix test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "budget": "node tools/budget.ts",
+    "check": "npm run typecheck && npm run budget && npm test"
   },
   "engines": {
     "node": ">=24.3.0"
@@ -16,7 +18,7 @@
     "remix": "^3.3.0"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "typescript": "latest"
+    "@types/node": "26.6.11",
+    "typescript": "7.0.2"
   }
 }

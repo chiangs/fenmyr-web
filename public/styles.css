@@ -1,0 +1,154 @@
+@layer base, rmx;
+
+@font-face {
+  font-family: 'Myra Mark';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/MyraMark.woff2) format('woff2');
+  unicode-range: U+2726;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/Figtree-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/Figtree-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(/fonts/Figtree-800-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Shantell Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/ShantellSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  size-adjust: 84%;
+}
+
+@layer base {
+  :root {
+    --font: 'Myra Mark', 'Figtree', system-ui, -apple-system, sans-serif;
+    --hand: 'Myra Mark', 'Shantell Sans', 'Comic Sans MS', cursive;
+    --pill-r: 12px;
+
+    --ink: #3b342d;
+    --ink-soft: #796f63;
+    --board: #faf7f2;
+    --dot: #e4dccf;
+    --pink-deep: #e88a24;
+    --accent-text: #b15800;
+    --on-accent: #3b342d;
+    --select: #0090f5;
+    --sh: 150, 95, 35;
+    --sh-k: 1;
+    --card-white: #ffffff;
+    --card-butter: #ffe3bd;
+    --card-butter-ink: #3b342d;
+    --card-pink: #ffd7d3;
+    --card-mint: #e2eed0;
+    --card-sky: #d6e8fb;
+    --card-lilac: #ece0ec;
+    --card-peach: #f1ebe2;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f6f2ec;
+      --ink-soft: #c6bcae;
+      --board: #12100d;
+      --dot: #332d25;
+      --pink-deep: #e88a24;
+      --accent-text: #e88a24;
+      --on-accent: #1d1a16;
+      --sh: 0, 0, 0;
+      --sh-k: 2.2;
+      --card-white: #38332d;
+      --card-butter: #e0bd8c;
+      --card-butter-ink: #3f3a34;
+      --card-pink: #e2b0ac;
+      --card-mint: #bccba5;
+      --card-sky: #aec5dc;
+      --card-lilac: #cabbca;
+      --card-peach: #cdc6bb;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-padding-top: 7rem;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--board);
+    background-image: radial-gradient(var(--dot) 1.4px, transparent 1.8px);
+    background-size: 26px 26px;
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--accent-text);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  code,
+  pre {
+    font-family: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--select);
+    outline-offset: 3px;
+  }
+}

@@ -1,8 +1,8 @@
 import type { Handle, RemixNode } from 'remix/component'
-import { css } from 'remix/component'
 import { ImportMap } from 'remix/component/server'
 
 import { scriptEntry } from '../assets.ts'
+import { en } from '../content/en.tsx'
 
 export interface DocumentProps {
   children?: RemixNode
@@ -10,11 +10,9 @@ export interface DocumentProps {
   title?: string
 }
 
-const DEFAULT_TITLE = readAppDisplayName('Fenmyr')
-
 export function Document(handle: Handle<DocumentProps>) {
   return () => {
-    let { children, head, title = DEFAULT_TITLE } = handle.props
+    let { children, head, title = en.document.title } = handle.props
     let { href, importMap, preloads } = scriptEntry
 
     return (
@@ -23,7 +21,12 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="color-scheme" content="light dark" />
-          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <meta name="description" content={en.document.description} />
+          <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48.png" />
+          <link rel="apple-touch-icon" href="/images/icon.png" />
+          <link rel="preload" href="/fonts/Figtree-400-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link rel="preload" href="/fonts/Figtree-800-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link rel="stylesheet" href="/styles.css" />
           <title>{title}</title>
           {head}
           <ImportMap value={importMap} />
@@ -32,12 +35,8 @@ export function Document(handle: Handle<DocumentProps>) {
           ))}
           <script type="module" src={href}></script>
         </head>
-        <body mix={css({ margin: 0 })}>{children}</body>
+        <body>{children}</body>
       </html>
     )
   }
-}
-
-function readAppDisplayName(value: string): string {
-  return value.startsWith('%%') ? 'Remix App' : decodeURIComponent(value)
 }
