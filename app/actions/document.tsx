@@ -1,8 +1,10 @@
+import { unsafeHTML } from 'remix/component'
 import type { Handle, RemixNode } from 'remix/component'
 import { ImportMap } from 'remix/component/server'
 
 import { scriptEntry } from '../assets.ts'
 import { en } from '../content/en.tsx'
+import { themeStorageKey, themes } from '../ui/themes.ts'
 
 export interface DocumentProps {
   children?: RemixNode
@@ -10,15 +12,21 @@ export interface DocumentProps {
   title?: string
 }
 
+const modeOf = JSON.stringify(Object.fromEntries(themes.map((theme) => [theme.id, theme.mode])))
+const themeScript = unsafeHTML(
+  `(()=>{let d=document.documentElement,m=${modeOf};d.dataset.js="";try{let t=localStorage.getItem(${JSON.stringify(themeStorageKey)});if(t&&Object.hasOwn(m,t)){d.dataset.theme=t;d.dataset.mode=m[t]}}catch{}})()`,
+)
+
 export function Document(handle: Handle<DocumentProps>) {
   return () => {
     let { children, head, title = en.document.title } = handle.props
     let { href, importMap, preloads } = scriptEntry
 
     return (
-      <html lang="en">
+      <html lang="en" data-rmx-preserve-attrs="data-theme data-mode data-js">
         <head>
           <meta charSet="utf-8" />
+          <script innerHTML={themeScript} />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="color-scheme" content="light dark" />
           <meta name="description" content={en.document.description} />
