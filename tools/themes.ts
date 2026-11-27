@@ -122,10 +122,25 @@ function declarations(body: string) {
   return found
 }
 
+const bodySelector = /^body((?:\.[\w-]+)*)$/
+
+function pageLevel(selector: string) {
+  return split(selector, ',').some((part) => /^(?::root|html|body)?(?:[.#:[][^\s>+~]*)?$/.test(part.trim()))
+}
+
+function checkSelectors(rules: Rule[]) {
+  let tracked = new Set<string>([...tokens, '--card-edge'])
+  for (let rule of rules) {
+    if (rule.selector === ':root' || bodySelector.test(rule.selector) || !pageLevel(rule.selector)) continue
+    let names = [...rule.body.matchAll(/(--[\w-]+)\s*:/g)].flatMap(([, name = '']) => (tracked.has(name) ? [name] : []))
+    if (names.length) throw new Error(`"${rule.selector}" sets ${[...new Set(names)].join(', ')}, but only :root and body.<class> rules are read`)
+  }
+}
+
 function cascade(rules: Rule[], classes: string[]) {
   let matching = rules.flatMap((rule, order) => {
     if (rule.selector === ':root') return [{ rule, rank: 0, order }]
-    let body = /^body((?:\.[\w-]+)*)$/.exec(rule.selector)
+    let body = bodySelector.exec(rule.selector)
     if (!body) return []
     let own = (body[1] ?? '').split('.').filter(Boolean)
     return own.every((name) => classes.includes(name)) ? [{ rule, rank: 1 + own.length, order }] : []
@@ -179,6 +194,7 @@ let [themesCss, styleCss, themesTs] = await Promise.all([
   fetchText('src/web/settings/themes.ts'),
 ])
 let rules = topLevelRules(`${themesCss}\n${styleCss}`)
+checkSelectors(rules)
 
 let resolved = themes.map((theme: Theme) => {
   let source = appThemes[theme.id]
