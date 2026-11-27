@@ -18,7 +18,7 @@
     "remix": "^3.3.0"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "typescript": "latest"
+    "@types/node": "26.6.11",
+    "typescript": "7.0.2"
   }
 }
