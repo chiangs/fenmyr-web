@@ -66,11 +66,11 @@ Use `npm run hmr` for live server and browser updates; `npm run dev` only watche
 
 The site deploys on Vercel as static files. The Vercel project uses the preset "Other", the repository root as Root Directory, `npm ci` as Install Command, `npm run build` as Build Command and Node 26, with the Output Directory override off.
 
-`npm run build` runs `tools/build.ts`. It renders each page in its `pages` list through `router.fetch`, follows every `/assets/` URL the pages and their modules reference, copies `public/`, and writes Vercel's Build Output API folder `.vercel/output/`. Its `config.json` serves the `.ts` and `.tsx` modules as JavaScript, caches `/assets/` for a year, and answers unknown paths with `404.html` at status 404. A new page is a new entry in `pages`.
+`npm run build` runs `tools/build.ts`. It renders each page in its `pages` list through `router.fetch`, follows every `/assets/` URL the pages and their modules reference, copies `public/`, and writes Vercel's Build Output API folder `.vercel/output/`. Its `config.json` serves the `.ts` and `.tsx` modules as JavaScript, adds `X-Content-Type-Options: nosniff` as the server does, and answers unknown paths with `404.html` at status 404. Vercel's default caching applies; a long cache for fingerprinted assets is [#19](https://github.com/chiangs/fenmyr-web/issues/19). A new page is a new entry in `pages`.
 
-The build checks itself. It fails when a page answers with the wrong status, when an asset answers anything but 200, or when a `public/` file would overwrite a rendered one. Two builds of the same commit are byte-identical.
+The build checks itself. It fails when a route in `app/routes.ts` has no entry in `pages`, when a page answers with the wrong status, when an asset answers anything but 200, or when a `public/` file would overwrite a rendered one. Two builds of the same commit should be byte-identical; nothing checks it yet.
 
-Every page is rendered once, at build time, so nothing may depend on the request. A route that must run per request, such as a form handler, needs a Vercel Function: have the build write one under `.vercel/output/functions/` that serves `router.fetch`, and route its path to it in `config.json`.
+Every page is rendered once, at build time, so nothing may depend on the request. Nothing checks this; review does. A route that must run per request, such as a form handler, needs a Vercel Function: have the build write one under `.vercel/output/functions/` that serves `router.fetch`, and route its path to it in `config.json`.
 
 `tools/build.ts` is the code React Router's `prerender` option would have provided, in 99 lines.
 
