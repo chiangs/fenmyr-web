@@ -1,5 +1,4 @@
 import type { Handle, RemixNode } from 'remix/component'
-import { css } from 'remix/component'
 import { ImportMap } from 'remix/component/server'
 
 import { scriptEntry } from '../assets.ts'
@@ -23,7 +22,14 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="color-scheme" content="light dark" />
-          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <meta
+            name="description"
+            content="A canvas for growing ideas, from the first note to a working prototype, with Myra the cloudberry to help."
+          />
+          <link rel="icon" type="image/png" href="/images/icon.png" />
+          <link rel="preload" href="/fonts/Figtree-400-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link rel="preload" href="/fonts/Figtree-800-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+          <link rel="stylesheet" href="/styles.css" />
           <title>{title}</title>
           {head}
           <ImportMap value={importMap} />
@@ -32,7 +38,7 @@ export function Document(handle: Handle<DocumentProps>) {
           ))}
           <script type="module" src={href}></script>
         </head>
-        <body mix={css({ margin: 0 })}>{children}</body>
+        <body>{children}</body>
       </html>
     )
   }
