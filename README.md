@@ -31,7 +31,7 @@ Success is measured with GitHub's own numbers: stars, release downloads and traf
 
 ## How the site is built
 
-The site runs on [Remix 3](https://remix.run) and renders on the server. The home page comes from a list of sections in `app/actions/home/sections.tsx`, and every word on it lives in `app/content/en.tsx`. Interactive pieces are small islands, and the rest of the page is plain HTML.
+The site runs on [Remix 3](https://remix.run) and renders on the server. The home page comes from a list of sections in `app/actions/home/sections.tsx`, and every word on it lives in `app/content/en.tsx`. Interactive pieces are built as small islands. Every page also loads the small Remix client runtime, which handles in-place navigation.
 
 [AGENTS.md](AGENTS.md) holds the rules and the check that enforces each one, how changes reach `main`, the code patterns and where each file lives. Read it before you change the site.
 
