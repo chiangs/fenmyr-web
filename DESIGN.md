@@ -130,14 +130,14 @@ The app's DESIGN.md describes who Myra is. On the site:
 
 ### Tile drawings in motion
 
-- **A drawing plays its feature once,** when its tile scrolls into view, and again when the pointer or focus comes to the tile. The slider's handles try values, captures appear one by one. It never loops.
+- **A drawing plays its feature when its tile scrolls into view, then again every 10 seconds while the tile stays on screen,** and at once when the pointer or focus comes to the tile. The slider's handles try values, captures appear one by one. The long rest between plays keeps the page calm, tiles that arrive together start 0.9 s apart, and nothing plays while the tile is off screen or the tab is hidden.
 - **`playOnSeen` in `app/ui/tile-art/base.ts` does the waiting.** `app/ui/public/tile-motion.tsx` marks a tile `data-seen` when 60% of it is on screen, and keeps the mark through an in-place navigation. Until then, once that island is watching, the drawing waits in its first frame. With reduced motion, without the island, or in print, it is the still drawing.
 - **Every animation ends on the still drawing,** with fill-mode `both`, so after its motion a drawing looks exactly as it does with reduced motion or without JavaScript. Before it is seen, it may wait in a first frame that hides the parts it is about to draw, such as the pen lines on the paper.
 - **About 1.5 to 2.5 seconds,** eased, with nothing faster than the eye can follow.
 - **Only transforms, opacity and SVG stroke drawing move.** A moving part rides on a layer moved by `translate` or grows by `scale`, as the slider's handles and fills do, so nothing reflows.
 - **`@keyframes` names start with `tile-`** and the drawing's name, since keyframe names are global.
 
-Check: nothing in `npm run check` runs the motion. Review measures it in a browser for each drawing: it waits until seen, plays once, ends on the still drawing as the reduced-motion page shows it, replays on hover, and stays still with reduced motion. A drawing with no part that moves meaningfully, such as the file icon, stays still.
+Check: nothing in `npm run check` runs the motion. Review measures it in a browser for each drawing: it waits until seen, plays, ends on the still drawing, plays again after its rest as the reduced-motion page shows it, replays on hover, and stays still with reduced motion. A drawing with no part that moves meaningfully, such as the file icon, stays still.
 
 ## Images and video
 
