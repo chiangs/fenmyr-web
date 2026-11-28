@@ -265,6 +265,7 @@ export const sections: readonly HomeSection[] = [
           {install.lead}
         </Lead>
         <p mix={css({ maxWidth: '44rem', color: 'var(--ink-soft)' })}>{install.needs}</p>
+        <p mix={css({ maxWidth: '44rem', color: 'var(--ink-soft)' })}>{install.linux}</p>
         <div
           mix={css({
             display: 'grid',
@@ -302,7 +303,6 @@ export const sections: readonly HomeSection[] = [
             </div>
           </div>
         </div>
-        <p mix={css({ maxWidth: '44rem', color: 'var(--ink-soft)' })}>{install.linux}</p>
       </>
     ),
   },

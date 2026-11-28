@@ -62,7 +62,6 @@ export const details: Pick<
       },
     },
   },
-
   access: {
     title: 'Accessible by design',
     lead: 'Six themes, three for each mode: Default, Midsummer and Clear for light, and Default, Polar Night and Lantern for dark.',
@@ -137,16 +136,16 @@ export const details: Pick<
     lead: 'Fenmyr runs on Linux and on Macs with Apple Silicon or Intel.',
     needs: (
       <>
-        You need <strong>Node.js 22.18</strong> or newer to install from the code, and <strong>Claude Code</strong>{' '}
-        for Myra and prototyping.
+        Installing from the code needs <strong>Node.js 22.18</strong> or newer. On a Mac, the installer offers to set
+        it up with Homebrew. Myra and prototyping need <strong>Claude Code</strong>.
       </>
     ),
     fromCode: {
       title: 'From the code',
       note: 'Recommended on Arch, CachyOS and macOS.',
       result:
-        "On Linux this adds Fenmyr to your app launcher. On macOS it builds Fenmyr.app into Applications, where it opens with no warning, and offers to set up Node.js with Homebrew if it's missing.",
-      updates: 'Installed from the code, Fenmyr updates itself.',
+        "On Linux this adds Fenmyr to your app launcher. On macOS it builds Fenmyr.app into Applications, where it opens with no warning.",
+      updates: 'Fenmyr then updates itself, on Linux and Mac.',
     },
     appImage: {
       title: 'AppImage',
