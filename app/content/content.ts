@@ -36,6 +36,7 @@ export interface HomeSectionsCopy {
     tiles: Record<PrototypeTile, TileCopy>
     labels: { point: string; undo: string }
   }
+  ripe: SectionCopy & RipeCopy
   myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
   work: FeatureCopy & {
     timer: TimerCopy
@@ -94,4 +95,14 @@ export interface Content {
     madeBy: string
   }
   notFound: { title: string; heading: string; body: string; home: string }
+}
+
+export type RipeStep = 'catch' | 'sort' | 'shape' | 'try'
+
+export interface RipeCopy {
+  lead: string
+  bubble: string
+  myraAlt: string
+  steps: Record<RipeStep, { name: string; body: RemixNode }>
+  labels: { capture: string; preview: string }
 }
