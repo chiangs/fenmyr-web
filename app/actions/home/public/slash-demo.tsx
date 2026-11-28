@@ -40,6 +40,8 @@ const listStyle = css({
   overflowY: 'auto',
   padding: '0.375rem',
   listStyle: 'none',
+  // with no matches, the no-match message stands alone and the empty listbox leaves the page and its padding
+  '&:empty': { display: 'none' },
   '& [data-group]': {
     padding: '0.625rem 0.625rem 0.25rem',
     color: 'var(--card-white-soft)',
@@ -167,8 +169,8 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
           })}
         >
           {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below. The
-              list sits at the bottom, against the input, as a menu that opens upwards; it scrolls itself, so the
-              scrolling box is the labelled listbox. Its rows move as it filters, so the browser must not anchor the
+              list sits at the bottom, against the input, in its usual order, so the space collects above it; it
+              scrolls itself, so the scrolling box is the labelled listbox. Its rows move as it filters, so the browser must not anchor the
               page's scroll to one of them */}
           <div
             mix={css({
