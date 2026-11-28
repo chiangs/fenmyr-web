@@ -180,14 +180,75 @@ const slashMotion = css({
 const slashStart = { strokeDasharray: '1 2', strokeDashoffset: 1 }
 const slashAnimation = 'tile-icon-slash 1.5s ease-in-out 0.3s both'
 
+// Two icons move by their parts. The pack draws each as one path; it is split where a piece begins, so the still
+// icon is exactly the pack's. The sparkle is the star, drawn by its first two subpaths, outline and hole, and two
+// small sparkles that fade out and back in, one after the other. The download is the tray and the arrow; the arrow's
+// subpath starts relative to the tray's start, so it is rewritten to start there in absolute terms.
+const [star = '', hole = '', sparkleA = '', sparkleB = ''] = packIcons.sparkle.split(/(?=M)/)
+
+function downloadParts(d: string) {
+  let [tray = '', rest = ''] = d.split('Zm')
+  let from = /^M(-?[\d.]+),(-?[\d.]+)/.exec(tray)
+  let by = /^(-?[\d.]+),(-?[\d.]+)/.exec(rest)
+  if (!from || !by) return null
+  let x = Number(from[1]) + Number(by[1])
+  let y = Number(from[2]) + Number(by[2])
+  return { tray: `${tray}Z`, arrow: `M${Math.round(x * 100) / 100},${Math.round(y * 100) / 100}${rest.slice(by[0].length)}` }
+}
+const download = downloadParts(packIcons.download)
+
+// overflow visible, so the arrow isn't cut off while it drops in from above the icon
+const iconMotion = css({
+  overflow: 'visible',
+  '@keyframes tile-icon-twinkle-a': {
+    '0%, 55%, 100%': { opacity: 1 },
+    '25%': { opacity: 0.1 },
+  },
+  '@keyframes tile-icon-twinkle-b': {
+    '0%, 40%, 100%': { opacity: 1 },
+    '70%': { opacity: 0.1 },
+  },
+  // the arrow sinks into the tray and fades, then drops back in from above and settles with a little bounce
+  '@keyframes tile-icon-drop': {
+    '0%': { transform: 'none', opacity: 1 },
+    '32%': { transform: 'translateY(36px)', opacity: 0 },
+    '33%': { transform: 'translateY(-64px)', opacity: 0 },
+    '72%': { transform: 'translateY(4px)', opacity: 1 },
+    '84%, 100%': { transform: 'none', opacity: 1 },
+  },
+})
+const still = { opacity: 1 }
+
 // one of the app's icons, large. off draws a slash through it, with a gap cut in the tile's own colour so the slash
 // stands apart from the icon
 export function Icon(handle: Handle<{ name: PackIcon; off?: Tone }>) {
   return () => {
     let { name, off } = handle.props
     return (
-      <svg viewBox="0 0 256 256" width="56" height="56" fill="currentColor" mix={off ? slashMotion : undefined}>
-        <path d={packIcons[name]} />
+      <svg
+        viewBox="0 0 256 256"
+        width="56"
+        height="56"
+        fill="currentColor"
+        mix={[iconMotion, ...(off ? [slashMotion] : [])]}
+      >
+        {name === 'sparkle' ? (
+          <>
+            <path d={star + hole} />
+            <path d={sparkleA} mix={css(playOnSeen(still, 'tile-icon-twinkle-a 2.4s ease-in-out both'))} />
+            <path d={sparkleB} mix={css(playOnSeen(still, 'tile-icon-twinkle-b 2.4s ease-in-out both'))} />
+          </>
+        ) : name === 'download' && download ? (
+          <>
+            <path d={download.tray} />
+            <path
+              d={download.arrow}
+              mix={css(playOnSeen({ transform: 'none', opacity: 1 }, 'tile-icon-drop 2.2s ease-in-out both'))}
+            />
+          </>
+        ) : (
+          <path d={packIcons[name]} />
+        )}
         {off ? (
           <>
             <path
