@@ -3,22 +3,24 @@ import type { Handle } from 'remix/component'
 
 // how often a drawing plays while its tile stays on screen: its motion of about 2.5 s, then a long rest
 const every = 10_000
-// tiles that come into view together start this far apart, so a grid of them doesn't move in step
+// at most one drawing starts in this time, so tiles that come due together, however they did, never move in step
 const stagger = 900
 
-// Marks each feature tile data-seen once 60% of it is on screen, so its drawing plays its motion, then plays it again
-// every 10 s while the tile stays on screen and the page is in front, and at once when the pointer or focus comes to
-// it. The motion itself is CSS, in app/ui/tile-art/; playOnSeen in base.ts says how a drawing waits and plays.
+// Marks a feature tile data-seen when its drawing should play: once 60% of the tile is on screen and its turn comes,
+// again every 10 s while it stays on screen and the page is in front, and at once when the pointer or focus comes
+// to it. The motion itself is CSS, in app/ui/tile-art/; playOnSeen in base.ts says how a drawing waits and plays.
 // Drawings wait in their first frame only while <html> has data-tile-motion, which this sets once it is watching, so
-// if it never runs they stay still. With reduced motion, the CSS plays nothing and this schedules nothing.
+// if it never runs they stay still. With reduced motion the CSS plays nothing, and no timer runs.
 export const TileMotion = clientEntry(import.meta.url, function TileMotion(handle: Handle) {
   handle.queueTask(() => {
     let signal = handle.signal
     if (signal.aborted) return
     let root = document.documentElement
     let calm = matchMedia('(prefers-reduced-motion: reduce)')
+    // the tiles 60% on screen, in the order they arrived, which is the order they take their turns in
     let onScreen = new Set<HTMLElement>()
     let due = new WeakMap<HTMLElement, number>()
+    let lastStart = -Infinity
 
     let playing = (tile: HTMLElement) =>
       tile.getAnimations({ subtree: true }).some((animation) => animation.playState === 'running')
@@ -31,37 +33,46 @@ export const TileMotion = clientEntry(import.meta.url, function TileMotion(handl
       tile.setAttribute('data-seen', '')
     }
 
-    let seen = new IntersectionObserver(
-      (entries) => {
-        let arriving = 0
-        for (let entry of entries) {
-          if (!(entry.target instanceof HTMLElement)) continue
-          // the first report covers every tile, even one barely on screen, so the ratio decides, not isIntersecting
-          if (entry.intersectionRatio < 0.6) {
-            onScreen.delete(entry.target)
-            continue
-          }
-          if (onScreen.has(entry.target)) continue
-          onScreen.add(entry.target)
-          // a tile coming into view plays now if it is due, or a little after the others arriving with it, whether it
-          // is new or back after a while off screen
-          let now = performance.now()
-          if ((due.get(entry.target) ?? 0) <= now) due.set(entry.target, now + arriving++ * stagger)
-        }
-      },
-      { threshold: 0.6 },
-    )
-    let tick = setInterval(() => {
-      if (document.hidden || calm.matches) return
+    // starts the first tile whose turn has come, if no other started in the last `stagger`
+    let tick = () => {
       let now = performance.now()
+      if (now - lastStart < stagger) return
       for (let tile of onScreen) {
         if (!tile.isConnected) {
           onScreen.delete(tile)
+          seen.unobserve(tile)
           continue
         }
-        if (now >= (due.get(tile) ?? 0) && !playing(tile)) play(tile)
+        if (now < (due.get(tile) ?? 0) || playing(tile)) continue
+        play(tile)
+        lastStart = now
+        return
       }
-    }, 250)
+    }
+    // the timer runs only while there is something to play and someone to see it
+    let timer: ReturnType<typeof setInterval> | undefined
+    let arm = () => {
+      let wanted = onScreen.size > 0 && !calm.matches && !document.hidden
+      if (wanted && timer === undefined) timer = setInterval(tick, 250)
+      if (!wanted && timer !== undefined) {
+        clearInterval(timer)
+        timer = undefined
+      }
+    }
+
+    let seen = new IntersectionObserver(
+      (entries) => {
+        for (let entry of entries) {
+          if (!(entry.target instanceof HTMLElement)) continue
+          if (!entry.target.isConnected) seen.unobserve(entry.target)
+          // the first report covers every tile, even one barely on screen, so the ratio decides, not isIntersecting
+          if (entry.intersectionRatio < 0.6 || !entry.target.isConnected) onScreen.delete(entry.target)
+          else onScreen.add(entry.target)
+        }
+        arm()
+      },
+      { threshold: 0.6 },
+    )
 
     let replay = (event: Event) => {
       let tile = event.currentTarget
@@ -81,9 +92,11 @@ export const TileMotion = clientEntry(import.meta.url, function TileMotion(handl
     watch()
     let added = new MutationObserver(watch)
     added.observe(document.body, { childList: true, subtree: true })
+    document.addEventListener('visibilitychange', arm, { signal })
+    calm.addEventListener('change', arm, { signal })
     root.setAttribute('data-tile-motion', '')
     signal.addEventListener('abort', () => {
-      clearInterval(tick)
+      if (timer !== undefined) clearInterval(timer)
       seen.disconnect()
       added.disconnect()
       root.removeAttribute('data-tile-motion')

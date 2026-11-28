@@ -3,7 +3,7 @@ import { css } from 'remix/component'
 
 import { faint, playOnSeen, surface } from './base.ts'
 
-// A key cap presses once when its tile is seen: it dips and gives a little, then comes back up. Where two sit side
+// A key cap presses each time its tile plays: it dips and gives a little, then comes back up. Where two sit side
 // by side, the second presses just after the first. KeyCap also appears outside any tile, as in From raw to ripe, and
 // there nothing plays it, since playOnSeen only acts inside a tile.
 const pressMotion = css({
