@@ -51,6 +51,8 @@
     --font: 'Myra Mark', 'Figtree', system-ui, -apple-system, sans-serif;
     --hand: 'Myra Mark', 'Shantell Sans', 'Comic Sans MS', cursive;
     --pill-r: 12px;
+    --glow-red: #e5484d;
+    --glow-green: #3fae6a;
 
     --myra-body: #f6a63c;
     --myra-shine: #ffe0a0;

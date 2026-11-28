@@ -173,3 +173,55 @@ export function Switches() {
     </span>
   )
 }
+
+export function DueList(handle: Handle<{ labels: readonly string[] }>) {
+  return () => (
+    <span mix={css({ ...surface, display: 'grid', gap: '6px', width: '11rem', padding: '0.625rem 0.75rem', borderRadius: '12px' })}>
+      {handle.props.labels.map((label, index) => (
+        <span key={index} mix={css({ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', fontWeight: 600 })}>
+          <span
+            style={{ background: index === 0 ? 'var(--pink-deep)' : faint, color: index === 0 ? 'var(--on-accent)' : 'inherit' }}
+            mix={css({ padding: '0 0.4rem', borderRadius: '999px', lineHeight: 1.5 })}
+          >
+            {label}
+          </span>
+          <span mix={css({ flex: 1, height: '5px', borderRadius: '3px', background: faint })} />
+        </span>
+      ))}
+    </span>
+  )
+}
+
+export function Folders() {
+  return () => (
+    <span mix={css({ ...surface, display: 'grid', gap: '7px', width: '10rem', padding: '0.75rem', borderRadius: '12px' })}>
+      {[0, 1, 2, 1].map((depth, index) => (
+        <span key={index} style={{ marginLeft: `${depth * 0.875}rem` }} mix={css({ display: 'flex', alignItems: 'center', gap: '0.4rem' })}>
+          <span
+            style={{ background: depth === 0 ? 'var(--pink-deep)' : 'var(--card-sky)' }}
+            mix={css({ width: '9px', height: '9px', borderRadius: '3px' })}
+          />
+          <span mix={css({ flex: 1, height: '5px', borderRadius: '3px', background: faint })} />
+        </span>
+      ))}
+    </span>
+  )
+}
+
+export function Columns() {
+  return () => (
+    <span mix={css({ display: 'grid', gridTemplateColumns: 'repeat(3, 3rem)', gap: '0.5rem', alignItems: 'start' })}>
+      {[3, 2, 1].map((cards, column) => (
+        <span key={column} mix={css({ ...surface, display: 'grid', gap: '4px', padding: '5px', borderRadius: '8px' })}>
+          {Array.from({ length: cards }, (_, index) => (
+            <span
+              key={index}
+              style={{ background: column === 2 ? 'var(--card-mint)' : 'var(--card-butter)' }}
+              mix={css({ height: '10px', borderRadius: '3px' })}
+            />
+          ))}
+        </span>
+      ))}
+    </span>
+  )
+}

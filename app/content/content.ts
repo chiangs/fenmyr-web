@@ -17,7 +17,17 @@ export interface TileCopy {
 }
 
 export type PrototypeTile = 'run' | 'live' | 'point' | 'code' | 'keep' | 'git'
+export type WorkTile = 'due' | 'home' | 'kanban' | 'find'
 export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'type' | 'settings'
+
+export interface TimerCopy {
+  title: string
+  how: RemixNode
+  faces: string
+  time: string
+  purpose: string
+  presets: string[]
+}
 
 export interface HomeSectionsCopy {
   prototype: FeatureCopy & {
@@ -27,6 +37,11 @@ export interface HomeSectionsCopy {
     labels: { point: string; undo: string }
   }
   myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
+  work: FeatureCopy & {
+    timer: TimerCopy
+    tiles: Record<WorkTile, TileCopy>
+    labels: { overdue: string; today: string; friday: string; focus: string; find: string }
+  }
   local: FeatureCopy & { points: RemixNode[] }
   linux: FeatureCopy & { body: string; macos: string }
   access: FeatureCopy & { points: RemixNode[] }
