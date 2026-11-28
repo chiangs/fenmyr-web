@@ -46,42 +46,73 @@ export const en: Content = {
       lead: 'Make any board a prototype board. Myra turns its cards into a clickable React and Tailwind preview through Claude Code, so you can experiment with the idea and test it. Each prototype board keeps its own rules and design cards, and every build reads them.',
       screenshotAlt:
         "A prototype board: the board's cards, the preview at phone width, the code pane, and Myra's chat after a build, with its files and Undo this build",
-      points: [
-        <>
-          <strong>Try it out.</strong> The preview sits beside the board at any device width.
-        </>,
-        <>
-          <strong>Read the code.</strong> The code pane lists every file and marks what the last build changed.
-        </>,
-        <>
-          <strong>Keep what works.</strong> Every build can be undone.
-        </>,
-        <>
-          <strong>Git, explained.</strong> The code lives in your own git repository. Myra explains each git step in
-          plain words.
-        </>,
-      ],
+      tiles: {
+        run: { title: 'See it run', body: 'The preview sits beside the board at any device width.' },
+        live: { title: 'Change it live', body: 'Controls above the preview change its values as you watch.' },
+        point: {
+          title: 'Point at it',
+          body: (
+            <>
+              <strong>Point</strong> at anything in the preview to open the line of code that draws it.
+            </>
+          ),
+        },
+        code: {
+          title: 'Read the code',
+          body: 'The code pane lists every file and marks what the last build changed. The code links back to the cards it came from.',
+        },
+        keep: {
+          title: 'Keep what works',
+          body: 'Every build can be undone. A capture puts a picture of the preview on the board, tied to the commit it shows.',
+        },
+        git: {
+          title: 'Git, explained',
+          body: 'The code lives in your own git repository. Myra explains each git step in plain words, and waits for your yes before she commits, pushes or pulls.',
+        },
+      },
+      labels: { point: 'Point', undo: 'Undo this build' },
     },
     myra: {
       title: 'Myra shows her work',
-      lead: 'Myra reads your board and answers in the chat beside it.',
-      points: [
-        <>
-          <strong>Myra sees</strong> shows what she will read, and <strong>+ Add</strong> hands her pictures, text
-          files or vault notes.
-        </>,
-        <>
-          Before she changes more than ten cards, or removes any, she draws her plan on the board in dashed lines and
-          waits.
-        </>,
-        <>
-          After a reply she lists what changed, with one <strong>Undo</strong> for the whole reply.
-        </>,
-        <>
-          Type <strong>/</strong> for commands that need no AI at all, such as <code>/find</code>,{' '}
-          <code>/tidy</code> and <code>/timer</code>.
-        </>,
-      ],
+      lead: 'Myra reads your board and answers in the chat beside it. She asks before big changes, and one Undo takes back a whole reply.',
+      tiles: {
+        sees: {
+          title: 'She shows what she reads',
+          body: (
+            <>
+              <strong>Myra sees</strong> shows what she will read, and <strong>+ Add</strong> hands her pictures, text
+              files or vault notes.
+            </>
+          ),
+        },
+        asks: {
+          title: 'She asks first',
+          body: 'Before she changes more than ten cards, or removes any, she draws her plan on the board in dashed lines and waits.',
+        },
+        undo: {
+          title: 'One undo per reply',
+          body: (
+            <>
+              After a reply she lists what changed, with <strong>Show on board</strong> and one <strong>Undo</strong> for
+              the whole reply.
+            </>
+          ),
+        },
+        stop: {
+          title: 'Stop her any time',
+          body: (
+            <>
+              While she works, <strong>Ctrl+.</strong> stops her. On a prototype board it ends the build too.
+            </>
+          ),
+        },
+        type: { title: 'She explores type', body: 'She sets out type specimens from your computer or Google Fonts.' },
+        settings: {
+          title: 'Set her your way',
+          body: 'Choose her model and effort, how chatty she is and how much she moves.',
+        },
+      },
+      labels: { add: '+ Add', undo: 'Undo', stop: 'Ctrl+.', type: 'Aa' },
     },
     local: {
       title: 'Yours, on your computer',
