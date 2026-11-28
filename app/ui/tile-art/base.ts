@@ -15,10 +15,10 @@ export const surface = {
   boxShadow: '0 4px 12px rgba(var(--sh), calc(.14 * var(--sh-k)))',
 }
 
-// A drawing plays its motion once, when its tile scrolls into view, and again when the pointer or focus comes to the
-// tile: app/ui/public/tile-motion.tsx marks the tile data-seen for that. Until then, once that island is watching and
-// motion is allowed, the drawing waits in its first frame, `start`. With reduced motion, without the island, or in
-// print, it is the still drawing.
+// A drawing plays its motion when its tile scrolls into view, again every 10 s while the tile stays on screen, and
+// when the pointer or focus comes to the tile: app/ui/public/tile-motion.tsx marks and re-marks the tile data-seen.
+// Until then, once that island is watching and motion is allowed, the drawing waits in its first frame, `start`.
+// With reduced motion, without the island, or in print, it is the still drawing.
 // `animation` names a @keyframes from the same css() and ends on the still drawing, with fill-mode `both`.
 // Spread the result into the css() of the element that moves.
 export function playOnSeen(start: Style, animation: string): Style {
