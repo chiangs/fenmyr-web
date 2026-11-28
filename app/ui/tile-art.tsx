@@ -139,16 +139,18 @@ export function Commits() {
 }
 
 // three captures of a prototype in a row, as they line up on the board, each tied to its commit by the tag under
-// it; the newest is the one the preview shows
+// it; the newest is outlined, the one the preview shows until another is clicked
+const captures = [
+  { x: 1, rows: [18, 24] },
+  { x: 53, rows: [26, 16] },
+  { x: 105, rows: [30, 22] },
+]
+
 export function Captures() {
   return () => (
     <svg viewBox="0 0 150 46" width="150" height="46" mix={css({ overflow: 'visible' })}>
-      {[
-        { x: 1, rows: [18, 24] },
-        { x: 53, rows: [26, 16] },
-        { x: 105, rows: [30, 22] },
-      ].map(({ x, rows }, index) => {
-        let shown = index === 2
+      {captures.map(({ x, rows }, index) => {
+        let shown = index === captures.length - 1
         return (
           <g key={x}>
             <rect

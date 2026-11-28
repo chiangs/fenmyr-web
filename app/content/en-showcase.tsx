@@ -25,7 +25,7 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
       },
       versions: {
         title: 'Compare versions',
-        body: 'Capture the preview at any commit, and the pictures line up side by side on the board. Click one to see that version run again. Every build can be undone.',
+        body: 'Capture the preview as you go, and the pictures line up side by side on the board. Click one to see that version run again. Every build can be undone.',
       },
       git: {
         title: 'Git, explained',
