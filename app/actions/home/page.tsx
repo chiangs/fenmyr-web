@@ -8,6 +8,7 @@ import { Section } from '../../ui/section.tsx'
 import { SiteFooter } from '../../ui/site-footer.tsx'
 import { SiteHeader } from '../../ui/site-header.tsx'
 import { Myra } from '../../ui/public/myra.tsx'
+import { TileMotion } from '../../ui/public/tile-motion.tsx'
 import { Document } from '../document.tsx'
 import { sections } from './sections.tsx'
 import { StructuredData } from './structured-data.tsx'
@@ -101,6 +102,7 @@ export function HomePage() {
         ))}
       </main>
       <SiteFooter />
+      <TileMotion />
     </Document>
   )
 }

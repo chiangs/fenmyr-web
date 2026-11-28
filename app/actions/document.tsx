@@ -63,7 +63,7 @@ export function Document(handle: Handle<DocumentProps>) {
     let { href, importMap, preloads } = scriptEntry
 
     return (
-      <html lang="en-GB" data-rmx-preserve-attrs="data-theme data-mode data-js">
+      <html lang="en-GB" data-rmx-preserve-attrs="data-theme data-mode data-js data-tile-motion">
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />

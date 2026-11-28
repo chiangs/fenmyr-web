@@ -4,22 +4,11 @@ import { css } from 'remix/component'
 import type { BetaTile, LocalTile, MyraTile, PrototypeTile, TileCopy, WorkTile } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import type { Tone } from '../../ui/tile.tsx'
-import {
-  Columns,
-  Commits,
-  Captures,
-  CodeLines,
-  DashedPlan,
-  DueList,
-  Folders,
-  Icon,
-  KeyCap,
-  PaperSketch,
-  Phone,
-  ResearchDoc,
-  Slider,
-  Switches,
-} from '../../ui/tile-art.tsx'
+import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
+import { DashedPlan, ResearchDoc, Switches } from '../../ui/tile-art/myra.tsx'
+import { Phone } from '../../ui/tile-art/phone.tsx'
+import { Captures, CodeLines, Commits, PaperSketch, Slider } from '../../ui/tile-art/prototype.tsx'
+import { Columns, DueList, Folders, Icon } from '../../ui/tile-art/work.tsx'
 
 // each section's tiles: the order, the card tone and the drawing, with the words from the copy
 const { prototype, myra, work, local, beta } = en.sections
