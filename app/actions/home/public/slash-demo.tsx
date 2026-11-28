@@ -33,8 +33,11 @@ interface Row {
 }
 
 const listStyle = css({
+  position: 'relative',
   display: 'grid',
+  minHeight: 0,
   margin: 0,
+  overflowY: 'auto',
   padding: '0.375rem',
   listStyle: 'none',
   '& [data-group]': {
@@ -106,11 +109,21 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
       }))
   }
 
-  // keeps the chosen row, and the heading above it, inside the list's fixed height as the arrows move past its edge
+  // keeps the chosen row, and the heading above it, inside the list's fixed height. It sets the list's own scrollTop,
+  // since scrollIntoView would scroll the page as well
   let reveal = () => {
+    let list = document.getElementById('slash-list')
     let row = document.getElementById(`slash-${selected}`)
-    row?.scrollIntoView({ block: 'nearest' })
-    if (row?.previousElementSibling?.hasAttribute('data-group')) row.previousElementSibling.scrollIntoView({ block: 'nearest' })
+    if (!list || !row) return
+    if (selected === 0) {
+      list.scrollTop = 0
+      return
+    }
+    let above = row.previousElementSibling
+    let top = above instanceof HTMLElement && above.hasAttribute('data-group') ? above.offsetTop : row.offsetTop
+    let bottom = row.offsetTop + row.offsetHeight
+    if (top < list.scrollTop) list.scrollTop = top
+    else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight
   }
 
   let refresh = () => {
@@ -153,8 +166,9 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
               'var(--card-edge, 0 0 0 0 transparent), 0 14px 40px rgba(var(--sh), calc(.12 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
           })}
         >
-          {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below */}
-          <div mix={css({ height: '20rem', overflowY: 'auto' })}>
+          {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below; the
+              list itself scrolls, so the scrolling box is the labelled listbox */}
+          <div mix={css({ display: 'flex', flexDirection: 'column', height: '20rem' })}>
             <ul id="slash-list" role={started ? 'listbox' : undefined} aria-label={copy.input} mix={listStyle}>
               {shown.map((row, index) => {
                 let head = row.group && row.group !== last ? row.group : ''
