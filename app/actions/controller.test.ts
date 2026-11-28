@@ -1,3 +1,4 @@
+import { readdirSync, readFileSync } from 'node:fs'
 import { runInNewContext } from 'node:vm'
 import * as assert from 'remix/assert'
 import { describe, it } from 'remix/test'
@@ -82,6 +83,16 @@ describe('root controller', () => {
     assert.equal(cards.size, items.length)
     for (let [id, { name }] of Object.entries(en.sections.templates.items)) {
       assert.ok(cards.get(id)?.includes(`>${name.replace('&', '&amp;')}</strong>`), `the ${id} card doesn't show "${name}"`)
+    }
+  })
+
+  it('GET / shows a card for each connection, and NOTICE names every logo', async () => {
+    let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
+    let ids = Object.keys(en.sections.connections.items)
+    assert.equal(html.split('data-connection=').length - 1, ids.length)
+    let notice = readFileSync(new URL('../../NOTICE', import.meta.url), 'utf8')
+    for (let file of readdirSync(new URL('../../public/images/logos/', import.meta.url))) {
+      assert.ok(notice.includes(`- ${file}:`), `NOTICE doesn't name public/images/logos/${file}`)
     }
   })
 

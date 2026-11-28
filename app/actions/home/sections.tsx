@@ -1,34 +1,21 @@
 import type { Handle, RemixNode } from 'remix/component'
 import { css } from 'remix/component'
 
-import type { MyraTile, PrototypeTile, SectionId, TileCopy, WorkTile } from '../../content/content.ts'
+import type { SectionId } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
 import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
-import { RipePath } from './ripe-path.tsx'
-import { SlashDemo } from './public/slash-demo.tsx'
-import { TemplateGallery } from './public/template-gallery.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
-import type { Tone } from '../../ui/tile.tsx'
-import {
-  Columns,
-  Commits,
-  CodeLines,
-  DashedPlan,
-  DueList,
-  Folders,
-  KeyCap,
-  Phone,
-  Pointer,
-  Slider,
-  Specimen,
-  Switches,
-} from '../../ui/tile-art.tsx'
+import { Connections } from './connections.tsx'
+import { betaTiles, localTiles, myraTiles, prototypeTiles, workTiles } from './home-tiles.tsx'
+import { SlashDemo } from './public/slash-demo.tsx'
+import { TemplateGallery } from './public/template-gallery.tsx'
+import { RipePath } from './ripe-path.tsx'
 import { TimerCard } from './timer-card.tsx'
 
-const { prototype, myra, work, local, linux, access, built, install, support } = en.sections
+const { prototype, myra, work, local, platforms, access, built, beta, install, support } = en.sections
 
 export interface HomeSection {
   id: SectionId
@@ -36,13 +23,6 @@ export interface HomeSection {
   nav?: string
   content: RemixNode
 }
-
-const proseStyle = css({
-  display: 'grid',
-  gap: '1rem',
-  maxWidth: '44rem',
-  color: 'var(--ink-soft)',
-})
 
 function Lead(handle: Handle<{ icon: string; tone: string; children?: RemixNode }>) {
   return () => {
@@ -102,44 +82,6 @@ function Points(handle: Handle<{ items: RemixNode[] }>) {
     </ul>
   )
 }
-
-type Art = readonly [tone: Tone, art: RemixNode]
-
-function tilesOf<Id extends string>(copy: Record<Id, TileCopy>, art: readonly (readonly [Id, ...Art])[]) {
-  return art.map(([key, tone, picture]) => ({ key, tone, art: picture, ...copy[key] }))
-}
-
-const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
-  ['run', 'sky', <Phone />],
-  ['live', 'butter', <Slider />],
-  ['point', 'lilac', <Pointer label={prototype.labels.point} />],
-  ['code', 'peach', <CodeLines />],
-  ['keep', 'mint', <KeyCap label={prototype.labels.undo} />],
-  ['git', 'pink', <Commits />],
-])
-
-const myraTiles = tilesOf<MyraTile>(myra.tiles, [
-  ['sees', 'sky', <KeyCap label={myra.labels.add} />],
-  ['asks', 'butter', <DashedPlan />],
-  ['undo', 'mint', <KeyCap label={myra.labels.undo} />],
-  ['stop', 'peach', <KeyCap label={myra.labels.stop} />],
-  ['type', 'lilac', <Specimen label={myra.labels.type} />],
-  ['settings', 'pink', <Switches />],
-])
-
-const workTiles = tilesOf<WorkTile>(work.tiles, [
-  ['due', 'pink', <DueList labels={[work.labels.overdue, work.labels.today, work.labels.friday]} />],
-  ['home', 'lilac', <Folders />],
-  ['kanban', 'mint', <Columns />],
-  [
-    'find',
-    'sky',
-    <span mix={css({ display: 'flex', gap: '0.5rem' })}>
-      <KeyCap label={work.labels.focus} />
-      <KeyCap label={work.labels.find} />
-    </span>,
-  ],
-])
 
 export const sections: readonly HomeSection[] = [
   {
@@ -222,6 +164,18 @@ export const sections: readonly HomeSection[] = [
     ),
   },
   {
+    id: 'connections',
+    title: en.sections.connections.title,
+    content: (
+      <>
+        <Lead icon="connections" tone="sky">
+          {en.sections.connections.lead}
+        </Lead>
+        <Connections copy={en.sections.connections} />
+      </>
+    ),
+  },
+  {
     id: 'local',
     title: local.title,
     content: (
@@ -229,22 +183,39 @@ export const sections: readonly HomeSection[] = [
         <Lead icon="local" tone="mint">
           {local.lead}
         </Lead>
-        <Points items={local.points} />
+        <Tiles items={localTiles} narrow />
       </>
     ),
   },
   {
-    id: 'linux',
-    title: linux.title,
+    id: 'platforms',
+    title: platforms.title,
     content: (
       <>
-        <Lead icon="linux" tone="sky">
-          {linux.lead}
+        <Lead icon="platforms" tone="sky">
+          {platforms.lead}
         </Lead>
-        <div mix={proseStyle}>
-          <p>{linux.body}</p>
-          <p>{linux.macos}</p>
+        <div
+          mix={css({
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 20rem), 1fr))',
+            gap: '1rem',
+          })}
+        >
+          {[platforms.linux, platforms.mac].map((platform) => (
+            <div
+              key={platform.title}
+              mix={[
+                cardStyle,
+                css({ display: 'grid', alignContent: 'start', gap: '0.5rem', padding: '1.5rem', color: 'var(--card-white-soft)' }),
+              ]}
+            >
+              <h3 mix={css({ fontSize: '1.375rem', color: 'var(--card-white-ink)' })}>{platform.title}</h3>
+              <p>{platform.body}</p>
+            </div>
+          ))}
         </div>
+        <p mix={css({ color: 'var(--ink-soft)' })}>{platforms.updates}</p>
       </>
     ),
   },
@@ -273,6 +244,26 @@ export const sections: readonly HomeSection[] = [
           <p mix={css({ maxWidth: '36rem', color: 'var(--ink-soft)' })}>{built.codeMap}</p>
           <ButtonLink href="https://code-map.fenmyr.com/" quiet>
             {built.codeMapButton}
+          </ButtonLink>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: 'beta',
+    title: beta.title,
+    content: (
+      <>
+        <Lead icon="beta" tone="pink">
+          {beta.lead}
+        </Lead>
+        <Tiles items={betaTiles} />
+        <div mix={css({ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' })}>
+          <ButtonLink href="https://github.com/chiangs/fenmyr" quiet>
+            {beta.follow}
+          </ButtonLink>
+          <ButtonLink href="https://github.com/chiangs/fenmyr/issues/new/choose" quiet>
+            {beta.report}
           </ButtonLink>
         </div>
       </>
@@ -344,10 +335,7 @@ export const sections: readonly HomeSection[] = [
         <Myra pose="love" label={support.myraAlt} size="6.375rem" lazy />
         <div mix={css({ flex: '1 1 20rem', display: 'grid', gap: '1rem', color: 'var(--card-white-soft)' })}>
           <p mix={css({ fontSize: '1.1875rem', color: 'var(--card-white-ink)' })}>{support.pitch}</p>
-          <ul mix={css({ margin: 0, paddingLeft: '1.25rem', '& a': { color: 'var(--card-white-link)' } })}>
-            <li>{support.ways.star}</li>
-            <li>{support.ways.beta}</li>
-          </ul>
+          <p mix={css({ '& a': { color: 'var(--card-white-link)' } })}>{support.star}</p>
           <div>
             <ButtonLink href="https://github.com/sponsors/chiangs">{support.sponsor}</ButtonLink>
           </div>

@@ -17,6 +17,8 @@ export interface TileCopy {
 }
 
 export type PrototypeTile = 'run' | 'live' | 'point' | 'code' | 'keep' | 'git'
+export type LocalTile = 'offline' | 'files' | 'ask' | 'export'
+export type BetaTile = 'update' | 'channel' | 'report'
 export type WorkTile = 'due' | 'home' | 'kanban' | 'find'
 export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'type' | 'settings'
 
@@ -45,10 +47,17 @@ export interface HomeSectionsCopy {
     labels: { overdue: string; today: string; friday: string; focus: string; find: string }
   }
   templates: SectionCopy & TemplatesCopy & { nav: string }
-  local: FeatureCopy & { points: RemixNode[] }
-  linux: FeatureCopy & { body: string; macos: string }
+  connections: SectionCopy & ConnectionsCopy
+  local: FeatureCopy & { tiles: Record<LocalTile, TileCopy> }
+  platforms: FeatureCopy & { linux: { title: string; body: string }; mac: { title: string; body: string }; updates: string }
   access: FeatureCopy & { points: RemixNode[] }
   built: FeatureCopy & { points: RemixNode[]; codeMap: string; codeMapButton: string }
+  beta: FeatureCopy & {
+    tiles: Record<BetaTile, TileCopy>
+    labels: { update: string; channel: string; report: string }
+    follow: string
+    report: string
+  }
   install: SectionCopy & {
     nav: string
     needs: RemixNode
@@ -59,7 +68,7 @@ export interface HomeSectionsCopy {
     nav: string
     myraAlt: string
     pitch: string
-    ways: { star: RemixNode; beta: string }
+    star: RemixNode
     sponsor: string
   }
 }
@@ -164,4 +173,12 @@ export interface TemplatesCopy {
   roles: Record<TemplateRole, string>
   groups: Record<TemplateGroup, string>
   items: Record<TemplateId, { name: string; line: string }>
+}
+
+export type ConnectionId = 'claude' | 'obsidian' | 'github' | 'caelestia' | 'mobbin' | 'higgsfield'
+
+export interface ConnectionsCopy {
+  lead: string
+  link: string
+  items: Record<ConnectionId, { name: string; line: string }>
 }

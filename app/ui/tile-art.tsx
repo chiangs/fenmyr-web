@@ -1,6 +1,9 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
+import { packIcons } from './pack-icons.ts'
+import type { PackIcon } from './pack-icons.ts'
+
 const faint = 'color-mix(in oklab, var(--card-white-ink) 22%, transparent)'
 const soft = 'color-mix(in oklab, var(--card-white-ink) 45%, transparent)'
 const line = 'var(--card-butter-ink)'
@@ -223,5 +226,17 @@ export function Columns() {
         </span>
       ))}
     </span>
+  )
+}
+
+// one of the app's icons, large, with a slash through it when the thing is off
+export function Icon(handle: Handle<{ name: PackIcon; off?: boolean }>) {
+  return () => (
+    <svg viewBox="0 0 256 256" width="56" height="56" fill="currentColor">
+      <path d={packIcons[handle.props.name]} />
+      {handle.props.off ? (
+        <path d="M40 40 L216 216" stroke={line} strokeWidth={18} strokeLinecap="round" />
+      ) : null}
+    </svg>
   )
 }
