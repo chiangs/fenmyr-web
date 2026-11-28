@@ -71,6 +71,20 @@ describe('root controller', () => {
     for (let { desc } of Object.values(en.sections.slash.commands)) assert.ok(section.includes(desc), `missing "${desc}"`)
   })
 
+  it('GET / shows all fifteen templates, and the title says so', async () => {
+    let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
+    let start = html.indexOf('id="templates"')
+    let section = html.slice(start, html.indexOf('</section>', start))
+    let items = Object.values(en.sections.templates.items)
+    assert.equal(items.length, 15)
+    assert.ok(en.sections.templates.title.startsWith('Fifteen'), 'the title no longer matches the count')
+    let cards = new Map([...section.matchAll(/<li[^>]*data-template="(\w+)"[^>]*>([\s\S]*?)<\/li>/g)].map(([, id = '', card = '']) => [id, card]))
+    assert.equal(cards.size, items.length)
+    for (let [id, { name }] of Object.entries(en.sections.templates.items)) {
+      assert.ok(cards.get(id)?.includes(`>${name.replace('&', '&amp;')}</strong>`), `the ${id} card doesn't show "${name}"`)
+    }
+  })
+
   it('GET / shows every Myra as a still picture, not an animated one', async () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()

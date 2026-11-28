@@ -52,6 +52,7 @@ export function SiteHeader() {
               height: '100%',
               paddingBlock: 0,
             },
+            '@media (52rem < width <= 64rem)': { columnGap: '1.25rem' },
             '@media (width < 25rem)': { gap: '0.5rem' },
           })}
         >
@@ -104,10 +105,12 @@ export function SiteHeader() {
                 margin: 0,
                 padding: 0,
                 listStyle: 'none',
+                '@media (width <= 64rem)': { columnGap: '1rem' },
                 '& a': {
                   color: 'var(--ink-soft)',
                   fontWeight: 600,
                   textDecoration: 'none',
+                  whiteSpace: 'nowrap',
                 },
                 '& a:hover': { color: 'var(--ink)' },
               })}

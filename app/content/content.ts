@@ -44,6 +44,7 @@ export interface HomeSectionsCopy {
     tiles: Record<WorkTile, TileCopy>
     labels: { overdue: string; today: string; friday: string; focus: string; find: string }
   }
+  templates: SectionCopy & TemplatesCopy & { nav: string }
   local: FeatureCopy & { points: RemixNode[] }
   linux: FeatureCopy & { body: string; macos: string }
   access: FeatureCopy & { points: RemixNode[] }
@@ -134,4 +135,33 @@ export interface SlashCopy {
   groups: Record<SlashGroup, string>
   commands: Record<Exclude<SlashCommand, 'animate'>, { desc: string; reply: string }> & { animate: { desc: string } }
   hop: { desc: string; line: string; still: string }
+}
+
+export type TemplateId =
+  | 'empathy'
+  | 'journey'
+  | 'affinity'
+  | 'hmw'
+  | 'opportunity'
+  | 'impact'
+  | 'moodboard'
+  | 'brainDump'
+  | 'okrs'
+  | 'kickoff'
+  | 'appPlan'
+  | 'workshop'
+  | 'kanban'
+  | 'retro'
+  | 'prototype'
+export type TemplateGroup = 'think' | 'capture' | 'plan' | 'lookBack' | 'build'
+export type TemplateRole = 'designers' | 'productLeads' | 'facilitators' | 'makers'
+
+export interface TemplatesCopy {
+  lead: string
+  filter: string
+  all: string
+  shown: string
+  roles: Record<TemplateRole, string>
+  groups: Record<TemplateGroup, string>
+  items: Record<TemplateId, { name: string; line: string }>
 }
