@@ -60,7 +60,7 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
       },
       shape: {
         name: 'Shape',
-        body: 'Sketch on paper and drop in a photo, draw on the board, or lay the screens out as wireframes. Map the journey, and give the next steps due dates.',
+        body: 'Sketch the screens, by hand or as wireframes, map the journey, and give the next steps due dates.',
       },
       try: {
         name: 'Try',

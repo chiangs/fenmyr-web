@@ -55,6 +55,9 @@
     --glow-green: #3fae6a;
     --logo-tile: #ffffff;
     --logo-ink: #000000;
+    /* a sheet of paper and the pen on it, the same in every theme, as real paper is */
+    --paper: #ffffff;
+    --paper-ink: #2b2620;
 
     --myra-body: #f6a63c;
     --myra-shine: #ffe0a0;

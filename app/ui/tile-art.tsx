@@ -87,10 +87,10 @@ export function Slider() {
 }
 
 // a sheet of paper with a rough screen drawn on it in pen, a little askew, as a photo of a sketch lands on the board.
-// Paper stays white and pen stays dark in every theme, so it uses the logo tile's colours, not the card ones
-const paper = 'var(--logo-tile)'
-const pen = 'var(--logo-ink)'
-const pencil = 'color-mix(in oklab, var(--logo-ink) 40%, var(--logo-tile))'
+// Paper stays white and pen stays dark in every theme, so it uses the paper tokens, not the card ones
+const paper = 'var(--paper)'
+const pen = 'var(--paper-ink)'
+const pencil = 'color-mix(in oklab, var(--paper-ink) 40%, var(--paper))'
 
 export function PaperSketch() {
   return () => (
