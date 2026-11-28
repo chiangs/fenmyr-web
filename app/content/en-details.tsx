@@ -98,10 +98,10 @@ export const details: Pick<
       </>,
       <>
         <strong>The board stays in its lane.</strong> The canvas runs sandboxed and reaches your computer only through
-        one short list of checked actions.
+        one list of checked actions.
       </>,
       <>
-        <strong>Updates don't surprise you.</strong> Before a change ships, the app's screens are compared pixel by
+        <strong>Nothing changes by accident.</strong> Before a change ships, the app's screens are compared pixel by
         pixel with the version before.
       </>,
     ],
@@ -113,7 +113,6 @@ export const details: Pick<
     codeMap: "Curious how it's made? The code map shows every source file, what it's for and what it imports.",
     codeMapButton: 'Explore the code map',
   },
-
   beta: {
     title: 'In beta, with lots more on the way',
     lead: 'Fenmyr is young and growing fast. New things land in the beta first, and lots more features are coming.',
