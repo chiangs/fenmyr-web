@@ -9,6 +9,8 @@ export const en: Content = {
     description: summary,
     previewAlt:
       "A Fenmyr board with Myra's how-to note, Raw ideas and Ripe collections, a This week kanban and Unsorted ideas",
+    platforms: 'Linux, macOS',
+    author: 'Stephen Chiang',
   },
   header: {
     brand: 'Fenmyr',

@@ -26,11 +26,11 @@ A page that passes `path` to `Document` is indexed. It gets these from `SearchMe
 
 A page without `path`, such as the 404 page, gets `<meta name="robots" content="noindex">` and no preview tags.
 
-The home page also carries schema.org JSON-LD in `app/actions/home/structured-data.tsx`: a `WebSite`, for the site name in results, and a `SoftwareApplication` that is free, open source, for Linux and macOS, and has a download link. Google shows no rich result for an app without ratings, but the data still tells search engines what Fenmyr is. Keep it true: change it when the platforms, the licence or the download change.
+Every indexed page carries schema.org JSON-LD. The home page's, in `app/actions/home/structured-data.tsx`, is a `WebSite`, for the site name in results, and a `SoftwareApplication` that is free, open source, for Linux and macOS, and has a download link. Google shows no rich result for an app without ratings, but the data still tells search engines what Fenmyr is. Keep it true: change it when the platforms, the licence or the download change.
 
 ## The preview image
 
-`public/images/og.jpg` is 1200 × 630, the size Open Graph previews expect. `npm run images` crops it from the top of the light board screenshot. `preview` in `app/site.ts` names its source and size. Keep it under 300 kB so every chat app shows it. It is a real screenshot, like all app footage on the site.
+`public/images/og.jpg` is 1200 × 630, the size Open Graph previews expect. `npm run images` crops it from the top of the light board screenshot. `preview` in `app/site.ts` names its source and size. Keep it under 300 kB so every chat app shows it. It is a real screenshot, like all app footage on the site. Nothing checks that it matches a changed `board-light.png`, so run `npm run images` after changing the screenshot.
 
 ## robots.txt and the sitemap
 
@@ -39,7 +39,7 @@ The home page also carries schema.org JSON-LD in `app/actions/home/structured-da
 ## Adding a page
 
 1. Add the route and its entry in `pages` in `tools/build.ts`, as AGENTS.md says.
-2. Pass `path` and a `title` to `Document`. Give it its own description when the page is about something else.
+2. Pass `path`, a `title` and a `description` to `Document`, with the words in `app/content/en.tsx`, and pass its JSON-LD as `head`: at least a `WebPage`, or what the page is about.
 3. Add its canonical URL to `public/sitemap.xml`.
 4. Run `npm run check`.
 
@@ -47,19 +47,19 @@ A second language, [#3](https://github.com/chiangs/fenmyr-web/issues/3), adds `h
 
 ## The check
 
-`npm run seo` runs `tools/seo.ts` on the built site in `.vercel/output/static`, so it checks the files Vercel serves. `npm run check` runs it after the build. It fails when:
+`npm run seo` runs `tools/seo.ts` on every HTML page of the built site in `.vercel/output/static`, nested ones too, so it checks the files Vercel serves. `npm run check` runs it after the build. It fails when:
 
 - robots.txt is missing, blocks the site, or doesn't name the sitemap
-- a sitemap URL isn't a built page, or a noindex page is in it
+- a sitemap URL isn't a built HTML page, or a noindex page is in it
 - a page has no language tag or no title, or an image has no `alt`
 - an indexed page's title or description is out of range, or its title is shared with another page
 - an indexed page has no canonical URL, a canonical URL that isn't its own address, or a canonical URL that isn't in the sitemap
-- an indexed page has anything but one `<h1>`, or a heading skips a level
+- an indexed page has anything but one `<h1>`, its first heading isn't the `<h1>`, or a heading skips a level
 - an Open Graph tag is missing, or `og:url` and `og:title` differ from the canonical URL and the title
 - the preview image is missing, the wrong size, or over 300 kB
-- the Twitter card is wrong, or the JSON-LD doesn't parse or lacks the schema.org context
+- the Twitter card is wrong, or an indexed page has no JSON-LD, or it doesn't parse or lacks the schema.org context
 
-The copy test in `app/actions/copy.test.ts` checks the words in the title, description and Open Graph text like any other copy. The same-origin test skips the canonical link, since it names an address and loads nothing.
+The copy test in `app/actions/copy.test.ts` checks the words in the title, description and preview alt text like any other copy. The Open Graph title and description repeat the first two, so it doesn't count them twice. The same-origin test skips the canonical link, since it names an address and loads nothing.
 
 ## Checked by hand after a deploy
 

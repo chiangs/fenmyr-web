@@ -67,8 +67,8 @@ function visibleText(html: string) {
 function attributeText(html: string) {
   let values: string[] = []
   for (let [tag] of html.matchAll(/<[a-z][^>]*>/gi)) {
-    let isDescription =
-      /^<meta\b/i.test(tag) && /\s(?:name=(["'])description\1|property=(["'])og:(?:title|description|image:alt)\2)/i.test(tag)
+    // og:title and og:description repeat the title and description, so only the preview's alt text is new copy
+    let isDescription = /^<meta\b/i.test(tag) && /\s(?:name=(["'])description\1|property=(["'])og:image:alt\2)/i.test(tag)
     for (let [, name = '', , value = ''] of tag.matchAll(/\s(alt|aria-label|title|content)=(["'])(.*?)\2/gi)) {
       if (name.toLowerCase() === 'content' && !isDescription) continue
       values.push(decode(value))
