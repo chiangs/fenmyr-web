@@ -109,9 +109,10 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
               }),
             ]}
           >
-            {/* Myra sits in a butter tile where the other cards have a logo. 34px wide draws each of her 17 art pixels
-                as 2 whole pixels, so she stays crisp, and at 40px tall she fits the 52px tile */}
-            <span mix={[tileStyle, css({ background: 'var(--card-butter)' })]}>
+            {/* Myra sits in a logo tile like the other cards' logos. Her canvas is 17 art units wide, so 34px keeps
+                her on whole pixels at whole-number pixel ratios while she is still, and at 40px tall she fits the
+                52px tile. The top five rows of her canvas are room for her hop, so she moves up 5px to look centred */}
+            <span mix={[tileStyle, css({ '& canvas, & img': { translate: '0 -0.3125rem' } })]}>
               <Myra pose="hello" label={copy.more.myraAlt} size="2.125rem" lazy />
             </span>
             <span mix={css({ display: 'grid', gap: '0.25rem' })}>
