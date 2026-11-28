@@ -7,6 +7,7 @@ import { ButtonLink } from '../../ui/button-link.tsx'
 import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { RipePath } from './ripe-path.tsx'
+import { SlashDemo } from './public/slash-demo.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
 import type { Tone } from '../../ui/tile.tsx'
@@ -178,6 +179,18 @@ export const sections: readonly HomeSection[] = [
           {myra.lead}
         </Lead>
         <Tiles items={myraTiles} />
+      </>
+    ),
+  },
+  {
+    id: 'slash',
+    title: en.sections.slash.title,
+    content: (
+      <>
+        <Lead icon="myra" tone="lilac">
+          {en.sections.slash.lead}
+        </Lead>
+        <SlashDemo copy={en.sections.slash} />
       </>
     ),
   },

@@ -37,6 +37,7 @@ export interface HomeSectionsCopy {
     labels: { point: string; undo: string }
   }
   ripe: SectionCopy & RipeCopy
+  slash: SectionCopy & SlashCopy
   myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
   work: FeatureCopy & {
     timer: TimerCopy
@@ -105,4 +106,32 @@ export interface RipeCopy {
   myraAlt: string
   steps: Record<RipeStep, { name: string; body: RemixNode }>
   labels: { capture: string; preview: string }
+}
+
+export type SlashCommand =
+  | 'find'
+  | 'tag'
+  | 'tidy'
+  | 'due'
+  | 'fit'
+  | 'timer'
+  | 'template'
+  | 'project'
+  | 'folder'
+  | 'board'
+  | 'animate'
+  | 'clear'
+  | 'help'
+export type SlashGroup = 'board' | 'make' | 'chat'
+
+export interface SlashCopy {
+  lead: string
+  bubble: string
+  myraAlt: string
+  input: string
+  hint: string
+  empty: string
+  groups: Record<SlashGroup, string>
+  commands: Record<SlashCommand, { desc: string; reply: string }>
+  hop: { desc: string; line: string }
 }
