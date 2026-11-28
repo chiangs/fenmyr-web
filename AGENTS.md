@@ -101,6 +101,7 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/actions/home/connections.tsx` draws Works with what you already use, one card per tool with its logo, and a last More to come card, with Myra beside it, that asks which tool to connect next; `app/actions/home/home-tiles.tsx` lists each section's tiles with their tone and drawing
 - `app/actions/home/public/template-gallery.tsx` is the island for Fifteen ways to start: the app's templates in its picker's order and groups, with a chip for each role that filters them. Without JavaScript all fifteen show
 - `app/actions/home/ripe-path.tsx` draws From raw to ripe: Myra's bubble and the four steps, whose cloudberries ripen from red to gold as they scroll into view
+- `app/actions/home/ripe-ask.tsx` draws the Try step's drawing: a message to Myra, her three dots at work, and the preview window that grows in
 - `app/assets.ts` owns the server-side asset pipeline used by the asset route and render middleware
 - Root `public/` contains static files served unchanged from the app root: `styles.css` holds the fonts, shared tokens and base styles, `themes.css` the generated theme tokens, with Fenmyr's fonts in `public/fonts/` and pictures in `public/images/`. Component styles use `css()` mixins
 

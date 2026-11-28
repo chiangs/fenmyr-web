@@ -75,7 +75,7 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
         body: 'Make it a prototype board. Myra builds a clickable preview you can experiment with and test.',
       },
     },
-    labels: { capture: 'Ctrl+K', preview: 'Sign up' },
+    labels: { capture: 'Ctrl+K', ask: 'Build me a landing page' },
   },
   myra: {
     title: 'Myra shows her work',

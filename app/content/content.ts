@@ -125,7 +125,7 @@ export interface RipeCopy {
   bubble: string
   myraAlt: string
   steps: Record<RipeStep, { name: string; body: RemixNode }>
-  labels: { capture: string; preview: string }
+  labels: { capture: string; ask: string }
 }
 
 export type SlashCommand =
