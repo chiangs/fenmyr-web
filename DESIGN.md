@@ -15,21 +15,25 @@ Every section answers one question a visitor has, in the order they would ask it
 - **One column,** at most `72rem` wide, with `clamp(1rem, 4vw, 2rem)` at the sides. The header and footer share the width.
 - **A section** is a `<section>` from `app/ui/section.tsx`: an `h2`, then its content, `1.75rem` apart, with `clamp(3rem, 8vw, 5.5rem)` above and below.
 - **Most sections open with a Lead:** a `3rem` squircle in a card tone holding the section's icon, and one sentence beside it, at most `44rem` wide. The icon is a mask filled with `--card-butter-ink`.
-- **After the Lead comes one main block:** tiles, a demo, a screenshot, points or cards. A second block is a link or a pair of buttons, never another feature list.
+- **After the Lead comes the section's content,** in this order. A main visual, such as a screenshot, a demo or a card, may come first. Then the feature list: tiles, points or cards. Links and buttons that lead on come last. A section has one feature list.
 - **The order, anchors and header links** come from the registry in `app/actions/home/sections.tsx`. A section is added there, not in the page.
 - **Breakpoints:** `52rem` turns two-column layouts into one and swaps the header links for the menu. `34rem` shrinks tile drawings. Between `52rem` and `64rem` the header tightens so its links stay on one row.
+
+Check: a test in `app/actions/controller.test.ts` checks that every section in the registry is on the page, with its title and anchor. Nothing checks the rest of this structure; review does.
 
 ## Colour
 
 The app's token system applies as it is. `public/themes.css` is generated from the app's six themes by `npm run themes` and is never edited by hand. A component takes every colour from a token, and a shade is a `color-mix()` of tokens.
 
-The site's own tokens, in `public/styles.css`, are the same in every theme:
+The site's own colour tokens, in `public/styles.css`, are the same in every theme:
 
 | Token | Use |
 |---|---|
 | `--logo-tile`, `--logo-ink` | The tile behind another tool's logo, white so the logo keeps its brand colours, and the ink for logos drawn as masks |
 | `--glow-red`, `--glow-green` | Myra's glow on the timer card, as in the app |
 | `--myra-*` | Myra's pixels. Nothing else uses them |
+
+The same file also defines `--font` and `--hand`, the two font stacks, `--pill-r`, the `12px` corner for buttons and small squares, and `--header-h`, the header's height on narrow screens.
 
 How the colours are used:
 
@@ -45,13 +49,15 @@ Checks: the budget's `rawColours` count, `app/ui/themes.test.ts` for tokens that
 
 - **Figtree** for everything people read. Body text is `1.0625rem` with a line height of 1.6.
 - **Headings** are weight 800, line height 1.1, tracking `-0.03em`, and balanced.
-  - The hero's `h1`: `clamp(2.75rem, 9vw, 5.25rem)`.
+  - The hero's `h1`: `clamp(2.75rem, 9vw, 5.25rem)`, tracked tighter at `-0.045em`.
   - A section's `h2`: `clamp(1.875rem, 4.5vw, 2.75rem)`.
-  - A card's `h3`: `1.125rem`.
+  - A card's `h3`: `1.125rem` in tiles, points and logo cards. A large card that stands alone, such as Linux, Mac or an install option, uses `1.375rem`.
 - **A Lead** is `clamp(1.0625rem, 2vw, 1.1875rem)`. **Card text** is `0.96875rem` with a line height of 1.5.
 - **Small labels** above a group are `0.6875rem` to `0.75rem`, weight 600, uppercase, tracked `0.06em`.
 - **Shantell Sans,** `--hand`, is for Myra's bubbles, the From raw to ripe step names and the type specimen drawing only. It is never body text.
 - **Monospace** is for commands, slash commands and code, at `0.9em`.
+
+Nothing checks these sizes; review does.
 
 ## Shape and space
 
@@ -64,9 +70,11 @@ Checks: the budget's `rawColours` count, `app/ui/themes.test.ts` for tokens that
   - Lead icons are `3rem` with `--pill-r` corners.
   - Logo tiles are `3.25rem` with `14px` corners, in `--logo-tile`.
   - Tile drawings sit in a box `6.5rem` tall with `16px` corners. It shrinks to `5.5rem`, and the drawing to 80%, under `34rem`.
-- **Myra's bubble** is `--card-butter` with `20px` squircle corners, `--hand` at about `1.0625rem` and a soft shadow.
+- **Myra's bubble** is `--card-butter` with `--hand` at about `1.0625rem` and a soft shadow. Its corners are a `20px` to `24px` squircle. A bubble that speaks from beside Myra, as in From raw to ripe, keeps one small corner, `6px`, as its tail.
 - **Filter chips and pills** are fully round, `999px`.
 - **Something not here yet** gets a dashed outline and no shadow, on solid paper, as with More to come in Connections.
+
+Nothing checks these shapes; review does.
 
 ## Building blocks
 
@@ -83,7 +91,7 @@ Reach for these before making something new.
 | Maker's note | the `figure` in Built to last | The maker speaking for himself, signed |
 | KeyCap | `app/ui/tile-art.tsx` | A key or a button's name inside a drawing |
 
-Tiles come in sets that fill their rows. At `1440px` that's three columns, so use three or six tiles. To add one to a full set, merge two that belong together rather than leave a gap.
+Tiles come in sets that fill their rows. At `1440px`, `Tiles` lays out three columns, so use three or six tiles. With `narrow`, it lays out four, for a set of four. To add one to a full set, merge two that belong together rather than leave a gap. Nothing checks this; review does.
 
 ## Drawings
 
@@ -93,7 +101,7 @@ Tile drawings are HTML, CSS and inline SVG in `app/ui/tile-art.tsx`. They weigh 
 - **Line work** is `--card-butter-ink`. Quiet parts are mixes of `--card-white-ink`, at 22% for faint and 45% for soft. The accent marks one thing.
 - **Words inside a drawing** come from the copy, like any other text.
 - **Icons** are Phosphor, regular weight, taken from the app's own icon pack into `app/ui/pack-icons.ts`. A section's icon is an SVG in `public/images/`, used as a mask.
-- **Avoid icons that read as AI,** such as sparkles. Use a concrete object or Myra herself.
+- **A sparkle means AI,** so it appears only where the AI itself is the subject, as on AI only when you ask. For anything else, use a concrete object or Myra herself.
 
 Check: `app/ui/screenshot.test.ts` fails when the page points at a picture that isn't in `public/`. Nothing checks that a drawing matches the app; review does.
 
@@ -102,20 +110,20 @@ Check: `app/ui/screenshot.test.ts` fails when the page points at a picture that 
 The app's DESIGN.md describes who Myra is. On the site:
 
 - **She has only the hello and love poses, and the hop.** No copy or alt text claims anything else, such as a wave.
-- **Every Myra has a label in the copy.** A test in `app/actions/controller.test.ts` checks that each one is on the page.
-- **Keep her pixels whole.** Her canvas is 17 art units wide, so widths in multiples of 17 px stay crisp: `2.125rem`, `4.25rem` or `6.375rem`. A size that grows with the screen starts on one of these.
+- **Every Myra has a label in the copy.** A test in `app/actions/controller.test.ts` checks the labels it lists, so a new Myra adds hers to that list.
+- **Keep her pixels whole.** Her canvas is 17 art units wide, so widths in multiples of 17 px stay crisp: `2.125rem`, `4.25rem` or `6.375rem`. A size that grows with the screen starts on one of these. Nothing checks this; review does.
 - **She speaks only in bubbles,** in her voice, with ✦ at most once. Everywhere else the page uses the neutral voice.
 - **Another piece makes her move** by sending `MyraMoveEvent` from `app/ui/public/myra-event.ts`, never by reaching into her canvas.
 - **With reduced motion,** she is a still picture.
 
 ## Motion
 
-- **Use the platform first:** CSS transitions, keyframes, scroll-driven animation and view transitions. Changing the theme cross-fades for `350ms`.
+- **Use the platform first:** CSS transitions and keyframes, scroll-driven animation, the Web Animations API, view transitions, and canvas for Myra. AGENTS.md's Motion pattern says when a library is worth it. Changing the theme cross-fades for `350ms`.
 - **Motion explains something:** berries ripen as the steps scroll in, Myra's glow pulses on the timer, Myra hops when asked.
 - **Reduced motion stops all of it.** Nothing checks this yet: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 - **Nothing shifts the layout:**
   - A demo renders on the server at its full size, and hides what needs JavaScript with `:root:not([data-js]) &`.
-  - A list that filters keeps its box the same height and fills it from the bottom.
+  - A list that filters inside a box keeps the box the same height, and fills it from the bottom, as the slash demo does. The template gallery doesn't yet: [#48](https://github.com/chiangs/fenmyr-web/issues/48).
   - A box whose rows move sets `overflow-anchor: none`.
   - Measure in a browser before saying a layout holds still.
 
