@@ -44,7 +44,7 @@ export function SiteFooter() {
               letterSpacing: '-0.03em',
             })}
           >
-            <Mark lazy size={css({ width: '1.75rem', height: '1.75rem' })} />
+            <Mark size={css({ width: '1.75rem', height: '1.75rem' })} />
             {en.footer.brand}
           </span>
           <nav aria-label={en.footer.navLabel}>

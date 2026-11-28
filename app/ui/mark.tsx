@@ -5,7 +5,8 @@ import { modeVariant } from './mode-variant.ts'
 import type { Mode } from './themes.ts'
 import { modes } from './themes.ts'
 
-// On a dark page the berry's tint blurs into the ground, so dark mode shows only its lines, as the app's outline icon does.
+// On a dark page the berry's tint blurs into the ground, so the site shows only its lines there. The app keeps the tint in
+// every mode. Both are lazy, so the hidden one is never fetched; the theme picker loads the other ahead of a switch.
 const markSources = {
   light: '/images/mark.svg',
   dark: '/images/mark-outline.svg',
@@ -13,13 +14,11 @@ const markSources = {
 
 export interface MarkProps {
   size: ReturnType<typeof css>
-  lazy?: boolean
 }
 
 export function Mark(handle: Handle<MarkProps>) {
   return () => {
-    let { size, lazy } = handle.props
-    let loading: 'lazy' | undefined = lazy ? 'lazy' : undefined
+    let { size } = handle.props
 
     return (
       <>
@@ -30,7 +29,7 @@ export function Mark(handle: Handle<MarkProps>) {
             alt=""
             width={256}
             height={256}
-            loading={loading}
+            loading="lazy"
             data-variant={mode}
             mix={[modeVariant, size]}
           />

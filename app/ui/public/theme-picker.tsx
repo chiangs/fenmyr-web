@@ -115,9 +115,9 @@ function near(element: Element | null) {
 }
 
 async function loadScreenshots(mode: Mode) {
-  let images = Array.from(document.querySelectorAll<HTMLImageElement>(`picture[data-variant="${mode}"] img`)).filter(
-    (image) => near(image.closest('picture')?.parentElement ?? null),
-  )
+  let images = Array.from(
+    document.querySelectorAll<HTMLImageElement>(`picture[data-variant="${mode}"] img, img[data-variant="${mode}"]`),
+  ).filter((image) => near(image.closest('picture')?.parentElement ?? image.parentElement))
   for (let image of images) image.loading = 'eager'
   await Promise.race([
     Promise.allSettled(images.map((image) => image.decode())),
