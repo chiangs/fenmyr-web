@@ -160,6 +160,7 @@ export interface TemplatesCopy {
   lead: string
   filter: string
   all: string
+  shown: string
   roles: Record<TemplateRole, string>
   groups: Record<TemplateGroup, string>
   items: Record<TemplateId, { name: string; line: string }>

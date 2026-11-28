@@ -237,6 +237,7 @@ export const en: Content = {
       lead: 'Templates for designers, product leads, workshop facilitators and makers. Each one comes with an instruction card, so you never face a blank board. Make your own, too.',
       filter: 'Show templates for',
       all: 'All',
+      shown: '{count} templates shown',
       roles: {
         designers: 'Designers',
         productLeads: 'Product leads',
@@ -253,7 +254,7 @@ export const en: Content = {
         opportunity: { name: 'Opportunity map', line: 'Outcome → opportunities → solutions' },
         impact: { name: 'Impact / effort', line: 'Sort ideas into four boxes' },
         moodboard: { name: 'Moodboard', line: 'Pictures, colours and fonts for a feeling' },
-        brainDump: { name: 'Brain dump', line: 'Empty your head, then I’ll sort it' },
+        brainDump: { name: 'Brain dump', line: "Empty your head, then I'll sort it" },
         okrs: { name: 'OKRs and opportunities', line: 'A vision, its key results and an opportunity tree' },
         kickoff: { name: 'Product kickoff', line: 'Why, who for, the edges and the first steps' },
         appPlan: { name: 'App plan', line: "Who it's for, the problem, the screens" },

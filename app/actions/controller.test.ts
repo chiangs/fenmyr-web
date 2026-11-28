@@ -78,8 +78,11 @@ describe('root controller', () => {
     let items = Object.values(en.sections.templates.items)
     assert.equal(items.length, 15)
     assert.ok(en.sections.templates.title.startsWith('Fifteen'), 'the title no longer matches the count')
-    assert.equal(section.split('data-template=').length - 1, items.length)
-    for (let { name } of items) assert.ok(section.includes(name), `missing "${name}"`)
+    let cards = new Map([...section.matchAll(/<li[^>]*data-template="(\w+)"[^>]*>([\s\S]*?)<\/li>/g)].map(([, id = '', card = '']) => [id, card]))
+    assert.equal(cards.size, items.length)
+    for (let [id, { name }] of Object.entries(en.sections.templates.items)) {
+      assert.ok(cards.get(id)?.includes(`>${name.replace('&', '&amp;')}</strong>`), `the ${id} card doesn't show "${name}"`)
+    }
   })
 
   it('GET / shows every Myra as a still picture, not an animated one', async () => {

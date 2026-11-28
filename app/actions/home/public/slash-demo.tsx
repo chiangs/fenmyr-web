@@ -173,9 +173,10 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
           {shown.length === 0 ? (
             <p mix={css({ padding: '0.875rem 1rem', color: 'var(--card-white-soft)' })}>{copy.empty}</p>
           ) : null}
-          {started ? (
+          {/* rendered on the server too, so the row takes its space before the island starts; hidden without JavaScript */}
             <div
               mix={css({
+                ':root:not([data-js]) &': { display: 'none' },
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
@@ -227,7 +228,6 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
               />
               <span>{copy.hint}</span>
             </div>
-          ) : null}
         </div>
         <div
           mix={css({

@@ -52,8 +52,8 @@ const thumbStyles: Record<Thumb, ReturnType<typeof css>> = {
   }),
   tree: css({
     gridTemplate: '1fr 1fr / 1fr 1fr 1fr',
-    '& i': block('var(--card-mint)'),
-    '& i:first-child': block('var(--card-butter)', { gridColumn: '2' }),
+    '& i': block('var(--card-mint)', { gridRow: '2' }),
+    '& i:first-child': block('var(--card-butter)', { gridRow: '1', gridColumn: '2' }),
   }),
   scatter: css({
     position: 'relative',
@@ -91,6 +91,16 @@ const thumbStyles: Record<Thumb, ReturnType<typeof css>> = {
 
 const count: Record<Thumb, number> = { quad: 4, columns: 6, flow: 4, tree: 4, scatter: 4, list: 3, screens: 3, board: 3, window: 2 }
 
+// read by screen readers, unseen on screen
+const hidden = css({
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+})
+
 const chipStyle = css({
   padding: '0.375rem 0.875rem',
   border: '1px solid var(--border)',
@@ -110,16 +120,12 @@ const chipStyle = css({
 export const TemplateGallery = clientEntry(
   import.meta.url,
   function TemplateGallery(handle: Handle<{ copy: TemplatesCopy }>) {
-    let started = false
     let role: TemplateRole | null = null
-
-    handle.queueTask(() => {
-      started = true
-      handle.update()
-    })
+    let chosen = false
 
     let choose = (next: TemplateRole | null) => {
       role = next
+      chosen = true
       handle.update()
     }
 
@@ -129,8 +135,18 @@ export const TemplateGallery = clientEntry(
 
       return (
         <div mix={css({ display: 'grid', gap: '1.25rem' })}>
-          {started ? (
-            <div role="group" aria-label={copy.filter} mix={css({ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' })}>
+          {/* the chips render on the server too, so they take their space before the island starts; without
+              JavaScript, which the head script marks with data-js, they stay hidden and all fifteen show */}
+          <div
+            role="group"
+            aria-label={copy.filter}
+            mix={css({
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.5rem',
+              ':root:not([data-js]) &': { display: 'none' },
+            })}
+          >
               <button type="button" aria-pressed={role === null} mix={[chipStyle, on('click', () => choose(null))]}>
                 {copy.all}
                 <span>{templates.length}</span>
@@ -146,8 +162,10 @@ export const TemplateGallery = clientEntry(
                   <span>{templates.filter((template) => template.roles.includes(each)).length}</span>
                 </button>
               ))}
-            </div>
-          ) : null}
+          </div>
+          <p aria-live="polite" mix={hidden}>
+            {chosen ? copy.shown.replace('{count}', String(shown.length)) : ''}
+          </p>
           <ul
             mix={css({
               display: 'grid',
