@@ -95,7 +95,8 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
               </span>
             </li>
           ))}
-          {/* not a connection yet, so a dashed outline instead of a card's paper and shadow */}
+          {/* not a connection yet, so a dashed outline and no shadow; the paper stays opaque, so its text keeps the
+              contrast the card colours were chosen for */}
           <li
             data-connection-more=""
             mix={[
@@ -104,18 +105,22 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
                 border: '1.5px dashed color-mix(in oklab, var(--card-white-ink) 28%, transparent)',
                 borderRadius: '24px',
                 cornerShape: 'squircle',
-                background: 'color-mix(in oklab, var(--card-white) 45%, transparent)',
+                background: 'var(--card-white)',
               }),
             ]}
           >
-            {/* Myra stands in the logo's place and asks the question herself */}
-            <span mix={css({ display: 'grid', placeItems: 'center', width: '3.25rem', height: '3.25rem' })}>
-              <Myra pose="hello" label={copy.more.myraAlt} size="3.25rem" lazy />
+            {/* Myra stands in the logo's place. 51px wide draws each of her 17 art pixels as 3 whole pixels, so she
+                stays crisp; she is 60px tall, so the slot takes her own height */}
+            <span mix={css({ display: 'grid', justifyItems: 'center', width: '3.25rem' })}>
+              <Myra pose="hello" label={copy.more.myraAlt} size="3.1875rem" lazy />
             </span>
             <span mix={css({ display: 'grid', gap: '0.25rem' })}>
               <h3>{copy.more.name}</h3>
               <p>{copy.more.line}</p>
-              <a href="https://github.com/chiangs/fenmyr/issues/new" mix={[linkStyle, css({ justifySelf: 'start' })]}>
+              <a
+                href="https://github.com/chiangs/fenmyr/issues/new?template=feature_request.yml"
+                mix={[linkStyle, css({ justifySelf: 'start' })]}
+              >
                 {copy.more.suggest} →
               </a>
             </span>

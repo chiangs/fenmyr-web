@@ -32,7 +32,7 @@ export const details: Pick<
       name: 'More to come',
       line: 'Which tool should Fenmyr work with next?',
       suggest: 'Suggest one on GitHub',
-      myraAlt: 'Myra, a pixel cloudberry, waves hello',
+      myraAlt: 'Myra, a pixel cloudberry, beams beside the last card',
     },
   },
   local: {

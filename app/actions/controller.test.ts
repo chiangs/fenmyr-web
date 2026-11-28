@@ -90,7 +90,10 @@ describe('root controller', () => {
     let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
     let ids = Object.keys(en.sections.connections.items)
     assert.equal(html.split('data-connection=').length - 1, ids.length)
-    assert.ok(html.includes('data-connection-more'), 'no More to come card after the connections')
+    assert.ok(
+      html.indexOf('data-connection-more') > html.lastIndexOf('data-connection='),
+      'no More to come card after the connections',
+    )
     let notice = readFileSync(new URL('../../NOTICE', import.meta.url), 'utf8')
     for (let file of readdirSync(new URL('../../public/images/logos/', import.meta.url)).filter((name) => !name.startsWith('.'))) {
       assert.ok(notice.includes(`- ${file}:`), `NOTICE doesn't name public/images/logos/${file}`)
