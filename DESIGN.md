@@ -83,20 +83,20 @@ Reach for these before making something new.
 
 | Block | Where | Use it for |
 |---|---|---|
-| Tiles | `app/ui/tile.tsx`, drawings in `app/ui/tile-art.tsx` | A set of features. Each tile has a drawing, a title and one or two sentences |
+| Tiles | `app/ui/tile.tsx`, drawings in `app/ui/tile-art/` | A set of features. Each tile has a drawing, a title and one or two sentences |
 | Points | `Points` in `sections.tsx` | Three or four short claims, each led by a bold phrase |
 | Logo cards | `app/actions/home/connections.tsx` | Other tools Fenmyr works with |
 | Screenshot | `app/ui/screenshot.tsx` | A real screen of the app, light and dark |
 | Demo | an island in `app/actions/home/public/` | Something visitors try: the slash commands, the template filter |
 | Myra with a bubble | `app/ui/public/myra.tsx` | Myra saying one thing, in her voice |
 | Maker's note | the `figure` in Built to last | The maker speaking for himself, signed |
-| KeyCap | `app/ui/tile-art.tsx` | A key or a button's name inside a drawing |
+| KeyCap | `app/ui/tile-art/key-cap.tsx` | A key or a button's name inside a drawing |
 
 Tiles come in sets that fill their rows. At `1440px`, `Tiles` lays out three columns, so use three or six tiles. With `narrow`, it lays out four, for a set of four. To add one to a full set, merge two that belong together rather than leave a gap. Nothing checks this; review does.
 
 ## Drawings
 
-Tile drawings are HTML, CSS and inline SVG in `app/ui/tile-art.tsx`. They weigh almost nothing and follow every theme.
+Tile drawings are HTML, CSS and inline SVG in `app/ui/tile-art/`, one file per section, with what they share in `base.ts`. They weigh almost nothing and follow every theme.
 
 - **Draw the feature's own shape, simplified:** the phone preview, the slider, the commits on a line. A visitor should recognise it in the app.
 - **Line work** is `--card-butter-ink`. Quiet parts are mixes of `--card-white-ink`, at 22% for faint and 45% for soft. The accent marks one thing. Paper is the one exception: it uses `--paper` and `--paper-ink`, so it stays white in dark mode.
@@ -127,6 +127,17 @@ The app's DESIGN.md describes who Myra is. On the site:
   - A list that filters keeps its size. Inside a box, it keeps the box the same height and fills it from the bottom, as the slash demo does. In a grid, every item stays in place and the ones that don't match fade, as the template gallery does. Only where the grid is one column, on a phone, do the matches move to the top, with no fade, since moving and fading at once flashes. Nothing checks this; review does.
   - A box whose rows move sets `overflow-anchor: none`.
   - Measure in a browser before saying a layout holds still.
+
+### Tile drawings in motion
+
+- **A drawing plays its feature once,** when its tile scrolls into view, and again when the pointer or focus comes to the tile. The slider's handles try values, captures appear one by one. It never loops.
+- **`playOnSeen` in `app/ui/tile-art/base.ts` does the waiting.** `app/ui/public/tile-motion.tsx` marks a tile `data-seen` when 60% of it is on screen. Until then, the drawing waits in its first frame. With reduced motion, or without JavaScript, it is the still drawing.
+- **Every animation ends on the still drawing,** with fill-mode `both`, so a drawing looks the same before, after and without motion.
+- **About 1.5 to 2.5 seconds,** eased, with nothing faster than the eye can follow.
+- **Only transforms, opacity and SVG stroke drawing move.** A moving part rides on a layer moved by `translate` or grows by `scale`, as the slider's handles and fills do, so nothing reflows.
+- **`@keyframes` names start with `tile-`** and the drawing's name, since keyframe names are global.
+
+Check: nothing in `npm run check` runs the motion. Review measures it in a browser for each drawing: it waits until seen, plays once, ends on the still drawing, replays on hover, and stays still with reduced motion.
 
 ## Images and video
 
