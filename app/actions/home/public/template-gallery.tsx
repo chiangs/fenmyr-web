@@ -135,7 +135,8 @@ export const TemplateGallery = clientEntry(
       let shown = templates.filter(matches)
 
       return (
-        <div mix={css({ display: 'grid', gap: '1.25rem' })}>
+        // a container, so the grid's own width, not the window's, decides when it is one column
+        <div mix={css({ display: 'grid', gap: '1.25rem', containerType: 'inline-size' })}>
           {/* the chips render on the server too, so they take their space before the island starts; without
               JavaScript, which the head script marks with data-js, they stay hidden and all fifteen show */}
           <div
@@ -175,6 +176,8 @@ export const TemplateGallery = clientEntry(
               margin: 0,
               padding: 0,
               listStyle: 'none',
+              // on a phone its rows move, so the page mustn't anchor its scroll to one of them
+              overflowAnchor: 'none',
             })}
           >
             {/* every template stays on the page, so choosing a role never moves what comes after; the ones that
@@ -201,12 +204,14 @@ export const TemplateGallery = clientEntry(
                     boxShadow:
                       'var(--card-edge, 0 0 0 0 transparent), 0 6px 18px rgba(var(--sh), calc(.08 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
                     '&[data-faded]': { opacity: 0.3, filter: 'saturate(0.4)' },
-                    // in one column on a phone, the matches move to the top, so the visitor doesn't scroll past
-                    // faded cards; the column's height is the same in any order. Wider, the cards stay put, so
-                    // nothing jumps to a new place mid-fade
-                    '@media (max-width: 34rem)': { '&[data-faded]': { order: 1 } },
-                    '@media (min-width: 34.01rem) and (prefers-reduced-motion: no-preference)': {
-                      transition: 'opacity 160ms ease, filter 160ms ease',
+                    // two columns need 2 × 15.5rem and the gap. Below that, in one column, the matches move to the
+                    // top, so the visitor doesn't scroll past faded cards; a column's height is the same in any
+                    // order. Wider, the cards stay put and fade, so nothing jumps to a new place mid-fade
+                    '@container (width < 31.75rem)': { '&[data-faded]': { order: 1 } },
+                    '@container (width >= 31.75rem)': {
+                      '@media (prefers-reduced-motion: no-preference)': {
+                        transition: 'opacity 160ms ease, filter 160ms ease',
+                      },
                     },
                   })}
                 >
