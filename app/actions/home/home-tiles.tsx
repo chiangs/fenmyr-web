@@ -7,6 +7,7 @@ import type { Tone } from '../../ui/tile.tsx'
 import {
   Columns,
   Commits,
+  Captures,
   CodeLines,
   DashedPlan,
   DueList,
@@ -34,7 +35,7 @@ export const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
   ['live', 'butter', <Slider />],
   ['point', 'lilac', <Pointer label={prototype.labels.point} />],
   ['code', 'peach', <CodeLines />],
-  ['keep', 'mint', <KeyCap label={prototype.labels.undo} />],
+  ['versions', 'mint', <Captures />],
   ['git', 'pink', <Commits />],
 ])
 
