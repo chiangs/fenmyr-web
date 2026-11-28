@@ -1,6 +1,6 @@
 # Fenmyr Agent Guide
 
-Read the Purpose section in `README.md` before changing the site. Every change serves it.
+Read the Purpose section in `README.md` before changing the site. Every change serves it. Read [DESIGN.md](DESIGN.md) before changing how the site looks or reads. A change that adds a pattern or a visual rule records it there in the same pull request; nothing checks that, review does.
 
 ## Rules
 
