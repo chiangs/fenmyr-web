@@ -14,7 +14,15 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
         body: 'Photograph a paper sketch and drop it in, or draw on the board. Myra builds from what she sees, wireframes too.',
       },
       run: { title: 'See it run', body: 'The preview sits beside the board at any device width.' },
-      live: { title: 'Change it live', body: 'Controls above the preview change its values as you watch.' },
+      live: {
+        title: 'Change it live',
+        body: (
+          <>
+            Ask Myra once for controls, such as a colour or a size. Then try values yourself as the preview changes,
+            with no AI and no tokens. <strong>Keep these values</strong> writes them into the code.
+          </>
+        ),
+      },
       code: {
         title: 'Read the code',
         body: (
