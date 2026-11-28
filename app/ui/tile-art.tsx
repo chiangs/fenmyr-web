@@ -86,19 +86,26 @@ export function Slider() {
   )
 }
 
-export function Pointer(handle: Handle<{ label: string }>) {
+// a sheet of paper with a rough screen drawn on it in pen, a little askew, as a photo of a sketch lands on the board.
+// Paper stays white and pen stays dark in every theme, so it uses the logo tile's colours, not the card ones
+const paper = 'var(--logo-tile)'
+const pen = 'var(--logo-ink)'
+const pencil = 'color-mix(in oklab, var(--logo-ink) 40%, var(--logo-tile))'
+
+export function PaperSketch() {
   return () => (
-    <span mix={css({ position: 'relative', display: 'inline-grid' })}>
-      <KeyCap label={handle.props.label} />
-      <svg
-        viewBox="0 0 16 20"
-        width="18"
-        height="22"
-        mix={css({ position: 'absolute', right: '-12px', bottom: '-16px', fill: 'var(--card-white)', stroke: line, strokeWidth: 1.5 })}
-      >
-        <path d="M2 2 L2 16 L6 12.5 L9 18 L11.5 17 L8.5 11.5 L13.5 11.5 Z" strokeLinejoin="round" />
-      </svg>
-    </span>
+    <svg viewBox="0 0 120 84" width="120" height="84" mix={css({ overflow: 'visible', rotate: '-4deg' })}>
+      <path d="M4 4 H104 L116 16 V80 H4 Z" fill={paper} stroke={pencil} strokeWidth={1.5} strokeLinejoin="round" />
+      <path d="M104 4 V16 H116" fill="none" stroke={pencil} strokeWidth={1.5} strokeLinejoin="round" />
+      <g fill="none" stroke={pen} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 15 C32 13 46 16 61 14 C62 30 60 52 62 70 C46 72 31 69 16 71 C18 52 15 32 17 15 Z" />
+        <path d="M23 26 C32 25 40 27 52 25" />
+        <path d="M23 35 C30 34 36 36 44 34" />
+        <path d="M24 49 C32 47 44 50 54 48 C55 53 54 57 55 61 C44 62 33 60 24 62 C25 57 23 53 24 49 Z" />
+      </g>
+      <path d="M72 30 C80 29 90 31 100 29 M72 40 C79 39 86 41 94 39" fill="none" stroke={pencil} strokeWidth={2} strokeLinecap="round" />
+      <path d="M70 58 C78 52 86 66 96 56" fill="none" stroke="var(--pink-deep)" strokeWidth={2.5} strokeLinecap="round" />
+    </svg>
   )
 }
 

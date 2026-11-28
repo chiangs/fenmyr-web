@@ -16,7 +16,7 @@ export interface TileCopy {
   body: RemixNode
 }
 
-export type PrototypeTile = 'run' | 'live' | 'point' | 'code' | 'versions' | 'git'
+export type PrototypeTile = 'paper' | 'run' | 'live' | 'code' | 'versions' | 'git'
 export type LocalTile = 'offline' | 'files' | 'ask' | 'export'
 export type BetaTile = 'update' | 'channel' | 'report'
 export type WorkTile = 'due' | 'home' | 'kanban' | 'find'
@@ -36,7 +36,6 @@ export interface HomeSectionsCopy {
     nav: string
     screenshotAlt: string
     tiles: Record<PrototypeTile, TileCopy>
-    labels: { point: string }
   }
   ripe: SectionCopy & RipeCopy
   slash: SectionCopy & SlashCopy
