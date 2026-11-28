@@ -1,7 +1,9 @@
 import type { Handle, RemixNode } from 'remix/component'
 import { css } from 'remix/component'
 
-export type Tone = 'white' | 'butter' | 'pink' | 'mint' | 'sky' | 'lilac' | 'peach'
+import { cardStyle } from './card.ts'
+
+export type Tone = 'butter' | 'pink' | 'mint' | 'sky' | 'lilac' | 'peach'
 
 export interface TileItem {
   key: string
@@ -16,12 +18,7 @@ const tileStyle = css({
   alignContent: 'start',
   gap: '0.75rem',
   padding: '0.875rem 0.875rem 1.25rem',
-  borderRadius: '24px',
-  cornerShape: 'squircle',
-  background: 'var(--card-white)',
   color: 'var(--card-white-soft)',
-  boxShadow:
-    'var(--card-edge, 0 0 0 0 transparent), 0 10px 30px rgba(var(--sh), calc(.10 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
   '& h3': { paddingInline: '0.375rem', fontSize: '1.125rem', letterSpacing: '-0.015em', color: 'var(--card-white-ink)' },
   '& p': { paddingInline: '0.375rem', fontSize: '0.96875rem', lineHeight: 1.5 },
   '& strong': { color: 'var(--card-white-ink)', fontWeight: 800 },
@@ -52,7 +49,7 @@ export function Tiles(handle: Handle<{ items: readonly TileItem[] }>) {
       })}
     >
       {handle.props.items.map((item) => (
-        <li key={item.key} mix={tileStyle}>
+        <li key={item.key} mix={[cardStyle, tileStyle]}>
           <div aria-hidden="true" style={{ background: `var(--card-${item.tone})` }} mix={artStyle}>
             {item.art}
           </div>

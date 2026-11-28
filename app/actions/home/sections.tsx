@@ -4,6 +4,7 @@ import { css } from 'remix/component'
 import type { MyraTile, PrototypeTile, SectionId, TileCopy } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
+import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
@@ -18,15 +19,6 @@ export interface HomeSection {
   nav?: string
   content: RemixNode
 }
-
-const cardStyle = css({
-  borderRadius: '24px',
-  cornerShape: 'squircle',
-  background: 'var(--card-white)',
-  color: 'var(--card-white-ink)',
-  boxShadow:
-    'var(--card-edge, 0 0 0 0 transparent), 0 10px 30px rgba(var(--sh), calc(.10 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
-})
 
 const proseStyle = css({
   display: 'grid',

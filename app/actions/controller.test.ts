@@ -42,6 +42,18 @@ describe('root controller', () => {
     assert.equal(html.split('Where ideas thrive.').length - 1, 1)
   })
 
+  it('GET / shows every tile of the prototype and Myra sections', async () => {
+    let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
+
+    for (let id of ['prototype', 'myra'] as const) {
+      let start = html.indexOf(`id="${id}"`)
+      let section = html.slice(start, html.indexOf('</section>', start))
+      let tiles = Object.values(en.sections[id].tiles)
+      assert.equal(section.split('<h3').length - 1, tiles.length, `${id} renders a different number of tiles`)
+      for (let tile of tiles) assert.ok(section.includes(`>${tile.title}</h3>`), `${id} is missing the tile "${tile.title}"`)
+    }
+  })
+
   it('GET / shows both Myras as still pictures, not animated ones', async () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()

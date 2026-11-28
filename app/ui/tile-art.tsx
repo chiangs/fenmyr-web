@@ -1,8 +1,9 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
-const faint = 'color-mix(in oklab, currentColor 22%, transparent)'
-const soft = 'color-mix(in oklab, currentColor 45%, transparent)'
+const faint = 'color-mix(in oklab, var(--card-white-ink) 22%, transparent)'
+const soft = 'color-mix(in oklab, var(--card-white-ink) 45%, transparent)'
+const line = 'var(--card-butter-ink)'
 
 const surface = {
   background: 'var(--card-white)',
@@ -89,7 +90,7 @@ export function Pointer(handle: Handle<{ label: string }>) {
         viewBox="0 0 16 20"
         width="18"
         height="22"
-        mix={css({ position: 'absolute', right: '-12px', bottom: '-16px', fill: 'var(--card-white)', stroke: 'currentColor', strokeWidth: 1.5 })}
+        mix={css({ position: 'absolute', right: '-12px', bottom: '-16px', fill: 'var(--card-white)', stroke: line, strokeWidth: 1.5 })}
       >
         <path d="M2 2 L2 16 L6 12.5 L9 18 L11.5 17 L8.5 11.5 L13.5 11.5 Z" strokeLinejoin="round" />
       </svg>
@@ -124,18 +125,18 @@ export function CodeLines() {
 export function Commits() {
   return () => (
     <svg viewBox="0 0 150 40" width="150" height="40" mix={css({ overflow: 'visible' })}>
-      <path d="M12 20 H138" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" opacity="0.5" />
+      <path d="M12 20 H138" stroke={line} strokeWidth={2.5} strokeLinecap="round" opacity="0.5" />
       {[12, 54, 96].map((x) => (
-        <circle key={x} cx={x} cy="20" r="8" fill="var(--card-white)" stroke="currentColor" strokeWidth={2.5} />
+        <circle key={x} cx={x} cy="20" r="8" fill="var(--card-white)" stroke={line} strokeWidth={2.5} />
       ))}
-      <circle cx="138" cy="20" r="9" fill="var(--pink-deep)" stroke="currentColor" strokeWidth={2.5} />
+      <circle cx="138" cy="20" r="9" fill="var(--pink-deep)" stroke={line} strokeWidth={2.5} />
     </svg>
   )
 }
 
 export function DashedPlan() {
   return () => (
-    <svg viewBox="0 0 150 64" width="150" height="64" fill="none" stroke="currentColor" strokeWidth={2} strokeDasharray="6 5">
+    <svg viewBox="0 0 150 64" width="150" height="64" fill="none" stroke={line} strokeWidth={2} strokeDasharray="6 5">
       <rect x="4" y="6" width="56" height="52" rx="10" />
       <rect x="90" y="6" width="56" height="52" rx="10" />
       <path d="M62 32 H86" strokeDasharray="4 4" />
@@ -147,7 +148,7 @@ export function DashedPlan() {
 export function Specimen(handle: Handle<{ label: string }>) {
   return () => (
     <span mix={css({ display: 'flex', alignItems: 'baseline', gap: '0.75rem' })}>
-      <span mix={css({ fontFamily: 'var(--hand)', fontSize: '3rem', lineHeight: 1 })}>{handle.props.label}</span>
+      <span mix={css({ fontFamily: 'var(--hand)', fontSize: '3rem', fontWeight: 500, lineHeight: 1 })}>{handle.props.label}</span>
       <span mix={css({ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em' })}>
         {handle.props.label}
       </span>
