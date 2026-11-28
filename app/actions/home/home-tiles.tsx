@@ -4,7 +4,7 @@ import { css } from 'remix/component'
 import type { BetaTile, LocalTile, MyraTile, PrototypeTile, TileCopy, WorkTile } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import type { Tone } from '../../ui/tile.tsx'
-import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
+import { AddKey, KeyCap, StopKey, UndoKey } from '../../ui/tile-art/key-cap.tsx'
 import { DashedPlan, ResearchDoc, Switches } from '../../ui/tile-art/myra.tsx'
 import { Phone } from '../../ui/tile-art/phone.tsx'
 import { Captures, CodeLines, Commits, PaperSketch, Slider } from '../../ui/tile-art/prototype.tsx'
@@ -29,10 +29,10 @@ export const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
 ])
 
 export const myraTiles = tilesOf<MyraTile>(myra.tiles, [
-  ['sees', 'sky', <KeyCap label={myra.labels.add} />],
+  ['sees', 'sky', <AddKey label={myra.labels.add} />],
   ['asks', 'butter', <DashedPlan />],
-  ['undo', 'mint', <KeyCap label={myra.labels.undo} />],
-  ['stop', 'peach', <KeyCap label={myra.labels.stop} />],
+  ['undo', 'mint', <UndoKey label={myra.labels.undo} />],
+  ['stop', 'peach', <StopKey label={myra.labels.stop} />],
   ['research', 'lilac', <ResearchDoc />],
   ['settings', 'pink', <Switches />],
 ])
