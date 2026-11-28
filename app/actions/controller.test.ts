@@ -71,6 +71,17 @@ describe('root controller', () => {
     for (let { desc } of Object.values(en.sections.slash.commands)) assert.ok(section.includes(desc), `missing "${desc}"`)
   })
 
+  it('GET / shows all fifteen templates, and the title says so', async () => {
+    let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
+    let start = html.indexOf('id="templates"')
+    let section = html.slice(start, html.indexOf('</section>', start))
+    let items = Object.values(en.sections.templates.items)
+    assert.equal(items.length, 15)
+    assert.ok(en.sections.templates.title.startsWith('Fifteen'), 'the title no longer matches the count')
+    assert.equal(section.split('data-template=').length - 1, items.length)
+    for (let { name } of items) assert.ok(section.includes(name), `missing "${name}"`)
+  })
+
   it('GET / shows every Myra as a still picture, not an animated one', async () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()

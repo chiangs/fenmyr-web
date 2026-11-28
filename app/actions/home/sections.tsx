@@ -8,6 +8,7 @@ import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { RipePath } from './ripe-path.tsx'
 import { SlashDemo } from './public/slash-demo.tsx'
+import { TemplateGallery } from './public/template-gallery.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
 import type { Tone } from '../../ui/tile.tsx'
@@ -204,6 +205,19 @@ export const sections: readonly HomeSection[] = [
         </Lead>
         <TimerCard copy={work.timer} />
         <Tiles items={workTiles} narrow />
+      </>
+    ),
+  },
+  {
+    id: 'templates',
+    title: en.sections.templates.title,
+    nav: en.sections.templates.nav,
+    content: (
+      <>
+        <Lead icon="templates" tone="mint">
+          {en.sections.templates.lead}
+        </Lead>
+        <TemplateGallery copy={en.sections.templates} />
       </>
     ),
   },
