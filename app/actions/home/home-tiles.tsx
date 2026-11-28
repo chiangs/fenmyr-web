@@ -16,8 +16,8 @@ import {
   KeyCap,
   PaperSketch,
   Phone,
+  ResearchDoc,
   Slider,
-  Specimen,
   Switches,
 } from '../../ui/tile-art.tsx'
 
@@ -44,7 +44,7 @@ export const myraTiles = tilesOf<MyraTile>(myra.tiles, [
   ['asks', 'butter', <DashedPlan />],
   ['undo', 'mint', <KeyCap label={myra.labels.undo} />],
   ['stop', 'peach', <KeyCap label={myra.labels.stop} />],
-  ['type', 'lilac', <Specimen label={myra.labels.type} />],
+  ['research', 'lilac', <ResearchDoc />],
   ['settings', 'pink', <Switches />],
 ])
 

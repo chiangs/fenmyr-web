@@ -193,13 +193,39 @@ export function DashedPlan() {
   )
 }
 
-export function Specimen(handle: Handle<{ label: string }>) {
+// a doc Myra wrote from her searches, with a heading, its findings and one marked as the key one, and the
+// magnifying glass of the search that filled it
+export function ResearchDoc() {
   return () => (
-    <span mix={css({ display: 'flex', alignItems: 'baseline', gap: '0.75rem' })}>
-      <span mix={css({ fontFamily: 'var(--hand)', fontSize: '3rem', fontWeight: 500, lineHeight: 1 })}>{handle.props.label}</span>
-      <span mix={css({ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em' })}>
-        {handle.props.label}
+    <span mix={css({ position: 'relative', display: 'inline-grid' })}>
+      <span
+        mix={css({
+          ...surface,
+          display: 'grid',
+          gap: '7px',
+          width: '9.5rem',
+          padding: '0.75rem',
+          borderRadius: '12px',
+          '& b': { display: 'block', width: '58%', height: '8px', borderRadius: '4px', background: soft },
+          '& i': { display: 'block', height: '6px', borderRadius: '3px', background: faint },
+          '& i:nth-of-type(2)': { width: '82%', background: 'var(--pink-deep)' },
+          '& i:nth-of-type(3)': { width: '64%' },
+        })}
+      >
+        <b />
+        <i />
+        <i />
+        <i />
       </span>
+      <svg
+        viewBox="0 0 28 28"
+        width="30"
+        height="30"
+        mix={css({ position: 'absolute', top: '-12px', right: '-14px', overflow: 'visible' })}
+      >
+        <circle cx="12" cy="12" r="8" fill="var(--card-white)" stroke={line} strokeWidth={2.5} />
+        <path d="M18 18 L25 25" stroke={line} strokeWidth={3} strokeLinecap="round" />
+      </svg>
     </span>
   )
 }

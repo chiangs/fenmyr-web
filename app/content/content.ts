@@ -20,7 +20,7 @@ export type PrototypeTile = 'paper' | 'run' | 'live' | 'code' | 'versions' | 'gi
 export type LocalTile = 'offline' | 'files' | 'ask' | 'export'
 export type BetaTile = 'update' | 'channel' | 'report'
 export type WorkTile = 'due' | 'home' | 'kanban' | 'find'
-export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'type' | 'settings'
+export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'research' | 'settings'
 
 export interface TimerCopy {
   title: string
@@ -39,7 +39,7 @@ export interface HomeSectionsCopy {
   }
   ripe: SectionCopy & RipeCopy
   slash: SectionCopy & SlashCopy
-  myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
+  myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string } }
   work: FeatureCopy & {
     timer: TimerCopy
     tiles: Record<WorkTile, TileCopy>

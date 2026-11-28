@@ -37,7 +37,7 @@ export const en: Content = {
   hero: {
     tagline: 'Where ideas thrive.',
     lead: summary,
-    body: 'Fenmyr is a free, open-source canvas for Linux and macOS. Spread notes, pictures, links, checklists, docs and wireframes across an endless board, then ask Myra to sort, plan and prototype. Your boards are plain files on your computer, and the AI runs only when you ask.',
+    body: 'Fenmyr is a free, open-source canvas for Linux and macOS. Spread notes, pictures, links, checklists, docs and wireframes across an endless board, then ask Myra to research, sort, plan and prototype. Your boards are plain files on your computer, and the AI runs only when you ask.',
     bubble: "Hello, I'm Myra. Bring me your messiest board ✦",
     download: 'Download',
     github: 'View on GitHub',
