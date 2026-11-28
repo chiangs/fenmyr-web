@@ -1,11 +1,15 @@
 import type { Handle, RemixNode } from 'remix/component'
 import { css } from 'remix/component'
 
-import type { SectionId } from '../../content/content.ts'
+import type { MyraTile, PrototypeTile, SectionId, TileCopy } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
+import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
+import { Tiles } from '../../ui/tile.tsx'
+import type { Tone } from '../../ui/tile.tsx'
+import { Commits, CodeLines, DashedPlan, KeyCap, Phone, Pointer, Slider, Specimen, Switches } from '../../ui/tile-art.tsx'
 
 const { prototype, myra, local, linux, access, built, install, support } = en.sections
 
@@ -15,15 +19,6 @@ export interface HomeSection {
   nav?: string
   content: RemixNode
 }
-
-const cardStyle = css({
-  borderRadius: '24px',
-  cornerShape: 'squircle',
-  background: 'var(--card-white)',
-  color: 'var(--card-white-ink)',
-  boxShadow:
-    'var(--card-edge, 0 0 0 0 transparent), 0 10px 30px rgba(var(--sh), calc(.10 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
-})
 
 const proseStyle = css({
   display: 'grid',
@@ -91,6 +86,30 @@ function Points(handle: Handle<{ items: RemixNode[] }>) {
   )
 }
 
+type Art = readonly [tone: Tone, art: RemixNode]
+
+function tilesOf<Id extends string>(copy: Record<Id, TileCopy>, art: readonly (readonly [Id, ...Art])[]) {
+  return art.map(([key, tone, picture]) => ({ key, tone, art: picture, ...copy[key] }))
+}
+
+const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
+  ['run', 'sky', <Phone />],
+  ['live', 'butter', <Slider />],
+  ['point', 'lilac', <Pointer label={prototype.labels.point} />],
+  ['code', 'peach', <CodeLines />],
+  ['keep', 'mint', <KeyCap label={prototype.labels.undo} />],
+  ['git', 'pink', <Commits />],
+])
+
+const myraTiles = tilesOf<MyraTile>(myra.tiles, [
+  ['sees', 'sky', <KeyCap label={myra.labels.add} />],
+  ['asks', 'butter', <DashedPlan />],
+  ['undo', 'mint', <KeyCap label={myra.labels.undo} />],
+  ['stop', 'peach', <KeyCap label={myra.labels.stop} />],
+  ['type', 'lilac', <Specimen label={myra.labels.type} />],
+  ['settings', 'pink', <Switches />],
+])
+
 export const sections: readonly HomeSection[] = [
   {
     id: 'prototype',
@@ -105,7 +124,7 @@ export const sections: readonly HomeSection[] = [
           name="proto-built"
           alt={prototype.screenshotAlt}
         />
-        <Points items={prototype.points} />
+        <Tiles items={prototypeTiles} />
       </>
     ),
   },
@@ -117,7 +136,7 @@ export const sections: readonly HomeSection[] = [
         <Lead icon="myra" tone="pink">
           {myra.lead}
         </Lead>
-        <Points items={myra.points} />
+        <Tiles items={myraTiles} />
       </>
     ),
   },

@@ -11,9 +11,22 @@ export interface FeatureCopy extends SectionCopy {
   lead: string
 }
 
+export interface TileCopy {
+  title: string
+  body: RemixNode
+}
+
+export type PrototypeTile = 'run' | 'live' | 'point' | 'code' | 'keep' | 'git'
+export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'type' | 'settings'
+
 export interface HomeSectionsCopy {
-  prototype: FeatureCopy & { nav: string; screenshotAlt: string; points: RemixNode[] }
-  myra: FeatureCopy & { points: RemixNode[] }
+  prototype: FeatureCopy & {
+    nav: string
+    screenshotAlt: string
+    tiles: Record<PrototypeTile, TileCopy>
+    labels: { point: string; undo: string }
+  }
+  myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
   local: FeatureCopy & { points: RemixNode[] }
   linux: FeatureCopy & { body: string; macos: string }
   access: FeatureCopy & { points: RemixNode[] }
