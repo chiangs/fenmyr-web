@@ -11,7 +11,6 @@ const logos: readonly { id: ConnectionId; src: string; mask?: boolean }[] = [
   { id: 'claude', src: '/images/terminal.svg', mask: true },
   { id: 'obsidian', src: '/images/logos/obsidian.svg' },
   { id: 'github', src: '/images/logos/github.svg', mask: true },
-  { id: 'caelestia', src: '/images/logos/caelestia.svg' },
   { id: 'mobbin', src: '/images/logos/mobbin.svg' },
   { id: 'higgsfield', src: '/images/logos/higgsfield.png' },
 ]
