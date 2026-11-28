@@ -4,7 +4,7 @@ import { css } from 'remix/component'
 import type { BetaTile, LocalTile, MyraTile, PrototypeTile, TileCopy, WorkTile } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import type { Tone } from '../../ui/tile.tsx'
-import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
+import { AddKey, KeyCap, StopKey, UndoKey } from '../../ui/tile-art/key-cap.tsx'
 import { DashedPlan, ResearchDoc, Switches } from '../../ui/tile-art/myra.tsx'
 import { Phone } from '../../ui/tile-art/phone.tsx'
 import { Captures, CodeLines, Commits, PaperSketch, Slider } from '../../ui/tile-art/prototype.tsx'
@@ -13,10 +13,17 @@ import { Columns, DueList, Folders, Icon } from '../../ui/tile-art/work.tsx'
 // each section's tiles: the order, the card tone and the drawing, with the words from the copy
 const { prototype, myra, work, local, beta } = en.sections
 
-type Art = readonly [tone: Tone, art: RemixNode]
+// a drawing, or one made for the tile's tone, for a drawing that paints in the tile's own colour, so the tone is
+// written once
+type Art = readonly [tone: Tone, art: RemixNode | ((tone: Tone) => RemixNode)]
 
 function tilesOf<Id extends string>(copy: Record<Id, TileCopy>, art: readonly (readonly [Id, ...Art])[]) {
-  return art.map(([key, tone, picture]) => ({ key, tone, art: picture, ...copy[key] }))
+  return art.map(([key, tone, picture]) => ({
+    key,
+    tone,
+    art: typeof picture === 'function' ? picture(tone) : picture,
+    ...copy[key],
+  }))
 }
 
 export const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
@@ -29,10 +36,10 @@ export const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
 ])
 
 export const myraTiles = tilesOf<MyraTile>(myra.tiles, [
-  ['sees', 'sky', <KeyCap label={myra.labels.add} />],
+  ['sees', 'sky', <AddKey label={myra.labels.add} />],
   ['asks', 'butter', <DashedPlan />],
-  ['undo', 'mint', <KeyCap label={myra.labels.undo} />],
-  ['stop', 'peach', <KeyCap label={myra.labels.stop} />],
+  ['undo', 'mint', <UndoKey label={myra.labels.undo} />],
+  ['stop', 'peach', <StopKey label={myra.labels.stop} />],
   ['research', 'lilac', <ResearchDoc />],
   ['settings', 'pink', <Switches />],
 ])
@@ -52,8 +59,8 @@ export const workTiles = tilesOf<WorkTile>(work.tiles, [
 ])
 
 export const localTiles = tilesOf<LocalTile>(local.tiles, [
-  ['offline', 'sky', <Icon name="wifi" off="sky" />],
-  ['files', 'butter', <Icon name="file-text" />],
+  ['offline', 'sky', (tone) => <Icon name="wifi" off={tone} />],
+  ['files', 'butter', (tone) => <Icon name="file-text" on={tone} />],
   ['ask', 'lilac', <Icon name="sparkle" />],
   ['export', 'mint', <Icon name="download" />],
 ])
