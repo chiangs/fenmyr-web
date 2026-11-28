@@ -6,6 +6,7 @@ import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
 import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
+import { RipePath } from './ripe-path.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
 import type { Tone } from '../../ui/tile.tsx'
@@ -125,6 +126,18 @@ export const sections: readonly HomeSection[] = [
           alt={prototype.screenshotAlt}
         />
         <Tiles items={prototypeTiles} />
+      </>
+    ),
+  },
+  {
+    id: 'ripe',
+    title: en.sections.ripe.title,
+    content: (
+      <>
+        <Lead icon="mark" tone="butter">
+          {en.sections.ripe.lead}
+        </Lead>
+        <RipePath copy={en.sections.ripe} />
       </>
     ),
   },

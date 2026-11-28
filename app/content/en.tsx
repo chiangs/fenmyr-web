@@ -72,6 +72,41 @@ export const en: Content = {
       },
       labels: { point: 'Point', undo: 'Undo this build' },
     },
+    ripe: {
+      title: 'From raw to ripe',
+      lead: 'Fenmyr is named for the northern bog where cloudberries grow, and only when the conditions are right. Ideas are the same.',
+      bubble: "Bring them raw. We'll ripen them together.",
+      myraAlt: 'Myra, a pixel cloudberry, hops beside her bubble',
+      steps: {
+        catch: {
+          name: 'Catch',
+          body: (
+            <>
+              Press <strong>Ctrl+K</strong> and the thought lands in Unsorted, without losing your place. Or talk it
+              out in a voice memo.
+            </>
+          ),
+        },
+        sort: {
+          name: 'Sort',
+          body: (
+            <>
+              Ask Myra to sort the pile, or type <code>/tidy</code> to line the loose notes up in rows. An affinity map
+              helps you find the themes.
+            </>
+          ),
+        },
+        shape: {
+          name: 'Shape',
+          body: 'Sketch the screens as wireframes, map the journey, and give the next steps due dates.',
+        },
+        try: {
+          name: 'Try',
+          body: 'Make it a prototype board. Myra builds a clickable preview you can experiment with and test.',
+        },
+      },
+      labels: { capture: 'Ctrl+K', preview: 'Sign up' },
+    },
     myra: {
       title: 'Myra shows her work',
       lead: 'Myra reads your board and answers in the chat beside it. She asks before big changes, and one Undo takes back a whole reply.',
