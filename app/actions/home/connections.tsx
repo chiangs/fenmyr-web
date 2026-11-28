@@ -109,10 +109,10 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
               }),
             ]}
           >
-            {/* Myra stands in the logo's place. 51px wide draws each of her 17 art pixels as 3 whole pixels, so she
-                stays crisp; she is 60px tall, so the slot takes her own height */}
-            <span mix={css({ display: 'grid', justifyItems: 'center', width: '3.25rem' })}>
-              <Myra pose="hello" label={copy.more.myraAlt} size="3.1875rem" lazy />
+            {/* Myra sits in a butter tile where the other cards have a logo. 34px wide draws each of her 17 art pixels
+                as 2 whole pixels, so she stays crisp, and at 40px tall she fits the 52px tile */}
+            <span mix={[tileStyle, css({ background: 'var(--card-butter)' })]}>
+              <Myra pose="hello" label={copy.more.myraAlt} size="2.125rem" lazy />
             </span>
             <span mix={css({ display: 'grid', gap: '0.25rem' })}>
               <h3>{copy.more.name}</h3>
