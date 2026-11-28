@@ -31,6 +31,7 @@ The site's own colour tokens, in `public/styles.css`, are the same in every them
 |---|---|
 | `--logo-tile`, `--logo-ink` | The tile behind another tool's logo, white so the logo keeps its brand colours, and the ink for logos drawn as masks |
 | `--glow-red`, `--glow-green` | Myra's glow on the timer card, as in the app |
+| `--paper`, `--paper-ink` | A sheet of paper and the pen on it, as in the Start on paper drawing. White and dark in every theme, as real paper is |
 | `--myra-*` | Myra's pixels. Nothing else uses them |
 
 The same file also defines `--font` and `--hand`, the two font stacks, `--pill-r`, the `12px` corner for buttons and small squares, and `--header-h`, the header's height on narrow screens.
@@ -98,7 +99,7 @@ Tiles come in sets that fill their rows. At `1440px`, `Tiles` lays out three col
 Tile drawings are HTML, CSS and inline SVG in `app/ui/tile-art.tsx`. They weigh almost nothing and follow every theme.
 
 - **Draw the feature's own shape, simplified:** the phone preview, the slider, the commits on a line. A visitor should recognise it in the app.
-- **Line work** is `--card-butter-ink`. Quiet parts are mixes of `--card-white-ink`, at 22% for faint and 45% for soft. The accent marks one thing.
+- **Line work** is `--card-butter-ink`. Quiet parts are mixes of `--card-white-ink`, at 22% for faint and 45% for soft. The accent marks one thing. Paper is the one exception: it uses `--paper` and `--paper-ink`, so it stays white in dark mode.
 - **Words inside a drawing** come from the copy, like any other text.
 - **Icons** are Phosphor, regular weight, taken from the app's own icon pack into `app/ui/pack-icons.ts`. A section's icon is an SVG in `public/images/`, used as a mask.
 - **A sparkle means AI,** so it appears only where the AI itself is the subject, as on AI only when you ask. For anything else, use a concrete object or Myra herself.
