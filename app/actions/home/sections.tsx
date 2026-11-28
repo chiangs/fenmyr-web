@@ -240,6 +240,24 @@ export const sections: readonly HomeSection[] = [
           {built.lead}
         </Lead>
         <Points items={built.points} />
+        <figure
+          mix={css({
+            display: 'grid',
+            gap: '0.5rem',
+            maxWidth: '44rem',
+            margin: 0,
+            padding: '1.25rem 1.5rem',
+            borderRadius: '24px',
+            cornerShape: 'squircle',
+            background: 'var(--card-peach)',
+            color: 'var(--card-butter-ink)',
+          })}
+        >
+          <blockquote mix={css({ margin: 0, fontSize: '1.125rem', lineHeight: 1.5 })}>
+            <p>{built.maker.quote}</p>
+          </blockquote>
+          <figcaption mix={css({ fontWeight: 700 })}>{built.maker.by}</figcaption>
+        </figure>
         <div mix={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem 1.5rem' })}>
           <p mix={css({ maxWidth: '36rem', color: 'var(--ink-soft)' })}>{built.codeMap}</p>
           <ButtonLink href="https://code-map.fenmyr.com/" quiet>

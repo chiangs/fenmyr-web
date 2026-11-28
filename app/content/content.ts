@@ -51,7 +51,13 @@ export interface HomeSectionsCopy {
   local: FeatureCopy & { tiles: Record<LocalTile, TileCopy> }
   platforms: FeatureCopy & { linux: { title: string; body: string }; mac: { title: string; body: string }; updates: string }
   access: FeatureCopy & { points: RemixNode[] }
-  built: FeatureCopy & { points: RemixNode[]; codeMap: string; codeMapButton: string }
+  // maker is a note in the maker's own words, signed
+  built: FeatureCopy & {
+    points: RemixNode[]
+    maker: { quote: string; by: string }
+    codeMap: string
+    codeMapButton: string
+  }
   beta: FeatureCopy & {
     tiles: Record<BetaTile, TileCopy>
     labels: { update: string; channel: string; report: string }
@@ -106,6 +112,8 @@ export interface Content {
     codeMap: string
     licence: string
     madeBy: string
+    site: string
+    linkedIn: string
   }
   notFound: { title: string; heading: string; body: string; home: string }
 }
