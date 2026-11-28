@@ -22,10 +22,6 @@ export const details: Pick<
         name: 'Git and GitHub',
         line: 'Prototypes live in your own git repository. Fenmyr uses your gh command, so it never holds a GitHub token.',
       },
-      caelestia: {
-        name: 'Caelestia',
-        line: "On the Caelestia shell, the board takes on your desktop's colours and changes with them.",
-      },
       mobbin: { name: 'Mobbin', line: 'Myra finds real app screens for inspiration, through your Claude account.' },
       higgsfield: {
         name: 'Higgsfield',

@@ -177,7 +177,7 @@ export interface TemplatesCopy {
   items: Record<TemplateId, { name: string; line: string }>
 }
 
-export type ConnectionId = 'claude' | 'obsidian' | 'github' | 'caelestia' | 'mobbin' | 'higgsfield'
+export type ConnectionId = 'claude' | 'obsidian' | 'github' | 'mobbin' | 'higgsfield'
 
 export interface ConnectionsCopy {
   lead: string
