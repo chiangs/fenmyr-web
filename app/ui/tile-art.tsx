@@ -138,6 +138,43 @@ export function Commits() {
   )
 }
 
+// three captures of a prototype in a row, as they line up on the board, each tied to its commit by the tag under
+// it; the newest is outlined, the one the preview shows until another is clicked
+const captures = [
+  { x: 1, rows: [18, 24] },
+  { x: 53, rows: [26, 16] },
+  { x: 105, rows: [30, 22] },
+]
+
+export function Captures() {
+  return () => (
+    <svg viewBox="0 0 150 46" width="150" height="46" mix={css({ overflow: 'visible' })}>
+      {captures.map(({ x, rows }, index) => {
+        let shown = index === captures.length - 1
+        return (
+          <g key={x}>
+            <rect
+              x={x}
+              y="1"
+              width="44"
+              height="32"
+              rx="5"
+              fill="var(--card-white)"
+              stroke={shown ? 'var(--pink-deep)' : line}
+              strokeWidth={shown ? 3 : 2}
+            />
+            <path d={`M${x} 9 H${x + 44}`} stroke={line} strokeWidth={1.5} opacity="0.5" />
+            {rows.map((width, row) => (
+              <rect key={row} x={x + 6} y={14 + row * 9} width={width} height="5" rx="2.5" fill={faint} />
+            ))}
+            <rect x={x + 8} y="39" width="28" height="5" rx="2.5" fill={shown ? 'var(--pink-deep)' : soft} />
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 export function DashedPlan() {
   return () => (
     <svg viewBox="0 0 150 64" width="150" height="64" fill="none" stroke={line} strokeWidth={2} strokeDasharray="6 5">

@@ -23,16 +23,16 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
         title: 'Read the code',
         body: 'The code pane lists every file and marks what the last build changed. The code links back to the cards it came from.',
       },
-      keep: {
-        title: 'Keep what works',
-        body: 'Every build can be undone. A capture puts a picture of the preview on the board, tied to the commit it shows.',
+      versions: {
+        title: 'Compare versions',
+        body: 'Capture the preview as you go, and the pictures line up side by side on the board. Click one to see that version run again. Every build can be undone.',
       },
       git: {
         title: 'Git, explained',
         body: 'The code lives in your own git repository. Myra explains each git step in plain words, and waits for your yes before she commits, pushes or pulls.',
       },
     },
-    labels: { point: 'Point', undo: 'Undo this build' },
+    labels: { point: 'Point' },
   },
   ripe: {
     title: 'From raw to ripe',
