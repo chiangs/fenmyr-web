@@ -124,7 +124,7 @@ The app's DESIGN.md describes who Myra is. On the site:
 - **Reduced motion stops all of it.** Nothing checks this yet: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 - **Nothing shifts the layout:**
   - A demo renders on the server at its full size, and hides what needs JavaScript with `:root:not([data-js]) &`.
-  - A list that filters inside a box keeps the box the same height, and fills it from the bottom, as the slash demo does. The template gallery doesn't yet: [#48](https://github.com/chiangs/fenmyr-web/issues/48).
+  - A list that filters keeps its size. Inside a box, it keeps the box the same height and fills it from the bottom, as the slash demo does. In a grid, every item stays on the page, the matches come first, and the rest fade into the background, as the template gallery does. Nothing checks this; review does.
   - A box whose rows move sets `overflow-anchor: none`.
   - Measure in a browser before saying a layout holds still.
 
