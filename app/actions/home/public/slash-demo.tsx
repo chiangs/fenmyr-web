@@ -3,7 +3,7 @@ import type { Handle } from 'remix/component'
 
 import type { SlashCommand, SlashCopy, SlashGroup } from '../../../content/content.ts'
 import { Myra } from '../../../ui/public/myra.tsx'
-import { myraEvent } from '../../../ui/public/myra-event.ts'
+import { MyraMoveEvent } from '../../../ui/public/myra-event.ts'
 
 // Myra's commands in the order her menu lists them, from the app's src/web/myra/greet.ts. The words after a command
 // are code, as the app shows them, so they live here and not in the copy.
@@ -72,9 +72,17 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
     handle.update()
   })
 
+  // she says Boing! only when a Myra really hopped: none does with reduced motion, or when none is on screen
   let hop = () => {
-    document.dispatchEvent(new CustomEvent(myraEvent, { detail: 'hop' }))
-    return handle.props.copy.hop.line
+    let event = new MyraMoveEvent('hop')
+    document.dispatchEvent(event)
+    return event.hopped ? handle.props.copy.hop.line : handle.props.copy.hop.still
+  }
+
+  function runOf(name: SlashCommand): () => string {
+    if (name === 'animate') return hop
+    let { reply } = handle.props.copy.commands[name]
+    return () => reply
   }
 
   function rows(): Row[] {
@@ -82,9 +90,12 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
     let typed = /^\/(\w*)/.exec(text)
     if (!typed) return []
     let name = (typed[1] ?? '').toLowerCase()
-    // as in the app, /animate lists the moves she can make
-    if (name === 'animate' && /^\/animate(\s|$)/i.test(text))
-      return [{ key: 'animate hop', command: '/animate hop', arg: '', desc: copy.hop.desc, run: hop }]
+    // as in the app, /animate lists the moves she can make, filtered by the word after it
+    let move = /^\/animate(?:\s+(\S*))?\s*$/i.exec(text)
+    if (name === 'animate' && /^\/animate\s/i.test(text))
+      return move && 'hop'.startsWith((move[1] ?? '').toLowerCase())
+        ? [{ key: 'animate hop', command: '/animate hop', arg: '', desc: copy.hop.desc, run: hop }]
+        : []
     return commands
       .filter((command) => command.name.startsWith(name))
       .map((command) => ({
@@ -93,7 +104,7 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
         arg: command.arg,
         desc: copy.commands[command.name].desc,
         group: copy.groups[command.group],
-        run: command.name === 'animate' ? hop : () => copy.commands[command.name].reply,
+        run: runOf(command.name),
       }))
   }
 
@@ -133,7 +144,6 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
           })}
         >
           <ul id="slash-list" role={started ? 'listbox' : undefined} aria-label={copy.input} mix={listStyle}>
-            {shown.length === 0 ? <li data-group="">{copy.empty}</li> : null}
             {shown.map((row, index) => {
               let head = row.group && row.group !== last ? row.group : ''
               last = row.group ?? last
@@ -149,7 +159,7 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
                   id={`slash-${index}`}
                   role={started ? 'option' : undefined}
                   aria-selected={started ? isActive : undefined}
-                  mix={on('click', () => run(row))}
+                  mix={[on('mousedown', (event) => event.preventDefault()), on('click', () => run(row))]}
                 >
                   <code>
                     {row.command}
@@ -160,6 +170,9 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
               ]
             })}
           </ul>
+          {shown.length === 0 ? (
+            <p mix={css({ padding: '0.875rem 1rem', color: 'var(--card-white-soft)' })}>{copy.empty}</p>
+          ) : null}
           {started ? (
             <div
               mix={css({
@@ -186,7 +199,7 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
                 role="combobox"
                 aria-label={copy.input}
                 aria-controls="slash-list"
-                aria-expanded="true"
+                aria-expanded={shown.length > 0}
                 aria-autocomplete="list"
                 aria-activedescendant={active ? `slash-${shown.indexOf(active)}` : undefined}
                 autocomplete="off"

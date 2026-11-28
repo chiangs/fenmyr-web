@@ -181,14 +181,14 @@ export const en: Content = {
         },
         folder: { desc: 'Add a folder to this project', reply: "In Fenmyr I'd add a folder to this project." },
         board: { desc: 'Add a board to this folder and open it', reply: "In Fenmyr I'd add a board here and open it." },
-        animate: { desc: 'Make me move: a surprise, or pick one', reply: 'Boing!' },
+        animate: { desc: 'Make me hop' },
         clear: { desc: 'Start a fresh chat', reply: "In Fenmyr I'd start us a fresh chat." },
         help: {
           desc: 'What I can do without thinking',
           reply: 'Here is what I can do right here, no thinking needed. Everything in this list.',
         },
       },
-      hop: { desc: 'A little jump', line: 'Boing!' },
+      hop: { desc: 'A little jump', line: 'Boing!', still: "I'd hop, but I'm keeping still for you right now." },
     },
     work: {
       title: 'Ideas and the work around them',

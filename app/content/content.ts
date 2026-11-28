@@ -132,6 +132,6 @@ export interface SlashCopy {
   hint: string
   empty: string
   groups: Record<SlashGroup, string>
-  commands: Record<SlashCommand, { desc: string; reply: string }>
-  hop: { desc: string; line: string }
+  commands: Record<Exclude<SlashCommand, 'animate'>, { desc: string; reply: string }> & { animate: { desc: string } }
+  hop: { desc: string; line: string; still: string }
 }
