@@ -113,7 +113,12 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
       },
       research: {
         title: 'She researches with you',
-        body: 'Turn on web search, and she looks things up and lays out what she finds as cards and docs for you to sort.',
+        body: (
+          <>
+            Turn on <strong>Let Myra search the web</strong>, and she looks things up and lays out what she finds as
+            cards and docs for you to sort.
+          </>
+        ),
       },
       settings: {
         title: 'Set her your way',
