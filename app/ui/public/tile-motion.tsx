@@ -6,9 +6,9 @@ const every = 10_000
 // at most one drawing starts in this time, so tiles that come due together, however they did, never move in step
 const stagger = 900
 
-// Marks a feature tile data-seen when its drawing should play: once 60% of the tile is on screen and its turn comes,
-// again every 10 s while it stays on screen and the page is in front, and at once when the pointer or focus comes
-// to it. The motion itself is CSS, in app/ui/tile-art/; playOnSeen in base.ts says how a drawing waits and plays.
+// Marks each [data-tile], the feature tiles and the drawings of the From raw to ripe steps, data-seen when its drawing
+// should play: once 60% of the tile is on screen and its turn comes, again every 10 s while it stays on screen and the
+// page is in front, and at once when the pointer or focus comes to it. The motion itself is CSS, in app/ui/tile-art/; playOnSeen in base.ts says how a drawing waits and plays.
 // Drawings wait in their first frame only while <html> has data-tile-motion, which this sets once it is watching, so
 // if it never runs they stay still. With reduced motion the CSS plays nothing, and no timer runs.
 export const TileMotion = clientEntry(import.meta.url, function TileMotion(handle: Handle) {

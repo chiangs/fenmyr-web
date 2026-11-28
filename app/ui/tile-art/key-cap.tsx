@@ -165,9 +165,10 @@ const stopMotion = css({
     '38%, 100%': { opacity: 0, transform: 'none' },
   },
   '@keyframes tile-stop-key-square': {
-    '0%, 30%': { opacity: 0, transform: 'scale(0.4)' },
-    '38%': { opacity: 1, transform: 'scale(1.15)' },
-    '44%, 80%': { opacity: 1, transform: 'none' },
+    // the square comes once the last dot has faded, so the press visibly stops them
+    '0%, 46%': { opacity: 0, transform: 'scale(0.4)' },
+    '54%': { opacity: 1, transform: 'scale(1.15)' },
+    '60%, 85%': { opacity: 1, transform: 'none' },
     '100%': { opacity: 0, transform: 'none' },
   },
 })

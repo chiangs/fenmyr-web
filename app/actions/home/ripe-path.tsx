@@ -62,6 +62,8 @@ const thoughtMotion = css({
 function Capture(handle: Handle<{ label: string }>) {
   return () => (
     <span mix={css({ position: 'relative', isolation: 'isolate', display: 'grid' })}>
+      {/* the key comes first: KeyCap delays the press of a second child, as it does for Focus and Find */}
+      <KeyCap label={handle.props.label} />
       <span
         mix={[
           thoughtMotion,
@@ -94,7 +96,6 @@ function Capture(handle: Handle<{ label: string }>) {
         <i />
         <i />
       </span>
-      <KeyCap label={handle.props.label} />
     </span>
   )
 }
@@ -144,7 +145,7 @@ function Notes() {
 
 // Try: a pointer glides in and clicks Sign up. The button presses and a ring shows for a moment, then the pointer
 // leaves. The pointer waits outside the window, invisible, in the still drawing
-const pointerRest = 'translate(7rem, 4.6rem) scale(1)'
+const pointerRest = 'translate(7.6rem, 4.9rem) scale(1)'
 const pointerAt = 'translate(3.95rem, 2.8rem)'
 const tryMotion = css({
   '@keyframes tile-try-pointer': {
