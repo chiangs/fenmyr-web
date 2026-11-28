@@ -28,6 +28,11 @@ export const details: Pick<
         line: 'Myra makes pictures through your Claude account. She shows the price and your balance, and waits for your yes.',
       },
     },
+    more: {
+      name: 'More to come',
+      line: 'Which tool should Fenmyr work with next?',
+      suggest: 'Suggest one on GitHub',
+    },
   },
   local: {
     title: 'Yours, on your computer',
