@@ -131,7 +131,8 @@ export const TemplateGallery = clientEntry(
 
     return () => {
       let { copy } = handle.props
-      let shown = templates.filter((template) => !role || template.roles.includes(role))
+      let matches = (template: (typeof templates)[number]) => !role || template.roles.includes(role)
+      let shown = templates.filter(matches)
 
       return (
         <div mix={css({ display: 'grid', gap: '1.25rem' })}>
@@ -176,12 +177,17 @@ export const TemplateGallery = clientEntry(
               listStyle: 'none',
             })}
           >
-            {shown.map((template) => {
+            {/* every template stays in its place, so choosing a role never moves the page; the ones that don't suit
+                it fade, and screen readers skip them, as they would a removed card */}
+            {templates.map((template) => {
               let { name, line } = copy.items[template.id]
+              let faded = !matches(template)
               return (
                 <li
                   key={template.id}
                   data-template={template.id}
+                  data-faded={faded ? '' : undefined}
+                  aria-hidden={faded ? true : undefined}
                   mix={css({
                     display: 'grid',
                     gridTemplateColumns: '4.25rem minmax(0, 1fr)',
@@ -194,6 +200,8 @@ export const TemplateGallery = clientEntry(
                     color: 'var(--card-white-soft)',
                     boxShadow:
                       'var(--card-edge, 0 0 0 0 transparent), 0 6px 18px rgba(var(--sh), calc(.08 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
+                    '&[data-faded]': { opacity: 0.3 },
+                    '@media (prefers-reduced-motion: no-preference)': { transition: 'opacity 160ms ease' },
                   })}
                 >
                   <span

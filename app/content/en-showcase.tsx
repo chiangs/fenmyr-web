@@ -199,7 +199,7 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
     lead: 'Templates for designers, product leads, workshop facilitators and makers. Each one comes with an instruction card, so you never face a blank board. Make your own, too.',
     filter: 'Show templates for',
     all: 'All',
-    shown: '{count} templates shown',
+    shown: '{count} templates match',
     roles: {
       designers: 'Designers',
       productLeads: 'Product leads',
