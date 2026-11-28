@@ -7,6 +7,7 @@ import { Myra } from '../../ui/public/myra.tsx'
 import { faint, playOnSeen } from '../../ui/tile-art/base.ts'
 import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
 import { Phone } from '../../ui/tile-art/phone.tsx'
+import { Ask } from './ripe-ask.tsx'
 
 // a cloudberry ripens from hard and red to soft gold, in Myra's own colours. Catch is the raw idea, so its berry
 // stays red and only grows.
@@ -40,7 +41,8 @@ const surface = css({
 // The drawings play as the feature tiles do: each drawing's box is marked as a tile, so app/ui/public/tile-motion.tsx
 // plays it when it scrolls into view and again every 10 s. The mark sits on the drawing, not the whole step, because the
 // berry's scroll-driven animation in the step's heading would otherwise count as the drawing still playing. Every part
-// that moves is invisible or in its place in the still.
+// that moves is invisible or in its place in the still. Try, a message to Myra and the preview she builds, is in
+// ripe-ask.tsx.
 
 // Catch: after the key presses, a small thought pops out from behind it and drops away, as if landing in Unsorted
 const thoughtRest = 'translateY(0) rotate(0deg) scale(0.7)'
@@ -143,98 +145,6 @@ function Notes() {
   )
 }
 
-// Try: a pointer glides in and clicks Build. The button presses and a ring shows for a moment, then the pointer
-// leaves. The pointer waits outside the window, invisible, in the still drawing
-const pointerRest = 'translate(7.6rem, 4.9rem) scale(1)'
-const pointerAt = 'translate(3.95rem, 2.8rem)'
-const tryMotion = css({
-  '@keyframes tile-try-pointer': {
-    '0%': { opacity: 0, transform: pointerRest },
-    '12%': { opacity: 1, transform: 'translate(6.2rem, 4.2rem) scale(1)' },
-    '42%': { opacity: 1, transform: `${pointerAt} scale(1)` },
-    '47%': { opacity: 1, transform: 'translate(3.95rem, 2.9rem) scale(0.88)' },
-    '53%': { opacity: 1, transform: `${pointerAt} scale(1)` },
-    '72%': { opacity: 1, transform: `${pointerAt} scale(1)` },
-    '92%, 100%': { opacity: 0, transform: pointerRest },
-  },
-  '@keyframes tile-try-press': {
-    '0%, 44%': { transform: 'none' },
-    '50%': { transform: 'scale(0.94)' },
-    '58%, 100%': { transform: 'none' },
-  },
-  '@keyframes tile-try-ring': {
-    '0%, 46%': { opacity: 0, transform: 'scale(0.92)' },
-    '54%': { opacity: 1, transform: 'scale(1)' },
-    '78%': { opacity: 0, transform: 'scale(1.25)' },
-    '100%': { opacity: 0, transform: 'none' },
-  },
-})
-
-function Preview(handle: Handle<{ label: string }>) {
-  return () => (
-    <span
-      mix={[
-        tryMotion,
-        surface,
-        css({
-          position: 'relative',
-          display: 'grid',
-          gridTemplateRows: '0.625rem 1fr',
-          width: '7.5rem',
-          height: '4.75rem',
-          overflow: 'hidden',
-          borderRadius: '10px',
-          color: 'var(--card-white-ink)',
-        }),
-      ]}
-    >
-      <span mix={css({ background: 'color-mix(in oklab, var(--card-white-ink) 18%, var(--card-white))' })} />
-      <span mix={css({ display: 'grid', placeItems: 'center' })}>
-        <span
-          mix={css({
-            position: 'relative',
-            padding: '0.2rem 0.6rem',
-            borderRadius: '8px',
-            background: 'var(--pink-deep)',
-            color: 'var(--on-accent)',
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            ...playOnSeen({ transform: 'none' }, 'tile-try-press 2.4s ease-in-out both'),
-          })}
-        >
-          {handle.props.label}
-          <span
-            mix={css({
-              position: 'absolute',
-              inset: '-4px',
-              border: '2px solid color-mix(in oklab, var(--pink-deep) 85%, transparent)',
-              borderRadius: '12px',
-              opacity: 0,
-              ...playOnSeen({ opacity: 0, transform: 'scale(0.92)' }, 'tile-try-ring 2.4s ease-out both'),
-            })}
-          />
-        </span>
-      </span>
-      <span
-        mix={css({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          opacity: 0,
-          transform: pointerRest,
-          ...playOnSeen({ opacity: 0, transform: pointerRest }, 'tile-try-pointer 2.4s ease-in-out both'),
-          '& svg': { display: 'block', width: '0.875rem', height: '0.875rem' },
-          '& path': { fill: 'var(--card-white-ink)', stroke: 'var(--card-white)', strokeWidth: 1, strokeLinejoin: 'round' },
-        })}
-      >
-        <svg viewBox="0 0 16 16" focusable="false">
-          <path d="M2 1.5V13l3.2-3 2.3 5 2-1-2.3-4.8H12z" />
-        </svg>
-      </span>
-    </span>
-  )
-}
-
 const order: readonly RipeStep[] = ['catch', 'sort', 'shape', 'try']
 
 const stepStyle = css({
@@ -304,7 +214,7 @@ export function RipePath(handle: Handle<{ copy: RipeCopy }>) {
       catch: <Capture label={copy.labels.capture} />,
       sort: <Notes />,
       shape: <Phone motion="sketch" />,
-      try: <Preview label={copy.labels.preview} />,
+      try: <Ask label={copy.labels.ask} />,
     }
 
     return (
