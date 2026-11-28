@@ -1,6 +1,10 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
+import { packIcons } from './pack-icons.ts'
+import type { PackIcon } from './pack-icons.ts'
+import type { Tone } from './tile.tsx'
+
 const faint = 'color-mix(in oklab, var(--card-white-ink) 22%, transparent)'
 const soft = 'color-mix(in oklab, var(--card-white-ink) 45%, transparent)'
 const line = 'var(--card-butter-ink)'
@@ -224,4 +228,23 @@ export function Columns() {
       ))}
     </span>
   )
+}
+
+// one of the app's icons, large. off draws a slash through it, with a gap cut in the tile's own colour so the slash
+// stands apart from the icon
+export function Icon(handle: Handle<{ name: PackIcon; off?: Tone }>) {
+  return () => {
+    let { name, off } = handle.props
+    return (
+      <svg viewBox="0 0 256 256" width="56" height="56" fill="currentColor">
+        <path d={packIcons[name]} />
+        {off ? (
+          <>
+            <path d="M40 40 L216 216" stroke={`var(--card-${off})`} strokeWidth={44} strokeLinecap="round" />
+            <path d="M40 40 L216 216" stroke={line} strokeWidth={16} strokeLinecap="round" />
+          </>
+        ) : null}
+      </svg>
+    )
+  }
 }
