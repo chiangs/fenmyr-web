@@ -133,8 +133,6 @@ export const TemplateGallery = clientEntry(
       let { copy } = handle.props
       let matches = (template: (typeof templates)[number]) => !role || template.roles.includes(role)
       let shown = templates.filter(matches)
-      // the matches first, then the rest, so all fifteen always take the same room and the matches sit together
-      let ordered = [...shown, ...templates.filter((template) => !matches(template))]
 
       return (
         <div mix={css({ display: 'grid', gap: '1.25rem' })}>
@@ -173,8 +171,6 @@ export const TemplateGallery = clientEntry(
             mix={css({
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr))',
-              // every row as tall as the tallest card, so putting the matches first never changes the grid's height
-              gridAutoRows: '1fr',
               gap: '0.75rem',
               margin: 0,
               padding: 0,
@@ -182,9 +178,8 @@ export const TemplateGallery = clientEntry(
             })}
           >
             {/* every template stays on the page, so choosing a role never moves what comes after; the ones that
-                don't suit it go last and fade into the background, and screen readers skip them, as they would a
-                removed card */}
-            {ordered.map((template) => {
+                don't suit it fade into the background, and screen readers skip them, as they would a removed card */}
+            {templates.map((template) => {
               let { name, line } = copy.items[template.id]
               let faded = !matches(template)
               return (
@@ -206,7 +201,13 @@ export const TemplateGallery = clientEntry(
                     boxShadow:
                       'var(--card-edge, 0 0 0 0 transparent), 0 6px 18px rgba(var(--sh), calc(.08 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
                     '&[data-faded]': { opacity: 0.3, filter: 'saturate(0.4)' },
-                    '@media (prefers-reduced-motion: no-preference)': { transition: 'opacity 160ms ease' },
+                    // in one column on a phone, the matches move to the top, so the visitor doesn't scroll past
+                    // faded cards; the column's height is the same in any order. Wider, the cards stay put, so
+                    // nothing jumps to a new place mid-fade
+                    '@media (max-width: 34rem)': { '&[data-faded]': { order: 1 } },
+                    '@media (min-width: 34.01rem) and (prefers-reduced-motion: no-preference)': {
+                      transition: 'opacity 160ms ease, filter 160ms ease',
+                    },
                   })}
                 >
                   <span
