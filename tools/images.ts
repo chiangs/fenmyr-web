@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import sharp from 'sharp'
 import type { Sharp } from 'sharp'
 
+import { preview } from '../app/site.ts'
 import { encodedPath, formats, screenshots, sourcePath } from '../app/ui/screenshots.ts'
 import { modes } from '../app/ui/themes.ts'
 import type { Format } from '../app/ui/screenshots.ts'
@@ -29,6 +30,17 @@ let expected = new Set<string>()
 let written = 0
 let unchanged = 0
 
+async function save(file: string, bytes: Buffer) {
+  let before = await existing(file)
+  if (before?.equals(bytes)) {
+    unchanged++
+    return
+  }
+  await writeFile(file, bytes)
+  written++
+  console.log(`wrote ${path.relative(root, file)} (${bytes.length} bytes)`)
+}
+
 for (let [name, shot] of Object.entries(screenshots)) {
   for (let mode of modes) {
     let source = path.join(publicDir, sourcePath(name, mode))
@@ -43,20 +55,21 @@ for (let [name, shot] of Object.entries(screenshots)) {
       formats.map(async (format) => {
         let file = path.join(publicDir, encodedPath(name, mode, w, format))
         expected.add(file)
-        let bytes = await encoders[format](isOpaque ? sharp(source).removeAlpha().resize(w) : sharp(source).resize(w)).toBuffer()
-        let before = await existing(file)
-        if (before?.equals(bytes)) {
-          unchanged++
-          return
-        }
-        await writeFile(file, bytes)
-        written++
-        console.log(`wrote ${path.relative(root, file)} (${bytes.length} bytes)`)
+        await save(file, await encoders[format](isOpaque ? sharp(source).removeAlpha().resize(w) : sharp(source).resize(w)).toBuffer())
       }),
     )
     await Promise.all(jobs)
   }
 }
+
+// the link preview: the top of the light board, cropped to the 1.91:1 that Open Graph previews show
+let previewSource = path.join(publicDir, preview.from)
+let { width: sourceWidth = 0 } = await sharp(previewSource).metadata()
+let crop = { left: 0, top: 0, width: sourceWidth, height: Math.round((sourceWidth * preview.height) / preview.width) }
+await save(
+  path.join(publicDir, preview.path),
+  await sharp(previewSource).removeAlpha().extract(crop).resize(preview.width, preview.height).jpeg({ quality: 82, mozjpeg: true }).toBuffer(),
+)
 
 let encoded = /^[a-z0-9-]+-(?:dark|light)-\d+\.(?:avif|webp)$/
 for (let entry of await readdir(imagesDir)) {

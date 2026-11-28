@@ -7,8 +7,12 @@ const summary =
 
 export const en: Content = {
   document: {
-    title: 'Fenmyr',
+    title: 'Fenmyr · A free idea canvas for Linux and macOS',
     description: summary,
+    previewAlt:
+      "A Fenmyr board with Myra's how-to note, Raw ideas and Ripe collections, a This week kanban and Unsorted ideas",
+    platforms: 'Linux, macOS',
+    author: 'Stephen Chiang',
   },
   header: {
     brand: 'Fenmyr',
