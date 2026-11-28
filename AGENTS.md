@@ -23,14 +23,14 @@ Each rule names the check that enforces it. `npm run check` runs every check tha
 
 ## Practices
 
-- **Commits.** Start the subject with a conventional prefix such as `feat:`, `fix:`, `docs:` or `chore:`, then a plain sentence. Sign off every commit with `git commit -s` to agree to the [Developer Certificate of Origin](https://developercertificate.org). This includes commits Claude makes for you.
+- **Commits.** Start the subject, and a pull request's title, with a conventional prefix such as `feat:`, `fix:`, `docs:` or `chore:`, then a plain sentence. Sign off every commit with `git commit -s` to agree to the [Developer Certificate of Origin](https://developercertificate.org). This includes commits Claude makes for you. Check: the `title` and `sign-off` jobs in `.github/workflows/check.yml`, on the title and every commit in a pull request.
 - **Branches.** Make each new branch in its own worktree: `git worktree add .claude/worktrees/<name> -b <branch> origin/main`. Link `node_modules` from the main checkout, or run `npm ci` in the worktree. Remove the worktree with `git worktree remove .claude/worktrees/<name>` once the branch is merged.
-- **Pull requests.** Every change reaches `main` through a pull request, squash-merged. Run `/code-review` on the pull request and fix the real findings before a person reviews it.
+- **Pull requests.** Every change reaches `main` through a pull request, squash-merged. Run `/code-review` on the pull request and fix the real findings before a person reviews it. Check: the `main` ruleset in the repository settings. It allows no direct pushes, force-pushes or deletion, and only squash merges. A pull request merges once it is up to date with `main`, its conversations are resolved and four checks pass: `npm run check`, `sign-off` and `title` from `.github/workflows/check.yml`, and Vercel's deployment. Use Update branch when `main` has moved. It asks for no approving review, since the owner merges their own pull requests.
 - **Issues.** Ideas and later work go in [GitHub issues](https://github.com/chiangs/fenmyr-web/issues), not in code. Give every issue the labels that fit. The labels mirror the app's.
 - **Dependencies.** A new dependency needs one sentence in the pull request on why the platform or `remix` can't do the job.
 - **Licence and assets.** The code is under the EUPL-1.2, in `LICENSE`. Fenmyr's name, Myra and her art, the logo and the icons are reserved, as the app's [TRADEMARKS.md](https://github.com/chiangs/fenmyr/blob/main/TRADEMARKS.md) explains. Assets come only from the app repository, never from Mochiboard. The one exception is another tool's logo, which comes from that tool's official source, sits in `public/images/logos/`, and is named in `NOTICE` with its source and licence. Show it unchanged, except resized, or in one colour where that brand's rules allow it, as GitHub's do. A test fails when a logo there is missing from `NOTICE`. Claude Code is shown with a plain icon, since Anthropic allows its logo only in materials it approves.
 
-Nothing checks these practices automatically. Review does.
+The ruleset and the workflow check commit sign-offs, prefixes and how pull requests merge. Nothing checks the branches, `/code-review`, issues, dependencies or assets; review does.
 
 ## Patterns
 
