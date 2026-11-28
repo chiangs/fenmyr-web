@@ -1,0 +1,57 @@
+# Runs on every pull request and on main. The ruleset on main requires both jobs to pass before a pull request merges.
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: npm run check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+
+  sign-off:
+    name: sign-off
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      # every commit agrees to the Developer Certificate of Origin with a sign-off line for its author's email, as
+      # `git commit -s` writes it
+      - name: Every commit is signed off by its author
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          missing=0
+          for commit in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            email="$(git show -s --format=%ae "$commit")"
+            if ! git show -s --format=%B "$commit" | grep '^Signed-off-by: ' | grep -qiF "<$email>"; then
+              echo "::error::$(git show -s --format='%h %s' "$commit") has no sign-off for <$email>. Sign it off with git commit -s."
+              missing=1
+            fi
+          done
+          exit "$missing"
