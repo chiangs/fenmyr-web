@@ -86,27 +86,34 @@ export const details: Pick<
   },
   built: {
     title: 'Built to last',
-    lead: "Each of Fenmyr's rules comes with the check that enforces it.",
+    lead: 'Fenmyr is made with care, so your boards stay safe and each update keeps what you rely on.',
     points: [
       <>
-        <strong>Strict TypeScript.</strong> No <code>any</code>. Data from disk, the network and other processes is
-        checked where it enters.
+        <strong>Your work survives a crash.</strong> Each board is saved to a temporary file that is swapped in when it
+        is complete, so a crash mid-save never leaves half a board.
       </>,
       <>
-        <strong>One bridge.</strong> The canvas and the host meet only through a typed contract.
+        <strong>Nothing is lost between versions.</strong> An older Fenmyr keeps the cards it can't read and saves them
+        back exactly as they were.
       </>,
       <>
-        <strong>A budget that only goes down.</strong> Casts, long files and raw colours are counted, and CI fails if
-        a count rises.
+        <strong>The board stays in its lane.</strong> The canvas runs sandboxed and reaches your computer only through
+        one short list of checked actions.
       </>,
       <>
-        <strong>Proof, not promises.</strong> Every pull request compares the app's screens pixel by pixel with the
-        base branch.
+        <strong>Updates don't surprise you.</strong> Before a change ships, the app's screens are compared pixel by
+        pixel with the version before.
       </>,
     ],
-    codeMap: 'The code map shows every source file and every import, with a line on what each file is for.',
+    maker: {
+      quote:
+        "I plan Fenmyr on Fenmyr. Its ideas, plans and prototypes grow on its own boards, from the first note to each release. I'm building it as a tool I'll keep using myself, so it has to last.",
+      by: 'Stephen Chiang, who makes Fenmyr',
+    },
+    codeMap: "Curious how it's made? The code map shows every source file, what it's for and what it imports.",
     codeMapButton: 'Explore the code map',
   },
+
   beta: {
     title: 'In beta, with lots more on the way',
     lead: 'Fenmyr is young and growing fast. New things land in the beta first, and lots more features are coming.',

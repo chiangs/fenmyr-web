@@ -74,7 +74,21 @@ export function SiteFooter() {
             </ul>
           </nav>
         </div>
-        <p>{en.footer.madeBy}</p>
+        <p
+          mix={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.25rem 1rem',
+            '& a': { color: 'var(--ink)', fontWeight: 600 },
+          })}
+        >
+          <span>{en.footer.madeBy}</span>
+          {/* the maker's own pages, kept together so they wrap as a pair */}
+          <span mix={css({ display: 'inline-flex', gap: '1rem' })}>
+            <a href="https://www.chiang.ink">{en.footer.site}</a>
+            <a href="https://www.linkedin.com/in/chiangs">{en.footer.linkedIn}</a>
+          </span>
+        </p>
       </div>
     </footer>
   )
