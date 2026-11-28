@@ -6,7 +6,8 @@ import { en } from '../../content/en.tsx'
 import type { Tone } from '../../ui/tile.tsx'
 import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
 import { DashedPlan, ResearchDoc, Switches } from '../../ui/tile-art/myra.tsx'
-import { Captures, CodeLines, Commits, PaperSketch, Phone, Slider } from '../../ui/tile-art/prototype.tsx'
+import { Phone } from '../../ui/tile-art/phone.tsx'
+import { Captures, CodeLines, Commits, PaperSketch, Slider } from '../../ui/tile-art/prototype.tsx'
 import { Columns, DueList, Folders, Icon } from '../../ui/tile-art/work.tsx'
 
 // each section's tiles: the order, the card tone and the drawing, with the words from the copy

@@ -2,47 +2,7 @@ import { css } from 'remix/component'
 
 import { faint, line, playOnSeen, soft, surface } from './base.ts'
 
-// From idea to prototype's drawings, and the phone From raw to ripe borrows
-
-// the phone turns on its side and grows, then comes back: a phone, a tablet and a desktop width, as the preview shows
-// at any device width. The frame only turns and scales, so its corners stay round and nothing reflows. From raw to
-// ripe borrows this phone outside a tile, where nothing plays it
-const phoneMotion = css({
-  '@keyframes tile-phone-turn': {
-    '0%, 10%': { transform: 'none' },
-    '32%, 42%': { transform: 'rotate(-90deg)' },
-    '62%, 70%': { transform: 'rotate(-90deg) scale(1.35)' },
-    '94%, 100%': { transform: 'none' },
-  },
-})
-
-export function Phone() {
-  return () => (
-    <span
-      mix={[
-        phoneMotion,
-        css({
-          ...surface,
-          display: 'grid',
-          alignContent: 'start',
-          gap: '5px',
-          width: '3rem',
-          height: '5rem',
-          padding: '8px 6px',
-          border: `2px solid ${soft}`,
-          borderRadius: '12px',
-          ...playOnSeen({ transform: 'none' }, 'tile-phone-turn 2.4s ease-in-out both'),
-          '& i': { display: 'block', height: '8px', borderRadius: '3px', background: 'var(--card-sky)' },
-          '& i:nth-child(2)': { height: '22px', background: 'var(--card-butter)' },
-        }),
-      ]}
-    >
-      <i />
-      <i />
-      <i />
-    </span>
-  )
-}
+// From idea to prototype's drawings; its phone is in phone.tsx, since From raw to ripe borrows it
 
 // two controls above the preview. When the tile is seen, both handles slide as if someone were trying values, and the
 // fill follows, then they settle back. Each handle rides on a full-width layer moved by translate, and each fill
@@ -329,7 +289,8 @@ const captures = [
 
 const captureStart = { opacity: 0, transform: 'translateY(8px)' }
 const tagStart = { opacity: 0, transform: 'translateY(-8px) scale(0.6)' }
-const outlineStart = { stroke: line, strokeWidth: 2 }
+// the newest capture's accent outline is a second rect over the plain one, faded in, so only opacity moves
+const outlineStart = { opacity: 0 }
 
 const captureMotion = css({
   '@keyframes tile-captures-appear': {
@@ -338,7 +299,7 @@ const captureMotion = css({
   },
   '@keyframes tile-captures-outline': {
     '0%': outlineStart,
-    '100%': { stroke: 'var(--pink-deep)', strokeWidth: 3 },
+    '100%': { opacity: 1 },
   },
   '@keyframes tile-captures-tag': {
     '0%': tagStart,
@@ -361,10 +322,22 @@ export function Captures() {
               height="32"
               rx="5"
               fill="var(--card-white)"
-              stroke={shown ? 'var(--pink-deep)' : line}
-              strokeWidth={shown ? 3 : 2}
-              mix={shown ? css(playOnSeen(outlineStart, 'tile-captures-outline 0.5s ease-in-out 1.4s both')) : []}
+              stroke={line}
+              strokeWidth={2}
             />
+            {shown ? (
+              <rect
+                x={x}
+                y="1"
+                width="44"
+                height="32"
+                rx="5"
+                fill="none"
+                stroke="var(--pink-deep)"
+                strokeWidth={3}
+                mix={css(playOnSeen(outlineStart, 'tile-captures-outline 0.5s ease-in-out 1.4s both'))}
+              />
+            ) : null}
             <path d={`M${x} 9 H${x + 44}`} stroke={line} strokeWidth={1.5} opacity="0.5" />
             {rows.map((width, row) => (
               <rect key={row} x={x + 6} y={14 + row * 9} width={width} height="5" rx="2.5" fill={faint} />

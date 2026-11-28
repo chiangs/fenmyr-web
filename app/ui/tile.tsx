@@ -49,7 +49,7 @@ export function Tiles(handle: Handle<{ items: readonly TileItem[]; narrow?: bool
       })}
     >
       {handle.props.items.map((item) => (
-        <li key={item.key} data-tile={item.key} mix={[cardStyle, tileStyle]}>
+        <li key={item.key} data-tile={item.key} data-rmx-preserve-attrs="data-seen" mix={[cardStyle, tileStyle]}>
           <div aria-hidden="true" style={{ background: `var(--card-${item.tone})` }} mix={artStyle}>
             {item.art}
           </div>

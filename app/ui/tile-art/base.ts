@@ -16,14 +16,15 @@ export const surface = {
 }
 
 // A drawing plays its motion once, when its tile scrolls into view, and again when the pointer or focus comes to the
-// tile: app/ui/public/tile-motion.tsx marks the tile data-seen for that. Until then, with JavaScript on and motion
-// allowed, the drawing waits in its first frame, `start`; with reduced motion or no JavaScript it is the still drawing.
+// tile: app/ui/public/tile-motion.tsx marks the tile data-seen for that. Until then, once that island is watching and
+// motion is allowed, the drawing waits in its first frame, `start`. With reduced motion, without the island, or in
+// print, it is the still drawing.
 // `animation` names a @keyframes from the same css() and ends on the still drawing, with fill-mode `both`.
 // Spread the result into the css() of the element that moves.
 export function playOnSeen(start: Style, animation: string): Style {
   return {
-    '@media (prefers-reduced-motion: no-preference)': {
-      ':root[data-js] [data-tile]:not([data-seen]) &': start,
+    '@media screen and (prefers-reduced-motion: no-preference)': {
+      ':root[data-tile-motion] [data-tile]:not([data-seen]) &': start,
       ':is([data-tile][data-seen]) &': { animation },
     },
   }

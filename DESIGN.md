@@ -131,7 +131,7 @@ The app's DESIGN.md describes who Myra is. On the site:
 ### Tile drawings in motion
 
 - **A drawing plays its feature once,** when its tile scrolls into view, and again when the pointer or focus comes to the tile. The slider's handles try values, captures appear one by one. It never loops.
-- **`playOnSeen` in `app/ui/tile-art/base.ts` does the waiting.** `app/ui/public/tile-motion.tsx` marks a tile `data-seen` when 60% of it is on screen. Until then, the drawing waits in its first frame. With reduced motion, or without JavaScript, it is the still drawing.
+- **`playOnSeen` in `app/ui/tile-art/base.ts` does the waiting.** `app/ui/public/tile-motion.tsx` marks a tile `data-seen` when 60% of it is on screen, and keeps the mark through an in-place navigation. Until then, once that island is watching, the drawing waits in its first frame. With reduced motion, without the island, or in print, it is the still drawing.
 - **Every animation ends on the still drawing,** with fill-mode `both`, so after its motion a drawing looks exactly as it does with reduced motion or without JavaScript. Before it is seen, it may wait in a first frame that hides the parts it is about to draw, such as the pen lines on the paper.
 - **About 1.5 to 2.5 seconds,** eased, with nothing faster than the eye can follow.
 - **Only transforms, opacity and SVG stroke drawing move.** A moving part rides on a layer moved by `translate` or grows by `scale`, as the slider's handles and fills do, so nothing reflows.

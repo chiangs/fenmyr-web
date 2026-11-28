@@ -49,7 +49,7 @@ export function DueList(handle: Handle<{ labels: readonly string[] }>) {
               borderRadius: '999px',
               lineHeight: 1.5,
               transformOrigin: 'left center',
-              ...(index === 0 ? playOnSeen({ opacity: 0, transform: 'scale(0.6)' }, 'tile-due-flag 0.7s ease-out 0.4s both') : {}),
+              ...(index === 0 ? playOnSeen({ opacity: 0, transform: 'scale(0.6)' }, `tile-due-flag 0.7s ease-out ${0.4 + (handle.props.labels.length - 1) * 0.55}s both`) : {}),
             })}
           >
             {label}

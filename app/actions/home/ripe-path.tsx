@@ -5,7 +5,7 @@ import type { RipeCopy, RipeStep } from '../../content/content.ts'
 import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { KeyCap } from '../../ui/tile-art/key-cap.tsx'
-import { Phone } from '../../ui/tile-art/prototype.tsx'
+import { Phone } from '../../ui/tile-art/phone.tsx'
 
 // a cloudberry ripens from hard and red to soft gold, in Myra's own colours. Catch is the raw idea, so its berry
 // stays red and only grows.

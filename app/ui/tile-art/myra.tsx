@@ -1,3 +1,4 @@
+import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
 import { faint, line, playOnSeen, soft, surface } from './base.ts'
@@ -22,7 +23,10 @@ const revealLeft = reveal(0.1)
 const revealRight = reveal(0.45)
 const arrowIn = css(playOnSeen({ opacity: 0, transform: 'translateX(-8px)' }, 'tile-dashed-plan-arrow 0.6s ease-out 1.2s both'))
 
-export function DashedPlan() {
+// the mask's outlines are paths, since every engine honours pathLength on a path but not all do on a rect, and its
+// id comes from the instance, so two plans on one page would each reveal their own boxes
+export function DashedPlan(handle: Handle) {
+  let reveal = `${handle.id}-reveal`
   return () => (
     <svg
       viewBox="0 0 150 64"
@@ -34,11 +38,11 @@ export function DashedPlan() {
       strokeDasharray="6 5"
       mix={planMotion}
     >
-      <mask id="tile-dashed-plan-reveal" mix={css({ maskType: 'alpha' })}>
-        <rect mix={revealLeft} x="4" y="6" width="56" height="52" rx="10" pathLength={1} strokeWidth={8} strokeDasharray={1} />
-        <rect mix={revealRight} x="90" y="6" width="56" height="52" rx="10" pathLength={1} strokeWidth={8} strokeDasharray={1} />
+      <mask id={reveal} mix={css({ maskType: 'alpha' })}>
+        <path mix={revealLeft} d="M14 6 H50 A10 10 0 0 1 60 16 V48 A10 10 0 0 1 50 58 H14 A10 10 0 0 1 4 48 V16 A10 10 0 0 1 14 6 Z" pathLength={1} strokeWidth={8} strokeDasharray={1} />
+        <path mix={revealRight} d="M100 6 H136 A10 10 0 0 1 146 16 V48 A10 10 0 0 1 136 58 H100 A10 10 0 0 1 90 48 V16 A10 10 0 0 1 100 6 Z" pathLength={1} strokeWidth={8} strokeDasharray={1} />
       </mask>
-      <g mask="url(#tile-dashed-plan-reveal)">
+      <g mask={`url(#${reveal})`}>
         <rect x="4" y="6" width="56" height="52" rx="10" />
         <rect x="90" y="6" width="56" height="52" rx="10" />
       </g>
