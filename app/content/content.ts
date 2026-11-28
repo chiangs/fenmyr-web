@@ -67,7 +67,8 @@ export interface HomeSectionsCopy {
 export type SectionId = keyof HomeSectionsCopy
 
 export interface Content {
-  document: { title: string; description: string }
+  // title and description are what search results show; previewAlt describes the picture a shared link shows
+  document: { title: string; description: string; previewAlt: string }
   header: {
     brand: string
     navLabel: string

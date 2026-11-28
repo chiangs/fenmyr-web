@@ -3,18 +3,20 @@ import { css } from 'remix/component'
 import { ButtonLink } from '../../ui/button-link.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { en } from '../../content/en.tsx'
+import { routes } from '../../routes.ts'
 import { Section } from '../../ui/section.tsx'
 import { SiteFooter } from '../../ui/site-footer.tsx'
 import { SiteHeader } from '../../ui/site-header.tsx'
 import { Myra } from '../../ui/public/myra.tsx'
 import { Document } from '../document.tsx'
 import { sections } from './sections.tsx'
+import { StructuredData } from './structured-data.tsx'
 
 const hero = 'board'
 
 export function HomePage() {
   return () => (
-    <Document hero={hero}>
+    <Document hero={hero} path={routes.home.href()} head={<StructuredData />}>
       <SiteHeader />
       <main
         mix={css({

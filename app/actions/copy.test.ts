@@ -67,7 +67,8 @@ function visibleText(html: string) {
 function attributeText(html: string) {
   let values: string[] = []
   for (let [tag] of html.matchAll(/<[a-z][^>]*>/gi)) {
-    let isDescription = /^<meta\b/i.test(tag) && /\sname=(["'])description\1/i.test(tag)
+    let isDescription =
+      /^<meta\b/i.test(tag) && /\s(?:name=(["'])description\1|property=(["'])og:(?:title|description|image:alt)\2)/i.test(tag)
     for (let [, name = '', , value = ''] of tag.matchAll(/\s(alt|aria-label|title|content)=(["'])(.*?)\2/gi)) {
       if (name.toLowerCase() === 'content' && !isDescription) continue
       values.push(decode(value))
@@ -83,7 +84,8 @@ function around(text: string, index: number) {
 function resourceUrls(html: string) {
   let urls: string[] = []
   for (let [tag] of html.matchAll(/<[a-z][^>]*>/gi)) {
-    let isLink = /^<link\b/i.test(tag)
+    // a canonical link names this page's address; it is not a request
+    let isLink = /^<link\b/i.test(tag) && !/\srel=(["'])canonical\1/i.test(tag)
     for (let [, name, , value = ''] of tag.matchAll(/\s(src|srcset|href)=(["'])(.*?)\2/gi)) {
       let attribute = name.toLowerCase()
       if (attribute === 'href' && !isLink) continue

@@ -17,6 +17,7 @@ Each rule names the check that enforces it. `npm run check` runs every check tha
 9. **Reduced motion stops motion.** With reduce-motion on, no animation runs and no video plays. Not checked yet: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 10. **WCAG 2.2 AA.** Not checked yet: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
 11. **A visual change shows before-and-after screenshots.** Light and dark, at 390 px and 1440 px. Nothing checks it; review does. The screenshot script: [#5](https://github.com/chiangs/fenmyr-web/issues/5).
+12. **Every page is findable and previews well.** A page is indexed with a canonical URL, a link preview and a sitemap entry, or marked `noindex`. Titles and descriptions stay within what results show. The skill in `.agents/skills/seo/SKILL.md` says what each page needs and why. Check: `npm run seo`, on the built site. Rich results and previews on the live site: nothing checks them; the skill lists the manual checks.
 
 `tools/budget.json` holds the budget's counts, all zero today. `npm run budget` fails when a count rises above its line and says when one can be lowered. Raw colours are hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` in `public/styles.css`, `public/themes.css` and string literals under `app/`. Two forms are allowed: a custom property defined in a `:root` or `[data-theme="…"]` block, and `rgb(var(--sh) …)` or `rgba(var(--sh), …)`.
 
@@ -43,6 +44,7 @@ Nothing checks these practices automatically. Review does.
 - **Myra.** Myra is one canvas island, `app/ui/public/myra.tsx`, ported from the app's `src/web/goo.ts`, [#7](https://github.com/chiangs/fenmyr-web/issues/7). Another island makes her move by sending the event in `app/ui/public/myra-event.ts`, never by reaching into her canvas, and the event reports whether she moved. She only has the hello and love poses and the hop, so the site never claims a move she can't show. Nothing checks these two; review does.
 - **Images.** A screenshot renders a `<picture>` per mode, each serving AVIF, then WebP, then PNG, and CSS shows the one that matches `data-mode`. Both are lazy, so the hidden one is never fetched. A page names its first-screen screenshot as `Document`'s `hero` and gives it `priority`; the head script then preloads that screenshot's AVIF in the mode it resolved, so its fetch doesn't wait for layout. Set the real width and height. A screenshot is a light and a dark PNG in `public/images/` plus an entry in `app/ui/screenshots.ts`, which lists its size, the widths to serve and its `sizes`. After adding or changing a source PNG or that table, run `npm run images` and commit the AVIF and WebP files it writes beside the PNG. Check: `app/ui/screenshot.test.ts` fails when the page points at an image that is not in `public/`, or when a screenshot lacks its AVIF, WebP or light and dark PNG. Nothing checks that the AVIF and WebP files match a changed PNG; review does.
 - **Video.** Use muted, self-hosted clips of up to 20 seconds, as AV1 WebM with an H.264 MP4 fallback and a poster. App footage is always a real recording, never generated. Each clip has a light and a dark version, and the page shows the one that matches the active theme's mode. Playback starts when the video scrolls into view, and never with reduced motion.
+- **Metadata.** `Document` writes the title, description, canonical URL, Open Graph tags and `noindex` from its `path` prop, with the site's origin and the preview image from `app/site.ts`. The home page adds JSON-LD from `app/actions/home/structured-data.tsx`. `public/robots.txt` and `public/sitemap.xml` are plain files. `npm run images` makes the preview image, `public/images/og.jpg`. The seo skill has the details.
 - **Outside data.** Data from the network or from files stays `unknown` until it is parsed where it enters, as rule 2 says.
 
 This app was scaffolded with `remix new`. Use these conventions when continuing to build it out.
@@ -60,10 +62,11 @@ npm run budget
 npm run images
 npm run themes
 npm run build
+npm run seo
 npm run check
 ```
 
-Use `npm run hmr` for live server and browser updates; `npm run dev` only watches and restarts the server. `npm run start` runs in production mode without a separate build step. `npm run build` writes the static site that Vercel deploys, and `npm run check` runs it last.
+Use `npm run hmr` for live server and browser updates; `npm run dev` only watches and restarts the server. `npm run start` runs in production mode without a separate build step. `npm run build` writes the static site that Vercel deploys, `npm run seo` audits it, and `npm run check` runs both last.
 
 ## Deploy
 
@@ -79,7 +82,7 @@ Every page is rendered once, at build time, so nothing may depend on the request
 
 ## Building Features
 
-Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to find guides and API READMEs through `node_modules/remix/INDEX.md`.
+Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to find guides and API READMEs through `node_modules/remix/INDEX.md`, and to ./.agents/skills/seo/SKILL.md for page metadata.
 
 ## Starter Layout
 
@@ -90,7 +93,8 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test; `app/actions/home/timer-card.tsx` draws the timer card in Ideas and the work around them, after the app's own timer chip and Myra's glow
 - `app/actions/not-found-page.tsx` renders the 404 page
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
-- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/themes.ts` writes `public/themes.css` from the app's themes; `tools/build.ts` writes the static site to `.vercel/output/`
+- `app/site.ts` holds the site's origin and the link preview image; `app/actions/home/structured-data.tsx` is the home page's JSON-LD
+- `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/themes.ts` writes `public/themes.css` from the app's themes; `tools/build.ts` writes the static site to `.vercel/output/`; `tools/seo.ts` audits its metadata, robots.txt and sitemap
 - `app/actions/public/` contains the browser runtime entry
 - `app/ui/` holds shared layout pieces: `section.tsx`, `site-header.tsx`, `site-footer.tsx`, `button-link.tsx`, `screenshot.tsx` with its table of images in `screenshots.ts`, `tile.tsx`, the grid of feature tiles, and `tile-art.tsx`, the small drawings in them, with `card.ts`, the card look they share with the other sections, and `themes.ts`, the theme registry. Its islands are in `app/ui/public/`: `myra.tsx`; `site-menu.tsx`, the header's menu button and popover on narrow screens; and `theme-picker.tsx`, the header's theme button and popover, which share `icon-button.ts`
 - `app/actions/home/public/slash-demo.tsx` is the island for Type / for the quick things: Myra's thirteen commands, filtered as you type, with her bubble answering. `/animate hop` sends the event in `app/ui/public/myra-event.ts`, and every Myra on screen and moving hops twice, as in the app
