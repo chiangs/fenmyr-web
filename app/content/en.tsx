@@ -57,6 +57,8 @@ export const en: Content = {
     codeMap: 'Code map',
     licence: 'Licences',
     madeBy: 'Made with care by Stephen Chiang.',
+    site: 'chiang.ink',
+    linkedIn: 'LinkedIn',
   },
   notFound: {
     title: 'Page not found · Fenmyr',
