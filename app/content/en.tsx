@@ -76,7 +76,7 @@ export const en: Content = {
       title: 'From raw to ripe',
       lead: 'Fenmyr is named for the northern bog where cloudberries grow, and only when the conditions are right. Ideas are the same.',
       bubble: "Bring them raw. We'll ripen them together.",
-      myraAlt: 'Myra, a pixel cloudberry, hops beside her bubble',
+      myraAlt: 'Myra, a pixel cloudberry, beams beside her bubble',
       steps: {
         catch: {
           name: 'Catch',

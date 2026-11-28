@@ -6,12 +6,21 @@ import { cardStyle } from '../../ui/card.ts'
 import { Myra } from '../../ui/public/myra.tsx'
 import { KeyCap, Phone } from '../../ui/tile-art.tsx'
 
-// a cloudberry ripens from hard and red to soft gold, in Myra's own colours
+// a cloudberry ripens from hard and red to soft gold, in Myra's own colours. Catch is the raw idea, so its berry
+// stays red and only grows.
 const berries: Record<RipeStep, string> = {
   catch: 'var(--myra-heart)',
-  sort: 'color-mix(in oklab, var(--myra-heart), var(--myra-soft-shine))',
-  shape: 'var(--myra-soft-shine)',
-  try: 'var(--myra-body)',
+  sort: 'color-mix(in oklab, var(--myra-heart), var(--myra-body))',
+  shape: 'var(--myra-body)',
+  try: 'var(--myra-soft-shine)',
+}
+
+// on one row the steps share a view timeline, so each berry ripens a little after the one before it
+const ranges: Record<RipeStep, string> = {
+  catch: 'entry 60% cover 35%',
+  sort: 'cover 25% cover 40%',
+  shape: 'cover 30% cover 45%',
+  try: 'cover 35% cover 50%',
 }
 
 const tones: Record<RipeStep, string> = {
@@ -114,11 +123,20 @@ const stepStyle = css({
   },
 })
 
+const wide = '@media (prefers-reduced-motion: no-preference) and (min-width: 52.0625rem)'
+
+const rangeStyles: Record<RipeStep, ReturnType<typeof css>> = {
+  catch: css({ [wide]: { animationTimeline: '--ripe', animationRange: ranges.catch } }),
+  sort: css({ [wide]: { animationTimeline: '--ripe', animationRange: ranges.sort } }),
+  shape: css({ [wide]: { animationTimeline: '--ripe', animationRange: ranges.shape } }),
+  try: css({ [wide]: { animationTimeline: '--ripe', animationRange: ranges.try } }),
+}
+
 const berryStyle = css({
   width: '1.125rem',
   height: '1.125rem',
   borderRadius: '50%',
-  boxShadow: 'inset -3px -3px 0 rgba(var(--sh), .18)',
+  boxShadow: 'inset -3px -3px 0 rgba(var(--sh), calc(.18 * var(--sh-k)))',
   // with scroll-driven animations each berry ripens from red as its step comes into view
   '@supports (animation-timeline: view())': {
     '@media (prefers-reduced-motion: no-preference)': {
@@ -169,6 +187,7 @@ export function RipePath(handle: Handle<{ copy: RipeCopy }>) {
             margin: 0,
             padding: 0,
             listStyle: 'none',
+            viewTimelineName: '--ripe',
             '@media (max-width: 52rem)': { gridTemplateColumns: 'minmax(0, 1fr)' },
           })}
         >
@@ -187,7 +206,7 @@ export function RipePath(handle: Handle<{ copy: RipeCopy }>) {
                   color: 'var(--card-white-ink)',
                 })}
               >
-                <span aria-hidden="true" style={{ background: berries[step] }} mix={berryStyle} />
+                <span aria-hidden="true" style={{ background: berries[step] }} mix={[berryStyle, rangeStyles[step]]} />
                 {copy.steps[step].name}
               </h3>
               <div
