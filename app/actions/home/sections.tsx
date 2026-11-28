@@ -15,7 +15,7 @@ import { TemplateGallery } from './public/template-gallery.tsx'
 import { RipePath } from './ripe-path.tsx'
 import { TimerCard } from './timer-card.tsx'
 
-const { prototype, myra, work, local, platforms, access, built, beta, install, support } = en.sections
+const { prototype, myra, work, local, access, built, beta, install, support } = en.sections
 
 export interface HomeSection {
   id: SectionId
@@ -188,38 +188,6 @@ export const sections: readonly HomeSection[] = [
     ),
   },
   {
-    id: 'platforms',
-    title: platforms.title,
-    content: (
-      <>
-        <Lead icon="platforms" tone="sky">
-          {platforms.lead}
-        </Lead>
-        <div
-          mix={css({
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 20rem), 1fr))',
-            gap: '1rem',
-          })}
-        >
-          {[platforms.linux, platforms.mac].map((platform) => (
-            <div
-              key={platform.title}
-              mix={[
-                cardStyle,
-                css({ display: 'grid', alignContent: 'start', gap: '0.5rem', padding: '1.5rem', color: 'var(--card-white-soft)' }),
-              ]}
-            >
-              <h3 mix={css({ fontSize: '1.375rem', color: 'var(--card-white-ink)' })}>{platform.title}</h3>
-              <p>{platform.body}</p>
-            </div>
-          ))}
-        </div>
-        <p mix={css({ color: 'var(--ink-soft)' })}>{platforms.updates}</p>
-      </>
-    ),
-  },
-  {
     id: 'access',
     title: access.title,
     content: (
@@ -293,7 +261,11 @@ export const sections: readonly HomeSection[] = [
     nav: install.nav,
     content: (
       <>
+        <Lead icon="platforms" tone="sky">
+          {install.lead}
+        </Lead>
         <p mix={css({ maxWidth: '44rem', color: 'var(--ink-soft)' })}>{install.needs}</p>
+        <p mix={css({ maxWidth: '44rem', color: 'var(--ink-soft)' })}>{install.linux}</p>
         <div
           mix={css({
             display: 'grid',
@@ -321,6 +293,7 @@ export const sections: readonly HomeSection[] = [
               </code>
             </pre>
             <p mix={css({ color: 'var(--card-white-soft)' })}>{install.fromCode.result}</p>
+            <p mix={css({ color: 'var(--card-white-soft)' })}>{install.fromCode.updates}</p>
           </div>
           <div mix={[cardStyle, css({ display: 'grid', alignContent: 'start', gap: '1rem', padding: '1.5rem' })]}>
             <h3 mix={css({ fontSize: '1.375rem' })}>{install.appImage.title}</h3>

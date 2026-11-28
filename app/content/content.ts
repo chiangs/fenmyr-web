@@ -48,7 +48,6 @@ export interface HomeSectionsCopy {
   templates: SectionCopy & TemplatesCopy & { nav: string }
   connections: SectionCopy & ConnectionsCopy
   local: FeatureCopy & { tiles: Record<LocalTile, TileCopy> }
-  platforms: FeatureCopy & { linux: { title: string; body: string }; mac: { title: string; body: string }; updates: string }
   access: FeatureCopy & { points: RemixNode[] }
   // maker is a note in the maker's own words, signed
   built: FeatureCopy & {
@@ -63,11 +62,13 @@ export interface HomeSectionsCopy {
     follow: string
     report: string
   }
-  install: SectionCopy & {
+  // install also says which computers Fenmyr runs on, with the Linux desktops in linux
+  install: FeatureCopy & {
     nav: string
     needs: RemixNode
-    fromCode: { title: string; note: string; result: string }
+    fromCode: { title: string; note: string; result: string; updates: string }
     appImage: { title: string; note: string; button: string }
+    linux: string
   }
   support: SectionCopy & {
     nav: string
