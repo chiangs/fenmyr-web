@@ -87,7 +87,7 @@ Refer to ./.agents/skills/remix/SKILL.md for the Remix mental model and how to f
 - `app/router.tsx` wires routes to controllers, installs the standard Remix component renderer used by actions, and renders the 404 page for unmatched URLs
 - Put top-level route actions in `app/actions/controller.tsx`; add `app/actions/<route-key>/controller.tsx` for nested route maps. `app/actions/controller.test.ts` is the root controller's router test
 - `app/actions/document.tsx` is the document shell: the theme script, which also preloads the hero screenshot, the stylesheets, font preloads, favicon and meta description
-- `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test
+- `app/actions/home/page.tsx` renders the home page; `app/actions/home/sections.tsx` is the ordered section registry that drives page order, anchor ids, header nav and the test; `app/actions/home/timer-card.tsx` draws the timer card in Ideas and the work around them, after the app's own timer chip and Myra's glow
 - `app/actions/not-found-page.tsx` renders the 404 page
 - `app/content/content.ts` defines `Content`, the shape of every user-facing string, and `SectionId`; `app/content/en.tsx` holds the British English copy that pages and `app/ui/` read
 - `app/actions/copy.test.ts` checks the copy and same-origin resources of every page; `tools/budget.ts` counts against `tools/budget.json`; `tools/images.ts` makes the AVIF and WebP screenshots from the PNGs; `tools/themes.ts` writes `public/themes.css` from the app's themes; `tools/build.ts` writes the static site to `.vercel/output/`

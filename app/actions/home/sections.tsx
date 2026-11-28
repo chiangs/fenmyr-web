@@ -1,7 +1,7 @@
 import type { Handle, RemixNode } from 'remix/component'
 import { css } from 'remix/component'
 
-import type { MyraTile, PrototypeTile, SectionId, TileCopy } from '../../content/content.ts'
+import type { MyraTile, PrototypeTile, SectionId, TileCopy, WorkTile } from '../../content/content.ts'
 import { en } from '../../content/en.tsx'
 import { ButtonLink } from '../../ui/button-link.tsx'
 import { cardStyle } from '../../ui/card.ts'
@@ -9,9 +9,23 @@ import { Myra } from '../../ui/public/myra.tsx'
 import { Screenshot } from '../../ui/screenshot.tsx'
 import { Tiles } from '../../ui/tile.tsx'
 import type { Tone } from '../../ui/tile.tsx'
-import { Commits, CodeLines, DashedPlan, KeyCap, Phone, Pointer, Slider, Specimen, Switches } from '../../ui/tile-art.tsx'
+import {
+  Columns,
+  Commits,
+  CodeLines,
+  DashedPlan,
+  DueList,
+  Folders,
+  KeyCap,
+  Phone,
+  Pointer,
+  Slider,
+  Specimen,
+  Switches,
+} from '../../ui/tile-art.tsx'
+import { TimerCard } from './timer-card.tsx'
 
-const { prototype, myra, local, linux, access, built, install, support } = en.sections
+const { prototype, myra, work, local, linux, access, built, install, support } = en.sections
 
 export interface HomeSection {
   id: SectionId
@@ -110,6 +124,20 @@ const myraTiles = tilesOf<MyraTile>(myra.tiles, [
   ['settings', 'pink', <Switches />],
 ])
 
+const workTiles = tilesOf<WorkTile>(work.tiles, [
+  ['due', 'pink', <DueList labels={[work.labels.overdue, work.labels.today, work.labels.friday]} />],
+  ['home', 'lilac', <Folders />],
+  ['kanban', 'mint', <Columns />],
+  [
+    'find',
+    'sky',
+    <span mix={css({ display: 'flex', gap: '0.5rem' })}>
+      <KeyCap label={work.labels.focus} />
+      <KeyCap label={work.labels.find} />
+    </span>,
+  ],
+])
+
 export const sections: readonly HomeSection[] = [
   {
     id: 'prototype',
@@ -137,6 +165,19 @@ export const sections: readonly HomeSection[] = [
           {myra.lead}
         </Lead>
         <Tiles items={myraTiles} />
+      </>
+    ),
+  },
+  {
+    id: 'work',
+    title: work.title,
+    content: (
+      <>
+        <Lead icon="work" tone="butter">
+          {work.lead}
+        </Lead>
+        <TimerCard copy={work.timer} />
+        <Tiles items={workTiles} narrow />
       </>
     ),
   },

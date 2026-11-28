@@ -114,6 +114,47 @@ export const en: Content = {
       },
       labels: { add: '+ Add', undo: 'Undo', stop: 'Ctrl+.', type: 'Aa' },
     },
+    work: {
+      title: 'Ideas and the work around them',
+      lead: 'An idea comes with things to do. Keep both in the same place.',
+      timer: {
+        title: 'Timers with a face',
+        how: (
+          <>
+            Type <code>/timer 25 write the intro</code>, or just ask Myra. The timer counts down by the clock, so it
+            keeps going through sleep, restarts and switching boards.
+          </>
+        ),
+        faces:
+          'Myra warns you two minutes before the end. She looks sleepy through a break and startled near the finish. When time is up she hops, berry confetti bursts out, and her pill glows red after work or green after a break.',
+        time: '23:41',
+        purpose: 'write the intro',
+        presets: ['15 min break', '50 min focus', '5 min breather'],
+      },
+      tiles: {
+        due: {
+          title: 'Due dates that find you',
+          body: (
+            <>
+              Give a note a due date. <code>/due</code> lists what is overdue and coming up on every board, and Myra
+              reminds you, even about notes on other boards.
+            </>
+          ),
+        },
+        home: { title: 'A home for every project', body: 'Projects, folders and boards each get a home page.' },
+        kanban: { title: 'Kanbans', body: 'Cards move from to do to done, on the same board as the ideas.' },
+        find: {
+          title: 'Focus and find',
+          body: (
+            <>
+              <strong>F</strong> focuses on the selected cards, and <strong>Ctrl+F</strong> finds anything a card
+              shows on the board.
+            </>
+          ),
+        },
+      },
+      labels: { overdue: 'Overdue', today: 'Today', friday: 'Friday', focus: 'F', find: 'Ctrl+F' },
+    },
     local: {
       title: 'Yours, on your computer',
       lead: "There's no account and no Fenmyr cloud. Your boards stay on your computer.",

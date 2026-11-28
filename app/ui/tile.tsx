@@ -33,15 +33,15 @@ const artStyle = css({
   borderRadius: '16px',
   cornerShape: 'squircle',
   color: 'var(--card-butter-ink)',
-  '@media (max-width: 34rem)': { height: '4.75rem', '& > *': { scale: '0.8' } },
+  '@media (max-width: 34rem)': { height: '5.5rem', '& > *': { scale: '0.8' } },
 })
 
-export function Tiles(handle: Handle<{ items: readonly TileItem[] }>) {
+export function Tiles(handle: Handle<{ items: readonly TileItem[]; narrow?: boolean }>) {
   return () => (
     <ul
       mix={css({
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 17rem), 1fr))',
+        gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${handle.props.narrow ? '14.5rem' : '17rem'}), 1fr))`,
         gap: '1rem',
         margin: 0,
         padding: 0,
@@ -49,7 +49,7 @@ export function Tiles(handle: Handle<{ items: readonly TileItem[] }>) {
       })}
     >
       {handle.props.items.map((item) => (
-        <li key={item.key} mix={[cardStyle, tileStyle]}>
+        <li key={item.key} data-tile={item.key} mix={[cardStyle, tileStyle]}>
           <div aria-hidden="true" style={{ background: `var(--card-${item.tone})` }} mix={artStyle}>
             {item.art}
           </div>
