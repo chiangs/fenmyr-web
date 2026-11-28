@@ -14,8 +14,8 @@ import {
   Folders,
   Icon,
   KeyCap,
+  PaperSketch,
   Phone,
-  Pointer,
   Slider,
   Specimen,
   Switches,
@@ -31,9 +31,9 @@ function tilesOf<Id extends string>(copy: Record<Id, TileCopy>, art: readonly (r
 }
 
 export const prototypeTiles = tilesOf<PrototypeTile>(prototype.tiles, [
+  ['paper', 'lilac', <PaperSketch />],
   ['run', 'sky', <Phone />],
   ['live', 'butter', <Slider />],
-  ['point', 'lilac', <Pointer label={prototype.labels.point} />],
   ['code', 'peach', <CodeLines />],
   ['versions', 'mint', <Captures />],
   ['git', 'pink', <Commits />],
