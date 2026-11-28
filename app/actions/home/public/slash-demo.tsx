@@ -166,9 +166,19 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
               'var(--card-edge, 0 0 0 0 transparent), 0 14px 40px rgba(var(--sh), calc(.12 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
           })}
         >
-          {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below; the
-              list itself scrolls, so the scrolling box is the labelled listbox */}
-          <div mix={css({ display: 'flex', flexDirection: 'column', height: '20rem' })}>
+          {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below. The
+              list sits at the bottom, against the input, as a menu that opens upwards; it scrolls itself, so the
+              scrolling box is the labelled listbox. Its rows move as it filters, so the browser must not anchor the
+              page's scroll to one of them */}
+          <div
+            mix={css({
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              height: '20rem',
+              overflowAnchor: 'none',
+            })}
+          >
             <ul id="slash-list" role={started ? 'listbox' : undefined} aria-label={copy.input} mix={listStyle}>
               {shown.map((row, index) => {
                 let head = row.group && row.group !== last ? row.group : ''
