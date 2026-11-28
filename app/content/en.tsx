@@ -149,6 +149,47 @@ export const en: Content = {
       },
       labels: { add: '+ Add', undo: 'Undo', stop: 'Ctrl+.', type: 'Aa' },
     },
+    slash: {
+      title: 'Type / for the quick things',
+      lead: "Thirteen commands in Myra's chat that need no AI and no internet. They work even with her thinking switched off.",
+      bubble: 'Type / and I answer at once. Try /animate.',
+      myraAlt: 'Myra, a pixel cloudberry, beams beside the command list',
+      input: "Type one of Myra's commands",
+      hint: 'Enter runs it',
+      empty: 'No command starts like that',
+      groups: { board: 'On this board', make: 'Make something', chat: 'In this chat' },
+      commands: {
+        find: { desc: 'Find cards that mention something', reply: "In Fenmyr I'd show you every card that mentions it." },
+        tag: { desc: 'Show the cards with a tag', reply: "In Fenmyr I'd show you the cards with that tag." },
+        tidy: { desc: 'Line the loose notes up in rows', reply: "In Fenmyr I'd line your loose notes up in rows." },
+        due: {
+          desc: 'List what is overdue and coming up on every board',
+          reply: "In Fenmyr I'd list what's overdue and coming up, on every board.",
+        },
+        fit: { desc: 'Zoom to see everything', reply: "In Fenmyr I'd zoom out until you can see everything." },
+        timer: {
+          desc: 'Start a timer, with an optional purpose',
+          reply: "In Fenmyr I'd start the clock and warn you two minutes before the end.",
+        },
+        template: {
+          desc: 'Add a template, or start a board from one',
+          reply: "In Fenmyr I'd add the template you name, or start a new board from it.",
+        },
+        project: {
+          desc: 'Start a project and choose how its first board begins',
+          reply: "In Fenmyr I'd start a project and ask how its first board should begin.",
+        },
+        folder: { desc: 'Add a folder to this project', reply: "In Fenmyr I'd add a folder to this project." },
+        board: { desc: 'Add a board to this folder and open it', reply: "In Fenmyr I'd add a board here and open it." },
+        animate: { desc: 'Make me hop' },
+        clear: { desc: 'Start a fresh chat', reply: "In Fenmyr I'd start us a fresh chat." },
+        help: {
+          desc: 'What I can do without thinking',
+          reply: 'Here is what I can do right here, no thinking needed. Everything in this list.',
+        },
+      },
+      hop: { desc: 'A little jump', line: 'Boing!', still: "I'd hop, but I'm keeping still for you right now." },
+    },
     work: {
       title: 'Ideas and the work around them',
       lead: 'An idea comes with things to do. Keep both in the same place.',

@@ -3,6 +3,7 @@ import type { Handle } from 'remix/component'
 
 import { Goo } from './myra/goo.ts'
 import type { Pose } from './myra/goo.ts'
+import { MyraMoveEvent, myraEvent } from './myra-event.ts'
 
 export interface MyraProps {
   pose: Pose
@@ -38,11 +39,26 @@ function animate(canvas: HTMLCanvasElement, pose: Pose, signal: AbortSignal) {
     sync()
   })
   observer.observe(canvas)
+  // /animate hop in the slash demo: two hops, 520 ms apart, as in the app, but only for a Myra on screen and moving
+  let second = 0
+  document.addEventListener(
+    myraEvent,
+    (event) => {
+      if (!(event instanceof MyraMoveEvent) || event.move !== 'hop' || !seen || reduced.matches) return
+      event.hopped = true
+      goo.hop()
+      clearTimeout(second)
+      second = window.setTimeout(() => goo.hop(), 520)
+      nextHop = performance.now() + 4000
+    },
+    { signal },
+  )
   reduced.addEventListener('change', sync, { signal })
   document.addEventListener('visibilitychange', sync, { signal })
   signal.addEventListener('abort', () => {
     observer.disconnect()
     cancelAnimationFrame(frame)
+    clearTimeout(second)
   })
   goo.draw(0, true)
 }
