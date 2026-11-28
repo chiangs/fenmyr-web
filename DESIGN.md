@@ -55,7 +55,7 @@ Checks: the budget's `rawColours` count, `app/ui/themes.test.ts` for tokens that
   - A card's `h3`: `1.125rem` in tiles, points and logo cards. A large card that stands alone, such as Linux, Mac or an install option, uses `1.375rem`.
 - **A Lead** is `clamp(1.0625rem, 2vw, 1.1875rem)`. **Card text** is `0.96875rem` with a line height of 1.5.
 - **Small labels** above a group are `0.6875rem` to `0.75rem`, weight 600, uppercase, tracked `0.06em`.
-- **Shantell Sans,** `--hand`, is for Myra's bubbles, the From raw to ripe step names and the type specimen drawing only. It is never body text.
+- **Shantell Sans,** `--hand`, is for Myra's bubbles and the From raw to ripe step names only. It is never body text.
 - **Monospace** is for commands, slash commands and code, at `0.9em`.
 
 Nothing checks these sizes; review does.
