@@ -1,4 +1,4 @@
-# Runs on every pull request and on main. The ruleset on main requires both jobs to pass before a pull request merges.
+# Runs on every pull request and on main. The ruleset on main requires all three jobs to pass before a pull request merges.
 name: check
 
 on:
@@ -11,7 +11,8 @@ permissions:
 
 concurrency:
   group: check-${{ github.ref }}
-  cancel-in-progress: true
+  # a new push to a pull request replaces its old run; every push to main runs to the end
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   check:
@@ -47,7 +48,8 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           missing=0
-          for commit in $(git rev-list --no-merges "$BASE..$HEAD"); do
+          # from where the branch left main, so a stale base after a rebase doesn't pull in main's commits
+          for commit in $(git rev-list --no-merges "$(git merge-base "$BASE" "$HEAD")..$HEAD"); do
             email="$(git show -s --format=%ae "$commit")"
             if ! git show -s --format=%B "$commit" | grep '^Signed-off-by: ' | grep -qiF "<$email>"; then
               echo "::error::$(git show -s --format='%h %s' "$commit") has no sign-off for <$email>. Sign it off with git commit -s."
@@ -55,3 +57,36 @@ jobs:
             fi
           done
           exit "$missing"
+
+  title:
+    name: title
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # the squash merge takes the pull request's title, or its one commit's subject, so both need the conventional
+      # prefix AGENTS.md asks for
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: The title and every commit subject start with a conventional prefix
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          prefix='^(feat|fix|docs|chore|refactor|perf|test|style|build|ci|revert)(\([a-z0-9-]+\))?!?: [^ ]'
+          bad=0
+          if ! printf '%s\n' "$TITLE" | grep -qE "$prefix"; then
+            echo "::error::The title '$TITLE' needs a prefix such as feat:, fix:, docs: or chore:."
+            bad=1
+          fi
+          for commit in $(git rev-list --no-merges "$(git merge-base "$BASE" "$HEAD")..$HEAD"); do
+            subject="$(git show -s --format=%s "$commit")"
+            if ! printf '%s\n' "$subject" | grep -qE "$prefix"; then
+              echo "::error::$(git show -s --format=%h "$commit") '$subject' needs a prefix such as feat:, fix:, docs: or chore:."
+              bad=1
+            fi
+          done
+          exit "$bad"
