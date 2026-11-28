@@ -5,8 +5,8 @@ import { faint, playOnSeen, soft, surface } from './base.ts'
 import type { Style } from './base.ts'
 
 // A key cap presses each time its tile plays: it dips and gives a little, then comes back up. Where two sit side
-// by side, the second presses just after the first. KeyCap also appears outside any tile, as in From raw to ripe, and
-// there nothing plays it, since playOnSeen only acts inside a tile.
+// by side, the second presses just after the first. It plays wherever a drawing sits inside [data-tile], which the
+// From raw to ripe steps' drawings do too, so the Catch step's Ctrl+K presses as well.
 const pressMotion = css({
   '@keyframes tile-key-cap-press': {
     '0%, 100%': { transform: 'none' },
