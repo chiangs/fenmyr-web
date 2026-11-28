@@ -1,6 +1,7 @@
 import type { Handle } from 'remix/component'
 import { css } from 'remix/component'
 
+import { modeVariant } from './mode-variant.ts'
 import { formats, screenshots, sourcePath, srcset } from './screenshots.ts'
 import type { ScreenshotName } from './screenshots.ts'
 import { modes } from './themes.ts'
@@ -10,17 +11,6 @@ export interface ScreenshotProps {
   alt: string
   priority?: boolean
 }
-
-const variantStyle = css({
-  display: 'block',
-  '&[data-variant="dark"]': { display: 'none' },
-  ':root[data-mode="dark"] &[data-variant="light"]': { display: 'none' },
-  ':root[data-mode="dark"] &[data-variant="dark"]': { display: 'block' },
-  '@media (prefers-color-scheme: dark)': {
-    ':root:not([data-mode]) &[data-variant="light"]': { display: 'none' },
-    ':root:not([data-mode]) &[data-variant="dark"]': { display: 'block' },
-  },
-})
 
 export function Screenshot(handle: Handle<ScreenshotProps>) {
   return () => {
@@ -39,7 +29,7 @@ export function Screenshot(handle: Handle<ScreenshotProps>) {
         })}
       >
         {modes.map((mode) => (
-          <picture key={mode} data-variant={mode} mix={variantStyle}>
+          <picture key={mode} data-variant={mode} mix={modeVariant}>
             {formats.map((format) => (
               <source
                 key={format}

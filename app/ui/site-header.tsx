@@ -4,6 +4,7 @@ import { sections } from '../actions/home/sections.tsx'
 import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
 import { ButtonLink } from './button-link.tsx'
+import { Mark } from './mark.tsx'
 import { SiteMenu } from './public/site-menu.tsx'
 import { ThemePicker } from './public/theme-picker.tsx'
 import { modes, themeStorageKey, themes } from './themes.ts'
@@ -71,13 +72,7 @@ export function SiteHeader() {
               '@media (width < 25rem)': { gap: '0.375rem', fontSize: '1.125rem' },
             })}
           >
-            <img
-              src="/images/mark.svg"
-              alt=""
-              width={256}
-              height={256}
-              mix={css({ width: '2rem', height: '2rem', '@media (width < 25rem)': { width: '1.75rem', height: '1.75rem' } })}
-            />
+            <Mark size={css({ width: '2rem', height: '2rem', '@media (width < 25rem)': { width: '1.75rem', height: '1.75rem' } })} />
             <span
               mix={css({
                 '@media (width < 22.5rem)': {

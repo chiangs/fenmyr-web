@@ -2,6 +2,7 @@ import { css } from 'remix/component'
 
 import { en } from '../content/en.tsx'
 import { routes } from '../routes.ts'
+import { Mark } from './mark.tsx'
 
 export function SiteFooter() {
   return () => (
@@ -43,7 +44,7 @@ export function SiteFooter() {
               letterSpacing: '-0.03em',
             })}
           >
-            <img src="/images/mark.svg" alt="" width={256} height={256} loading="lazy" mix={css({ width: '1.75rem', height: '1.75rem' })} />
+            <Mark size={css({ width: '1.75rem', height: '1.75rem' })} />
             {en.footer.brand}
           </span>
           <nav aria-label={en.footer.navLabel}>
