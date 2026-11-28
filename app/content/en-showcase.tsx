@@ -18,8 +18,8 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
         title: 'Change it live',
         body: (
           <>
-            Ask Myra once for controls, such as a colour or a size. Then try values yourself as the preview changes,
-            with no AI and no tokens. <strong>Keep these values</strong> writes them into the code.
+            Try colours and sizes as the preview changes, with no AI and no tokens spent. Myra adds the controls when
+            you ask, and <strong>Keep these values</strong> saves them to the prototype.
           </>
         ),
       },
