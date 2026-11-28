@@ -9,19 +9,20 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
     screenshotAlt:
       "A prototype board: the board's cards, the preview at phone width, the code pane, and Myra's chat after a build, with its files and Undo this build",
     tiles: {
+      paper: {
+        title: 'Start on paper',
+        body: 'Photograph a paper sketch and drop it in, or draw on the board. Myra builds from what she sees, wireframes too.',
+      },
       run: { title: 'See it run', body: 'The preview sits beside the board at any device width.' },
       live: { title: 'Change it live', body: 'Controls above the preview change its values as you watch.' },
-      point: {
-        title: 'Point at it',
-        body: (
-          <>
-            <strong>Point</strong> at anything in the preview to open the line of code that draws it.
-          </>
-        ),
-      },
       code: {
         title: 'Read the code',
-        body: 'The code pane lists every file and marks what the last build changed. The code links back to the cards it came from.',
+        body: (
+          <>
+            The code pane lists every file and marks what the last build changed. <strong>Point</strong> at anything in
+            the preview to open the line that draws it, and the code links back to the cards it came from.
+          </>
+        ),
       },
       versions: {
         title: 'Compare versions',
@@ -32,7 +33,6 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
         body: 'The code lives in your own git repository. Myra explains each git step in plain words, and waits for your yes before she commits, pushes or pulls.',
       },
     },
-    labels: { point: 'Point' },
   },
   ripe: {
     title: 'From raw to ripe',
@@ -60,7 +60,7 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
       },
       shape: {
         name: 'Shape',
-        body: 'Sketch the screens as wireframes, map the journey, and give the next steps due dates.',
+        body: 'Sketch the screens, by hand or as wireframes, map the journey, and give the next steps due dates.',
       },
       try: {
         name: 'Try',
