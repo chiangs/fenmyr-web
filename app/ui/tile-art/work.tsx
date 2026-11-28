@@ -196,6 +196,9 @@ function downloadParts(d: string) {
   return { tray: `${tray}Z`, arrow: `M${Math.round(x * 100) / 100},${Math.round(y * 100) / 100}${rest.slice(by[0].length)}` }
 }
 const download = downloadParts(packIcons.download)
+// the file: its first subpath is the page's outer edge, so filling it alone gives the page's shape, used to hide the
+// copy wherever the original sits over it
+const [page = ''] = packIcons['file-text'].split(/(?=M)/)
 
 // overflow visible, so the arrow isn't cut off while it drops in from above the icon
 const iconMotion = css({
@@ -207,6 +210,13 @@ const iconMotion = css({
   '@keyframes tile-icon-twinkle-b': {
     '0%, 40%, 100%': { opacity: 1 },
     '70%': { opacity: 0.1 },
+  },
+  // a copy of the file slides out from behind it, down and to the right, as a copied file does while it is dragged,
+  // holds, and slides back in
+  '@keyframes tile-icon-copy': {
+    '0%, 8%': { opacity: 0, transform: 'none' },
+    '34%, 70%': { opacity: 0.55, transform: 'translate(34px, 26px)' },
+    '94%, 100%': { opacity: 0, transform: 'none' },
   },
   // the arrow sinks into the tray and fades, then drops back in from above and settles with a little bounce
   '@keyframes tile-icon-drop': {
@@ -220,10 +230,10 @@ const iconMotion = css({
 const still = { opacity: 1 }
 
 // one of the app's icons, large. off draws a slash through it, with a gap cut in the tile's own colour so the slash
-// stands apart from the icon
-export function Icon(handle: Handle<{ name: PackIcon; off?: Tone }>) {
+// stands apart from the icon. on is the tile's colour, which the file needs to hide its copy behind it
+export function Icon(handle: Handle<{ name: PackIcon; off?: Tone; on?: Tone }>) {
   return () => {
-    let { name, off } = handle.props
+    let { name, off, on } = handle.props
     return (
       <svg
         viewBox="0 0 256 256"
@@ -237,6 +247,15 @@ export function Icon(handle: Handle<{ name: PackIcon; off?: Tone }>) {
             <path d={star + hole} />
             <path d={sparkleA} mix={css(playOnSeen(still, 'tile-icon-twinkle-a 2.4s ease-in-out both'))} />
             <path d={sparkleB} mix={css(playOnSeen(still, 'tile-icon-twinkle-b 2.4s ease-in-out both'))} />
+          </>
+        ) : name === 'file-text' && on ? (
+          <>
+            <path
+              d={packIcons['file-text']}
+              mix={css({ opacity: 0, ...playOnSeen({ opacity: 0, transform: 'none' }, 'tile-icon-copy 2.4s ease-in-out both') })}
+            />
+            <path d={page} fill={`var(--card-${on})`} />
+            <path d={packIcons['file-text']} />
           </>
         ) : name === 'download' && download ? (
           <>

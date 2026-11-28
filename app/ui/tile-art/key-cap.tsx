@@ -17,7 +17,8 @@ const pressMotion = css({
 // a later mixin wins over the animation shorthand above it, whatever the selector's weight
 const secondPress = css({ '&:nth-child(2)': { animationDelay: '0.75s' } })
 
-export function KeyCap(handle: Handle<{ label: string }>) {
+// pressAt is when the press starts, 0.2 s into the drawing unless a drawing needs its moment first, as Ctrl+. does
+export function KeyCap(handle: Handle<{ label: string; pressAt?: number }>) {
   return () => (
     <span
       mix={[
@@ -31,7 +32,7 @@ export function KeyCap(handle: Handle<{ label: string }>) {
           fontSize: '0.9375rem',
           fontWeight: 600,
           whiteSpace: 'nowrap',
-          ...playOnSeen({}, 'tile-key-cap-press 0.9s ease-in-out 0.2s both'),
+          ...playOnSeen({}, `tile-key-cap-press 0.9s ease-in-out ${handle.props.pressAt ?? 0.2}s both`),
         }),
         secondPress,
       ]}
@@ -150,25 +151,25 @@ export function UndoKey(handle: Handle<{ label: string }>) {
 // Ctrl+.: a chip of three bouncing dots, Myra working, sits under the key. The press stops them, they settle, and a
 // small stop square takes their place, then the chip fades
 const stopMotion = css({
+  // over 3.2 s: she works for about 1.2 s, the dots bouncing four times, then the key presses at 1.25 s, its dip at
+  // about 1.5 s; the dots freeze as it dips and fade, and the stop square comes once the last of them has gone
   '@keyframes tile-stop-key-chip': {
     '0%': { opacity: 0, transform: 'translateY(4px)' },
-    '5%, 80%': { opacity: 1, transform: 'none' },
+    '4%, 86%': { opacity: 1, transform: 'none' },
     '100%': { opacity: 0, transform: 'none' },
   },
   '@keyframes tile-stop-key-dot': {
     '0%': { opacity: 0, transform: 'none' },
-    '4%': { opacity: 1, transform: 'none' },
-    '10%': { opacity: 1, transform: 'translateY(-5px)' },
-    '16%': { opacity: 1, transform: 'none' },
-    '22%': { opacity: 1, transform: 'translateY(-5px)' },
-    '28%, 34%': { opacity: 1, transform: 'none' },
-    '38%, 100%': { opacity: 0, transform: 'none' },
+    '3%': { opacity: 1, transform: 'none' },
+    '8%, 18%, 28%, 38%': { opacity: 1, transform: 'translateY(-5px)' },
+    '13%, 23%, 33%': { opacity: 1, transform: 'none' },
+    '45%, 50%': { opacity: 1, transform: 'none' },
+    '55%, 100%': { opacity: 0, transform: 'none' },
   },
   '@keyframes tile-stop-key-square': {
-    // the square comes once the last dot has faded, so the press visibly stops them
-    '0%, 46%': { opacity: 0, transform: 'scale(0.4)' },
-    '54%': { opacity: 1, transform: 'scale(1.15)' },
-    '60%, 85%': { opacity: 1, transform: 'none' },
+    '0%, 61%': { opacity: 0, transform: 'scale(0.4)' },
+    '67%': { opacity: 1, transform: 'scale(1.15)' },
+    '72%, 88%': { opacity: 1, transform: 'none' },
     '100%': { opacity: 0, transform: 'none' },
   },
 })
@@ -187,7 +188,7 @@ const chip = css({
   height: '1.125rem',
   borderRadius: '999px',
   opacity: 0,
-  ...playOnSeen({ opacity: 0, transform: 'translateY(4px)' }, 'tile-stop-key-chip 2.4s ease-in-out both'),
+  ...playOnSeen({ opacity: 0, transform: 'translateY(4px)' }, 'tile-stop-key-chip 3.2s ease-in-out both'),
 })
 const dot = (delay: number) =>
   css({
@@ -196,7 +197,7 @@ const dot = (delay: number) =>
     borderRadius: '50%',
     background: soft,
     opacity: 0,
-    ...playOnSeen({ opacity: 0 }, `tile-stop-key-dot 2.4s ease-in-out ${delay}s both`),
+    ...playOnSeen({ opacity: 0 }, `tile-stop-key-dot 3.2s ease-in-out ${delay}s both`),
   })
 const stopSquare = css({
   position: 'absolute',
@@ -207,13 +208,13 @@ const stopSquare = css({
   borderRadius: '2px',
   background: 'var(--pink-deep)',
   opacity: 0,
-  ...playOnSeen({ opacity: 0, transform: 'scale(0.4)' }, 'tile-stop-key-square 2.4s ease-in-out both'),
+  ...playOnSeen({ opacity: 0, transform: 'scale(0.4)' }, 'tile-stop-key-square 3.2s ease-in-out both'),
 })
 
 export function StopKey(handle: Handle<{ label: string }>) {
   return () => (
     <span mix={[stopMotion, keyBox]}>
-      <KeyCap label={handle.props.label} />
+      <KeyCap label={handle.props.label} pressAt={1.25} />
       <span mix={chip}>
         {[0, 1, 2].map((index) => (
           <span key={index} mix={dot(index * 0.07)} />

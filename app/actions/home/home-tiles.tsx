@@ -53,7 +53,7 @@ export const workTiles = tilesOf<WorkTile>(work.tiles, [
 
 export const localTiles = tilesOf<LocalTile>(local.tiles, [
   ['offline', 'sky', <Icon name="wifi" off="sky" />],
-  ['files', 'butter', <Icon name="file-text" />],
+  ['files', 'butter', <Icon name="file-text" on="butter" />],
   ['ask', 'lilac', <Icon name="sparkle" />],
   ['export', 'mint', <Icon name="download" />],
 ])
