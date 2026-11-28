@@ -20,7 +20,7 @@ export type PrototypeTile = 'paper' | 'run' | 'live' | 'code' | 'versions' | 'gi
 export type LocalTile = 'offline' | 'files' | 'ask' | 'export'
 export type BetaTile = 'update' | 'channel' | 'report'
 export type WorkTile = 'due' | 'home' | 'kanban' | 'find'
-export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'type' | 'settings'
+export type MyraTile = 'sees' | 'asks' | 'undo' | 'stop' | 'research' | 'settings'
 
 export interface TimerCopy {
   title: string
@@ -39,7 +39,7 @@ export interface HomeSectionsCopy {
   }
   ripe: SectionCopy & RipeCopy
   slash: SectionCopy & SlashCopy
-  myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string; type: string } }
+  myra: FeatureCopy & { tiles: Record<MyraTile, TileCopy>; labels: { add: string; undo: string; stop: string } }
   work: FeatureCopy & {
     timer: TimerCopy
     tiles: Record<WorkTile, TileCopy>
@@ -48,7 +48,6 @@ export interface HomeSectionsCopy {
   templates: SectionCopy & TemplatesCopy & { nav: string }
   connections: SectionCopy & ConnectionsCopy
   local: FeatureCopy & { tiles: Record<LocalTile, TileCopy> }
-  platforms: FeatureCopy & { linux: { title: string; body: string }; mac: { title: string; body: string }; updates: string }
   access: FeatureCopy & { points: RemixNode[] }
   // maker is a note in the maker's own words, signed
   built: FeatureCopy & {
@@ -63,11 +62,13 @@ export interface HomeSectionsCopy {
     follow: string
     report: string
   }
-  install: SectionCopy & {
+  // install also says which computers Fenmyr runs on, with the Linux desktops in linux
+  install: FeatureCopy & {
     nav: string
     needs: RemixNode
-    fromCode: { title: string; note: string; result: string }
+    fromCode: { title: string; note: string; result: string; updates: string }
     appImage: { title: string; note: string; button: string }
+    linux: string
   }
   support: SectionCopy & {
     nav: string

@@ -111,13 +111,21 @@ export const showcase: Pick<HomeSectionsCopy, 'prototype' | 'ripe' | 'myra' | 's
           </>
         ),
       },
-      type: { title: 'She explores type', body: 'She sets out type specimens from your computer or Google Fonts.' },
+      research: {
+        title: 'She researches with you',
+        body: (
+          <>
+            Turn on <strong>Let Myra search the web</strong>, and she looks things up and lays out what she finds as
+            cards and docs for you to sort.
+          </>
+        ),
+      },
       settings: {
         title: 'Set her your way',
         body: 'Choose her model and effort, how chatty she is and how much she moves.',
       },
     },
-    labels: { add: '+ Add', undo: 'Undo', stop: 'Ctrl+.', type: 'Aa' },
+    labels: { add: '+ Add', undo: 'Undo', stop: 'Ctrl+.' },
   },
   slash: {
     title: 'Type / for the quick things',
