@@ -3,7 +3,7 @@ import type { HomeSectionsCopy } from './content.ts'
 // the home page's sections from Connections to Support, in British English. en.tsx spreads them into its sections
 export const details: Pick<
   HomeSectionsCopy,
-  'connections' | 'local' | 'platforms' | 'access' | 'built' | 'beta' | 'install' | 'support'
+  'connections' | 'local' | 'access' | 'built' | 'beta' | 'install' | 'support'
 > = {
   connections: {
     title: 'Works with what you already use',
@@ -62,19 +62,7 @@ export const details: Pick<
       },
     },
   },
-  platforms: {
-    title: 'Made for Linux and Mac',
-    lead: 'Fenmyr runs on Linux and on Macs with Apple Silicon or Intel.',
-    linux: {
-      title: 'Linux',
-      body: "Made for Arch and CachyOS on Wayland, and runs on Hyprland, KDE Plasma, GNOME, Sway and niri. The board fills a window with no title bar, so your compositor's tiling works as it does for any other window. On the Caelestia shell it takes on your desktop's colours.",
-    },
-    mac: {
-      title: 'Mac',
-      body: "Build it from the code and Fenmyr.app goes into Applications, where it opens with no warning. The installer offers to set up Node.js with Homebrew if it's missing.",
-    },
-    updates: 'Installed from the code, Fenmyr updates itself on both.',
-  },
+
   access: {
     title: 'Accessible by design',
     lead: 'Six themes, three for each mode: Default, Midsummer and Clear for light, and Default, Polar Night and Lantern for dark.',
@@ -144,8 +132,9 @@ export const details: Pick<
     report: 'Report a problem',
   },
   install: {
-    title: 'Install',
+    title: 'Install on Linux or Mac',
     nav: 'Install',
+    lead: 'Fenmyr runs on Linux and on Macs with Apple Silicon or Intel.',
     needs: (
       <>
         You need <strong>Node.js 22.18</strong> or newer to install from the code, and <strong>Claude Code</strong>{' '}
@@ -155,13 +144,17 @@ export const details: Pick<
     fromCode: {
       title: 'From the code',
       note: 'Recommended on Arch, CachyOS and macOS.',
-      result: 'On Linux this adds Fenmyr to your app launcher. On macOS it builds Fenmyr.app and puts it in Applications.',
+      result:
+        "On Linux this adds Fenmyr to your app launcher. On macOS it builds Fenmyr.app into Applications, where it opens with no warning, and offers to set up Node.js with Homebrew if it's missing.",
+      updates: 'Installed from the code, Fenmyr updates itself.',
     },
     appImage: {
       title: 'AppImage',
       note: 'For any x86-64 Linux with FUSE 2. Download it, make it executable and run it.',
       button: 'Download the AppImage',
     },
+    linux:
+      "On Linux, Fenmyr is made for Arch and CachyOS on Wayland, and runs on Hyprland, KDE Plasma, GNOME, Sway and niri. The board fills a window with no title bar, so your compositor's tiling works as it does for any other window. On the Caelestia shell it takes on your desktop's colours.",
   },
   support: {
     title: 'Support Fenmyr',

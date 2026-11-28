@@ -52,7 +52,7 @@ Checks: the budget's `rawColours` count, `app/ui/themes.test.ts` for tokens that
 - **Headings** are weight 800, line height 1.1, tracking `-0.03em`, and balanced.
   - The hero's `h1`: `clamp(2.75rem, 9vw, 5.25rem)`, tracked tighter at `-0.045em`.
   - A section's `h2`: `clamp(1.875rem, 4.5vw, 2.75rem)`.
-  - A card's `h3`: `1.125rem` in tiles, points and logo cards. A large card that stands alone, such as Linux, Mac or an install option, uses `1.375rem`.
+  - A card's `h3`: `1.125rem` in tiles, points and logo cards. A large card that stands alone, such as an install option, uses `1.375rem`.
 - **A Lead** is `clamp(1.0625rem, 2vw, 1.1875rem)`. **Card text** is `0.96875rem` with a line height of 1.5.
 - **Small labels** above a group are `0.6875rem` to `0.75rem`, weight 600, uppercase, tracked `0.06em`.
 - **Shantell Sans,** `--hand`, is for Myra's bubbles, the From raw to ripe step names and the type specimen drawing only. It is never body text.
