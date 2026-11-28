@@ -27,6 +27,7 @@ function Chip(handle: Handle<{ time: string; purpose: string }>) {
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
+        maxWidth: '100%',
         height: '2.5rem',
         padding: '0 0.5rem 0 0.875rem',
         overflow: 'hidden',
@@ -37,7 +38,9 @@ function Chip(handle: Handle<{ time: string; purpose: string }>) {
         boxShadow: shadow,
         fontSize: '0.9375rem',
         whiteSpace: 'nowrap',
+        '& svg': { flex: 'none' },
         '& b': { color: 'var(--card-white-ink)', fontVariantNumeric: 'tabular-nums' },
+        '& span': { minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' },
         '&::after': {
           content: '""',
           position: 'absolute',
@@ -58,14 +61,10 @@ function Chip(handle: Handle<{ time: string; purpose: string }>) {
 }
 
 const halo = (glow: string, blur: number, spread: number, strength: number) =>
-  `${shadow}, 0 0 ${blur}px ${spread}px color-mix(in srgb, ${glow} ${strength}%, transparent)`
-
-const pulse = (glow: string) => ({
-  '0%, 100%': { boxShadow: halo(glow, 16, 2, 44) },
-  '50%': { boxShadow: halo(glow, 32, 7, 78) },
-})
+  `0 0 ${blur}px ${spread}px color-mix(in srgb, ${glow} ${strength}%, transparent)`
 
 const pillStyle = css({
+  position: 'relative',
   display: 'grid',
   placeItems: 'center',
   width: '4.5rem',
@@ -73,20 +72,28 @@ const pillStyle = css({
   borderRadius: 'var(--pill-r)',
   cornerShape: 'squircle',
   background: 'var(--card-white)',
+  boxShadow: shadow,
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: 'inherit',
+    pointerEvents: 'none',
+  },
+  '@media (prefers-reduced-motion: no-preference)': {
+    '&::after': { animation: 'timer-glow 3.6s ease-in-out infinite' },
+  },
+  '@keyframes timer-glow': {
+    '0%, 100%': { opacity: 0.55 },
+    '50%': { opacity: 1 },
+  },
 })
 
-// Myra's pill as it glows when a timer ends: red after work, green after a break, pulsing as in the app
+// Myra's pill as it glows when a timer ends: red after work, green after a break. The halo pulses as in the app,
+// by its opacity only, so the browser doesn't repaint the blur on every frame.
 const glowStyles = {
-  red: css({
-    boxShadow: halo('var(--glow-red)', 24, 4, 62),
-    '@media (prefers-reduced-motion: no-preference)': { animation: 'timer-glow-red 3.6s ease-in-out infinite' },
-    '@keyframes timer-glow-red': pulse('var(--glow-red)'),
-  }),
-  green: css({
-    boxShadow: halo('var(--glow-green)', 24, 4, 62),
-    '@media (prefers-reduced-motion: no-preference)': { animation: 'timer-glow-green 3.6s ease-in-out infinite' },
-    '@keyframes timer-glow-green': pulse('var(--glow-green)'),
-  }),
+  red: css({ '&::after': { boxShadow: halo('var(--glow-red)', 30, 6, 70) } }),
+  green: css({ '&::after': { boxShadow: halo('var(--glow-green)', 30, 6, 70) } }),
 }
 
 function Pill(handle: Handle<{ glow: keyof typeof glowStyles }>) {
@@ -97,7 +104,9 @@ function Pill(handle: Handle<{ glow: keyof typeof glowStyles }>) {
         alt=""
         width={136}
         height={160}
-        mix={css({ width: '2rem', height: 'auto', imageRendering: 'pixelated' })}
+        loading="lazy"
+        decoding="async"
+        mix={css({ width: '34px', height: '40px', imageRendering: 'pixelated' })}
       />
     </span>
   )

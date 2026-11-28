@@ -142,7 +142,7 @@ export const en: Content = {
           ),
         },
         home: { title: 'A home for every project', body: 'Projects, folders and boards each get a home page.' },
-        kanban: { title: 'Kanbans', body: 'Cards move from to do to done, on the same board as the ideas.' },
+        kanban: { title: 'Kanbans', body: 'Cards move across the columns until they are done, on the same board as the ideas.' },
         find: {
           title: 'Focus and find',
           body: (

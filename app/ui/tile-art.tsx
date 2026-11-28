@@ -178,7 +178,7 @@ export function DueList(handle: Handle<{ labels: readonly string[] }>) {
   return () => (
     <span mix={css({ ...surface, display: 'grid', gap: '6px', width: '11rem', padding: '0.625rem 0.75rem', borderRadius: '12px' })}>
       {handle.props.labels.map((label, index) => (
-        <span key={label} mix={css({ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', fontWeight: 600 })}>
+        <span key={index} mix={css({ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', fontWeight: 600 })}>
           <span
             style={{ background: index === 0 ? 'var(--pink-deep)' : faint, color: index === 0 ? 'var(--on-accent)' : 'inherit' }}
             mix={css({ padding: '0 0.4rem', borderRadius: '999px', lineHeight: 1.5 })}
