@@ -34,10 +34,8 @@ interface Row {
 
 const listStyle = css({
   display: 'grid',
-  maxHeight: '20rem',
   margin: 0,
   padding: '0.375rem',
-  overflowY: 'auto',
   listStyle: 'none',
   '& [data-group]': {
     padding: '0.625rem 0.625rem 0.25rem',
@@ -108,12 +106,24 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
       }))
   }
 
+  // keeps the chosen row, and the heading above it, inside the list's fixed height as the arrows move past its edge
+  let reveal = () => {
+    let row = document.getElementById(`slash-${selected}`)
+    row?.scrollIntoView({ block: 'nearest' })
+    if (row?.previousElementSibling?.hasAttribute('data-group')) row.previousElementSibling.scrollIntoView({ block: 'nearest' })
+  }
+
+  let refresh = () => {
+    handle.queueTask(reveal)
+    handle.update()
+  }
+
   function run(row: Row | undefined) {
     if (!row) return
     reply = row.run()
     text = '/'
     selected = 0
-    handle.update()
+    refresh()
   }
 
   return () => {
@@ -143,36 +153,39 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
               'var(--card-edge, 0 0 0 0 transparent), 0 14px 40px rgba(var(--sh), calc(.12 * var(--sh-k))), 0 1px 3px rgba(var(--sh), calc(.06 * var(--sh-k)))',
           })}
         >
-          <ul id="slash-list" role={started ? 'listbox' : undefined} aria-label={copy.input} mix={listStyle}>
-            {shown.map((row, index) => {
-              let head = row.group && row.group !== last ? row.group : ''
-              last = row.group ?? last
-              let isActive = started && row === active
-              return [
-                head ? (
-                  <li key={`group ${head}`} data-group="" role={started ? 'presentation' : undefined}>
-                    {head}
-                  </li>
-                ) : null,
-                <li
-                  key={row.key}
-                  id={`slash-${index}`}
-                  role={started ? 'option' : undefined}
-                  aria-selected={started ? isActive : undefined}
-                  mix={[on('mousedown', (event) => event.preventDefault()), on('click', () => run(row))]}
-                >
-                  <code>
-                    {row.command}
-                    {row.arg ? <span> {row.arg}</span> : null}
-                  </code>
-                  <span>{row.desc}</span>
-                </li>,
-              ]
-            })}
-          </ul>
-          {shown.length === 0 ? (
-            <p mix={css({ padding: '0.875rem 1rem', color: 'var(--card-white-soft)' })}>{copy.empty}</p>
-          ) : null}
+          {/* a fixed height, so filtering shortens the list without moving the input, Myra or the page below */}
+          <div mix={css({ height: '20rem', overflowY: 'auto' })}>
+            <ul id="slash-list" role={started ? 'listbox' : undefined} aria-label={copy.input} mix={listStyle}>
+              {shown.map((row, index) => {
+                let head = row.group && row.group !== last ? row.group : ''
+                last = row.group ?? last
+                let isActive = started && row === active
+                return [
+                  head ? (
+                    <li key={`group ${head}`} data-group="" role={started ? 'presentation' : undefined}>
+                      {head}
+                    </li>
+                  ) : null,
+                  <li
+                    key={row.key}
+                    id={`slash-${index}`}
+                    role={started ? 'option' : undefined}
+                    aria-selected={started ? isActive : undefined}
+                    mix={[on('mousedown', (event) => event.preventDefault()), on('click', () => run(row))]}
+                  >
+                    <code>
+                      {row.command}
+                      {row.arg ? <span> {row.arg}</span> : null}
+                    </code>
+                    <span>{row.desc}</span>
+                  </li>,
+                ]
+              })}
+            </ul>
+            {shown.length === 0 ? (
+              <p mix={css({ padding: '0.875rem 1rem', color: 'var(--card-white-soft)' })}>{copy.empty}</p>
+            ) : null}
+          </div>
           {/* rendered on the server too, so the row takes its space before the island starts; hidden without JavaScript */}
             <div
               mix={css({
@@ -210,7 +223,7 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
                   on('input', (event) => {
                     text = event.currentTarget.value
                     selected = 0
-                    handle.update()
+                    refresh()
                   }),
                   on('keydown', (event) => {
                     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -218,7 +231,7 @@ export const SlashDemo = clientEntry(import.meta.url, function SlashDemo(handle:
                       if (shown.length === 0) return
                       let step = event.key === 'ArrowDown' ? 1 : -1
                       selected = ((active ? shown.indexOf(active) : 0) + step + shown.length) % shown.length
-                      handle.update()
+                      refresh()
                     } else if (event.key === 'Enter') {
                       event.preventDefault()
                       run(active)
