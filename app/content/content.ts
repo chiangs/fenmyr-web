@@ -183,4 +183,6 @@ export interface ConnectionsCopy {
   lead: string
   link: string
   items: Record<ConnectionId, { name: string; line: string }>
+  // the last card, which says more connections are coming and asks which one to make next
+  more: { name: string; line: string; suggest: string; myraAlt: string }
 }

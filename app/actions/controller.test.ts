@@ -90,6 +90,10 @@ describe('root controller', () => {
     let html = await (await router.fetch(new URL(routes.home.href(), 'http://localhost'))).text()
     let ids = Object.keys(en.sections.connections.items)
     assert.equal(html.split('data-connection=').length - 1, ids.length)
+    assert.ok(
+      html.indexOf('data-connection-more') > html.lastIndexOf('data-connection='),
+      'no More to come card after the connections',
+    )
     let notice = readFileSync(new URL('../../NOTICE', import.meta.url), 'utf8')
     for (let file of readdirSync(new URL('../../public/images/logos/', import.meta.url)).filter((name) => !name.startsWith('.'))) {
       assert.ok(notice.includes(`- ${file}:`), `NOTICE doesn't name public/images/logos/${file}`)
@@ -100,7 +104,7 @@ describe('root controller', () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()
 
-    for (let label of [en.hero.myraAlt, en.sections.ripe.myraAlt, en.sections.slash.myraAlt, en.sections.support.myraAlt]) {
+    for (let label of [en.hero.myraAlt, en.sections.ripe.myraAlt, en.sections.slash.myraAlt, en.sections.connections.more.myraAlt, en.sections.support.myraAlt]) {
       assert.ok(html.includes(`alt="${label}"`), `missing Myra labelled "${label}"`)
     }
     assert.doesNotMatch(html, /myra-(hello|love)\.png/)

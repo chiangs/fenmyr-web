@@ -3,6 +3,7 @@ import { css } from 'remix/component'
 
 import type { ConnectionId, ConnectionsCopy } from '../../content/content.ts'
 import { cardStyle } from '../../ui/card.ts'
+import { Myra } from '../../ui/public/myra.tsx'
 
 // Each tool's own logo, self-hosted from its official source, as NOTICE lists. Claude Code shows a plain icon,
 // since Anthropic's trademark guidelines allow its logo only in materials it approves. GitHub's mark is a mask in
@@ -14,6 +15,19 @@ const logos: readonly { id: ConnectionId; src: string; mask?: boolean }[] = [
   { id: 'mobbin', src: '/images/logos/mobbin.svg' },
   { id: 'higgsfield', src: '/images/logos/higgsfield.png' },
 ]
+
+const linkStyle = css({ color: 'var(--accent-text)', fontWeight: 700, textDecoration: 'none' })
+
+const cardLayout = css({
+  display: 'grid',
+  gridTemplateColumns: 'auto minmax(0, 1fr)',
+  alignItems: 'start',
+  gap: '1rem',
+  padding: '1.125rem',
+  color: 'var(--card-white-soft)',
+  '& h3': { fontSize: '1.125rem', letterSpacing: '-0.015em', color: 'var(--card-white-ink)' },
+  '& p': { fontSize: '0.96875rem', lineHeight: 1.5 },
+})
 
 const tileStyle = css({
   display: 'grid',
@@ -47,19 +61,7 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
             <li
               key={id}
               data-connection={id}
-              mix={[
-                cardStyle,
-                css({
-                  display: 'grid',
-                  gridTemplateColumns: 'auto minmax(0, 1fr)',
-                  alignItems: 'start',
-                  gap: '1rem',
-                  padding: '1.125rem',
-                  color: 'var(--card-white-soft)',
-                  '& h3': { fontSize: '1.125rem', letterSpacing: '-0.015em', color: 'var(--card-white-ink)' },
-                  '& p': { fontSize: '0.96875rem', lineHeight: 1.5 },
-                }),
-              ]}
+              mix={[cardStyle, cardLayout]}
             >
               <span mix={tileStyle}>
                 {mask ? (
@@ -93,11 +95,38 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
               </span>
             </li>
           ))}
+          {/* not a connection yet, so a dashed outline and no shadow; the paper stays opaque, so its text keeps the
+              contrast the card colours were chosen for */}
+          <li
+            data-connection-more=""
+            mix={[
+              cardLayout,
+              css({
+                border: '1.5px dashed color-mix(in oklab, var(--card-white-ink) 28%, transparent)',
+                borderRadius: '24px',
+                cornerShape: 'squircle',
+                background: 'var(--card-white)',
+              }),
+            ]}
+          >
+            {/* Myra stands in the logo's place. 51px wide draws each of her 17 art pixels as 3 whole pixels, so she
+                stays crisp; she is 60px tall, so the slot takes her own height */}
+            <span mix={css({ display: 'grid', justifyItems: 'center', width: '3.25rem' })}>
+              <Myra pose="hello" label={copy.more.myraAlt} size="3.1875rem" lazy />
+            </span>
+            <span mix={css({ display: 'grid', gap: '0.25rem' })}>
+              <h3>{copy.more.name}</h3>
+              <p>{copy.more.line}</p>
+              <a
+                href="https://github.com/chiangs/fenmyr/issues/new?template=feature_request.yml"
+                mix={[linkStyle, css({ justifySelf: 'start' })]}
+              >
+                {copy.more.suggest} →
+              </a>
+            </span>
+          </li>
         </ul>
-        <a
-          href="https://github.com/chiangs/fenmyr#connections"
-          mix={css({ justifySelf: 'start', color: 'var(--accent-text)', fontWeight: 700, textDecoration: 'none' })}
-        >
+        <a href="https://github.com/chiangs/fenmyr#connections" mix={[linkStyle, css({ justifySelf: 'start' })]}>
           {copy.link} →
         </a>
       </div>
