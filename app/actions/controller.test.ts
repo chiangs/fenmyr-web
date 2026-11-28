@@ -101,7 +101,7 @@ describe('root controller', () => {
     let response = await router.fetch(new URL(routes.home.href(), 'http://localhost'))
     let html = await response.text()
 
-    for (let label of [en.hero.myraAlt, en.sections.ripe.myraAlt, en.sections.slash.myraAlt, en.sections.support.myraAlt]) {
+    for (let label of [en.hero.myraAlt, en.sections.ripe.myraAlt, en.sections.slash.myraAlt, en.sections.connections.more.myraAlt, en.sections.support.myraAlt]) {
       assert.ok(html.includes(`alt="${label}"`), `missing Myra labelled "${label}"`)
     }
     assert.doesNotMatch(html, /myra-(hello|love)\.png/)

@@ -3,7 +3,7 @@ import { css } from 'remix/component'
 
 import type { ConnectionId, ConnectionsCopy } from '../../content/content.ts'
 import { cardStyle } from '../../ui/card.ts'
-import { Icon } from '../../ui/tile-art.tsx'
+import { Myra } from '../../ui/public/myra.tsx'
 
 // Each tool's own logo, self-hosted from its official source, as NOTICE lists. Claude Code shows a plain icon,
 // since Anthropic's trademark guidelines allow its logo only in materials it approves. GitHub's mark is a mask in
@@ -108,14 +108,9 @@ export function Connections(handle: Handle<{ copy: ConnectionsCopy }>) {
               }),
             ]}
           >
-            <span
-              aria-hidden="true"
-              mix={[
-                tileStyle,
-                css({ background: 'var(--card-butter)', color: 'var(--card-butter-ink)', '& svg': { width: '58%', height: '58%' } }),
-              ]}
-            >
-              <Icon name="sparkle" />
+            {/* Myra stands in the logo's place and asks the question herself */}
+            <span mix={css({ display: 'grid', placeItems: 'center', width: '3.25rem', height: '3.25rem' })}>
+              <Myra pose="hello" label={copy.more.myraAlt} size="3.25rem" lazy />
             </span>
             <span mix={css({ display: 'grid', gap: '0.25rem' })}>
               <h3>{copy.more.name}</h3>
