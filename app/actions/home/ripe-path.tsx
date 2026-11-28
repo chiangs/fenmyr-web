@@ -143,7 +143,7 @@ function Notes() {
   )
 }
 
-// Try: a pointer glides in and clicks Sign up. The button presses and a ring shows for a moment, then the pointer
+// Try: a pointer glides in and clicks Build. The button presses and a ring shows for a moment, then the pointer
 // leaves. The pointer waits outside the window, invisible, in the still drawing
 const pointerRest = 'translate(7.6rem, 4.9rem) scale(1)'
 const pointerAt = 'translate(3.95rem, 2.8rem)'
